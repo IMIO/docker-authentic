@@ -1,5 +1,5 @@
 #!/bin/bash
-rm /var/run/{authentic2-multitenant/authentic2-multitenant,hobo/hobo,combo/combo,nginx,rsyslogd,supervisord,wcs-auquotidien,passerelle/passerelle}.{pid,sock}
+rm /var/run/{authentic2-multitenant/authentic2-multitenant,hobo/hobo,combo/combo,nginx,rsyslogd,supervisord,wcs-auquotidien}.{pid,sock}
 /etc/hobo/fix-permissions.sh
 
 python /var/lib/authentic2/locale/fr/LC_MESSAGES/mail-translation.py
@@ -27,11 +27,6 @@ fi
 if [ x$1 != xfromgit ] || [ ! -d /opt/publik/wcs ]
 then
 	service wcs-au-quotidien start
-fi
-
-if [ x$1 != xfromgit ] || [ ! -d /opt/publik/passerelle ]
-then
-	service passerelle start
 fi
 
 service hobo start

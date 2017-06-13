@@ -4,7 +4,6 @@
     "authentic": "local-auth.example.net",
     "combo": "local.example.net",
     "combo_agent": "local-portail-agent.example.net",
-    "passerelle": "local-passerelle.example.net",
     "wcs": "local-formulaires.example.net"
   },
   "steps": [
@@ -31,10 +30,6 @@
       "slug": "portal-agent",
       "title": "Guichet citoyen local - Portail agent",
       "template_name": "portal-agent"
-    }},
-    {"create-passerelle": {
-      "url": "http://${passerelle}/",
-      "title": "Guichet citoyen local - Passerelle"
     }},
     {"create-wcs": {
       "url": "http://${wcs}/",

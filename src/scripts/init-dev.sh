@@ -21,34 +21,16 @@ then
 	sed -i 's/proxy_pass.*combo.*/proxy_pass http:\/\/127.0.0.1:8010;/' /etc/nginx/sites-enabled/default
 fi
 
-# passerelle
-if [ -d /opt/publik/passerelle ]
-then
-	sed -i 's/proxy_pass.*passerelle.*/proxy_pass http:\/\/127.0.0.1:8011;/' /etc/nginx/sites-enabled/default
-fi
-
 # authentic
 if [ -d /opt/publik/authentic ]
 then
 	sed -i 's/proxy_pass.*authentic.*/proxy_pass http:\/\/127.0.0.1:8012;/' /etc/nginx/sites-enabled/default
 fi
 
-# passerelle-imio-tax-compute
-if [ -d /opt/publik/passerelle-imio-tax-compute ]
-then
-	(cd /opt/publik/passerelle-imio-tax-compute && python setup.py develop --no-deps)
-fi
-
 # authentic2-auth-fedict
 if [ -d /opt/publik/authentic2-auth-fedict ]
 then
 	(cd /opt/publik/authentic2-auth-fedict && python setup.py develop --no-deps)
-fi
-
-# passerelle-imio-ts1-datasources
-if [ -d /opt/publik/passerelle-imio-ts1-datasources ]
-then
-    (cd /opt/publik/passerelle-imio-ts1-datasources && python setup.py develop --no-deps)
 fi
 
 service nginx reload

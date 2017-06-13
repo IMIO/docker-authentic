@@ -18,8 +18,6 @@ services:
           127.0.0.1
         local-formulaires.example.net:
           127.0.0.1
-        local-passerelle.example.net:
-          127.0.0.1
         local-hobo.example.net:
           127.0.0.1
     volumes:
@@ -27,13 +25,11 @@ services:
       - ./data/combo:/var/lib/combo/tenants
       - ./data/authentic2:/var/lib/authentic2-multitenant/tenants
       - ./data/wcs:/var/lib/wcs-au-quotidien
-      - ./data/passerelle:/var/lib/passerelle/tenants
       - ./config/nginx:/etc/nginx/sites-available
       - ./config/combo:/etc/combo
       - ./config/authentic2:/etc/authentic2-multitenant
       - ./config/hobo:/etc/hobo
       - ./config/hobo-agent:/etc/hobo-agent
-      - ./config/passerelle:/etc/passerelle
       - ./src:/opt/publik
     command: /bin/sh -c "sleep 10 ; /run.sh fromgit"
     depends_on:
