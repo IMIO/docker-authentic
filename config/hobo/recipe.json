@@ -3,7 +3,7 @@
     "hobo": "local-hobo.example.net",
     "authentic": "local-auth.example.net",
     "combo": "local.example.net",
-    "combo_agent": "local-portail-agent.example.net",
+    "combo_agent": "local-portail-agent.example.net"
   },
   "steps": [
     {"create-hobo": {
