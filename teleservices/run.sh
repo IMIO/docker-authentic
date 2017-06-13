@@ -1,5 +1,5 @@
 #!/bin/bash
-rm /var/run/{authentic2-multitenant/authentic2-multitenant,hobo/hobo,combo/combo,nginx,rsyslogd,supervisord,wcs-auquotidien,passerelle/passerelle,bijoe/bijoe}.{pid,sock}
+rm /var/run/{authentic2-multitenant/authentic2-multitenant,hobo/hobo,combo/combo,nginx,rsyslogd,supervisord,wcs-auquotidien,passerelle/passerelle}.{pid,sock}
 /etc/hobo/fix-permissions.sh
 
 python /var/lib/authentic2/locale/fr/LC_MESSAGES/mail-translation.py
@@ -35,8 +35,6 @@ then
 fi
 
 service hobo start
-service bijoe update
-service bijoe start
 service nginx start
 service supervisor start
 sudo -u hobo hobo-manage cook /etc/hobo/recipe.json

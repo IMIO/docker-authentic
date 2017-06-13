@@ -22,10 +22,7 @@ services:
           127.0.0.1
         local-hobo.example.net:
           127.0.0.1
-        local-stats.example.net:
-          127.0.0.1
     volumes:
-      - ./data/bijoe:/var/lib/bijoe/tenants
       - ./data/hobo:/var/lib/hobo/tenants
       - ./data/combo:/var/lib/combo/tenants
       - ./data/authentic2:/var/lib/authentic2-multitenant/tenants
@@ -34,7 +31,6 @@ services:
       - ./config/nginx:/etc/nginx/sites-available
       - ./config/combo:/etc/combo
       - ./config/authentic2:/etc/authentic2-multitenant
-      - ./config/bijoe:/etc/bijoe
       - ./config/hobo:/etc/hobo
       - ./config/hobo-agent:/etc/hobo-agent
       - ./config/passerelle:/etc/passerelle
