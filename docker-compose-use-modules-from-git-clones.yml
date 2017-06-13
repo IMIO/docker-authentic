@@ -16,15 +16,12 @@ services:
           127.0.0.1
         local-auth.example.net:
           127.0.0.1
-        local-formulaires.example.net:
-          127.0.0.1
         local-hobo.example.net:
           127.0.0.1
     volumes:
       - ./data/hobo:/var/lib/hobo/tenants
       - ./data/combo:/var/lib/combo/tenants
       - ./data/authentic2:/var/lib/authentic2-multitenant/tenants
-      - ./data/wcs:/var/lib/wcs-au-quotidien
       - ./config/nginx:/etc/nginx/sites-available
       - ./config/combo:/etc/combo
       - ./config/authentic2:/etc/authentic2-multitenant

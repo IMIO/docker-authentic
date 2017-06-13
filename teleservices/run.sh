@@ -1,11 +1,8 @@
 #!/bin/bash
-rm /var/run/{authentic2-multitenant/authentic2-multitenant,hobo/hobo,combo/combo,nginx,rsyslogd,supervisord,wcs-auquotidien}.{pid,sock}
+rm /var/run/{authentic2-multitenant/authentic2-multitenant,hobo/hobo,combo/combo,nginx,rsyslogd,supervisord}.{pid,sock}
 /etc/hobo/fix-permissions.sh
 
 python /var/lib/authentic2/locale/fr/LC_MESSAGES/mail-translation.py
-
-# install link to wcs external scripts
-test -e /var/lib/wcs-au-quotidien/scripts || ln -s /opt/publik/wcs-scripts /var/lib/wcs-au-quotidien/scripts
 
 HOSTNAME=$(hostname)
 test -f /opt/publik/hooks/$HOSTNAME/run-hook.sh && /opt/publik/hooks/$HOSTNAME/run-hook.sh
@@ -22,11 +19,6 @@ if [ x$1 != xfromgit ] || [ ! -d /opt/publik/authentic ]
 then
 	service authentic2-multitenant update
 	service authentic2-multitenant start
-fi
-
-if [ x$1 != xfromgit ] || [ ! -d /opt/publik/wcs ]
-then
-	service wcs-au-quotidien start
 fi
 
 service hobo start

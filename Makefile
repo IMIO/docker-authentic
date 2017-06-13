@@ -6,7 +6,7 @@ pull:
 clean:
 		docker-compose kill
 		docker-compose rm
-		sudo rm -fr data/*/*/ data/wcs/config.pck data/wcs/.rnd
+		sudo rm -fr data/*/*/
 
 run:
 		docker-compose -f docker-compose-$(branch).yml up
