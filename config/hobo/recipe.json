@@ -4,7 +4,6 @@
     "authentic": "local-auth.example.net",
     "combo": "local.example.net",
     "combo_agent": "local-portail-agent.example.net",
-    "fargo": "local-documents.example.net",
     "passerelle": "local-passerelle.example.net",
     "wcs": "local-formulaires.example.net"
   },
@@ -32,10 +31,6 @@
       "slug": "portal-agent",
       "title": "Guichet citoyen local - Portail agent",
       "template_name": "portal-agent"
-    }},
-    {"create-fargo": {
-      "url": "http://${fargo}/",
-      "title": "Porte-documents local - Fargo"
     }},
     {"create-passerelle": {
       "url": "http://${passerelle}/",
