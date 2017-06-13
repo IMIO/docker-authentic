@@ -9,7 +9,7 @@ RUN echo "APT::Install-Suggests \"false\";\nAPT::Install-Recommends \"false\";" 
 RUN echo "#!/bin/sh\nexit 101" > /usr/sbin/policy-rc.d
 RUN chmod +x /usr/sbin/policy-rc.d
 RUN sed -i "s%httpredir.debian.org%debian.mirrors.ovh.net%g" /etc/apt/sources.list
-RUN apt-get update && apt-get install -y nginx wget gnupg debian-archive-keyring rsyslog python-dns gettext vim.nox bash-completion libjs-jquery libreoffice
+RUN apt-get update && apt-get install -y nginx wget gnupg debian-archive-keyring rsyslog python-dns gettext vim.nox bash-completion libjs-jquery
 RUN wget -O - http://deb.entrouvert.org/entrouvert.gpg | apt-key add -
 RUN echo "deb http://http.debian.net/debian jessie-backports main"> /etc/apt/sources.list.d/backports.list
 RUN echo "deb http://deb.entrouvert.org/ jessie main\ndeb http://deb.entrouvert.org/ jessie-eobuilder main\ndeb http://deb.entrouvert.org/ jessie-testing main\n" > /etc/apt/sources.list.d/entrouvert.list
@@ -17,7 +17,7 @@ RUN echo "Package: *\nPin: release a=jessie-eobuilder\nPin-Priority: 900" > /etc
 RUN apt-get update
 RUN apt install -y -t jessie-backports python-cryptography
 RUN apt install -y -t jessie-backports python-django python-django-common
-RUN apt-get install -y combo hobo libjs-leaflet authentic2-multitenant publik-base-theme python-suds -t jessie-testing python-django-filters/jessie
+RUN apt-get install -y combo hobo libjs-leaflet authentic2-multitenant publik-base-theme -t jessie-testing python-django-filters/jessie
 RUN apt-get install -y imio-publik-themes python-authentic2-auth-fedict -t jessie-eobuilder
 # Allow services to start, this is necessary as hobo-agent postinst will fail
 # if supervisord is not running
