@@ -22,3 +22,6 @@ build-jessie:
 		make build branch=jessie
 build-no-cache-jessie:
 		make build-no-cache branch=jessie
+
+docker-prod-image:
+		cd authentic && docker build -f Dockerfile-jessie -t authentic:latest .
