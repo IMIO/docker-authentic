@@ -1,11 +1,11 @@
 version: '2'
 
 services:
-  localteleservices:
+  localauthentic:
     build:
-      context: teleservices
+      context: authentic
       dockerfile: Dockerfile-jessie
-    image: teleservices-jessie:latest
+    image: authentic-jessie:latest
     mem_limit: 2048m
     ports:
         - "80:80"

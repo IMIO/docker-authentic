@@ -13,7 +13,7 @@ docker-compose 1.6 or above
 
 * Compose and run the container image
 
-    docker-compose run localteleservices
+    docker-compose run localauthentic
 
 * Go to http://local.example.net with you favorite browser, an admin account is
   setup, username is "admin" and password is "password" (without the quotes).
@@ -33,5 +33,5 @@ Supported modules are:
 Services will be run in django-runserver mode, and can be seen in a screen
 session running in the container.
 
-    docker exec -ti dockerteleservices_localteleservices_1 bash
+    docker exec -ti dockerauthentic_localauthentic_1 bash
     script -c "screen -r"
