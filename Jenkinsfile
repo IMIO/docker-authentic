@@ -1,7 +1,6 @@
 #!/usr/bin/env groovy
-@Library('be.imio.Generic')
-@Library('be.imio.Make')
-
+@Library('be.imio.Generic') _
+@Library('be.imio.Make') _
 
 pipeline {
     agent any
@@ -15,12 +14,7 @@ pipeline {
                 sh 'make docker-prod-image'
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
+        stage('Deploy on staging') {
             steps {
                 sh 'docker tag authentic:latest docker-staging.imio.be/authentic:$yyyymmdd-$buildout_build_number'
                 sh 'docker tag authentic:latest docker-staging.imio.be/authentic:latest'
