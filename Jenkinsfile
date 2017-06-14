@@ -15,11 +15,11 @@ pipeline {
         }
         stage('Deploy on staging') {
             steps {
-                sh 'docker tag authentic:latest docker-staging.imio.be/authentic:$yyyymmdd-$buildout_build_number'
+                sh 'docker tag authentic:latest docker-staging.imio.be/authentic:`date +%Y%m%d`-$BUILD_NUMBER'
                 sh 'docker tag authentic:latest docker-staging.imio.be/authentic:latest'
                 sh 'docker push docker-staging.imio.be/authentic'
                 sh 'docker rmi -f authentic:latest'
-                sh 'docker rmi -f docker-staging.imio.be/authentic:$yyyymmdd-$buildout_build_number'
+                sh 'docker rmi -f docker-staging.imio.be/authentic:`date +%Y%m%d`-$BUILD_NUMBER'
                 sh 'docker rmi -f docker-staging.imio.be/authentic:latest'
             }
         }
