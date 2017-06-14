@@ -25,3 +25,10 @@ build-no-cache-jessie:
 
 docker-prod-image:
 		cd authentic && docker build -f Dockerfile-jessie -t authentic:latest .
+
+cleanall:
+		sudo rm -rf data/combo/* data/authentic2/* data/hobo/*
+		docker-compose stop
+		docker-compose rm -f
+		docker rmi authentic-jessie
+		docker rmi authentic-use-modules-from-git-clones
