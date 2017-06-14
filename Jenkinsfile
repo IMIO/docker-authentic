@@ -1,6 +1,5 @@
 #!/usr/bin/env groovy
-@Library('be.imio.Generic') _
-@Library('be.imio.Make') _
+@Library('jenkins-pipeline-scripts') _
 
 pipeline {
     agent any
