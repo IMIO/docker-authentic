@@ -13,6 +13,7 @@ run:
 
 build:
 		docker-compose -f docker-compose-$(branch).yml build
+
 build-no-cache:
 		docker-compose -f docker-compose-$(branch).yml build --no-cache
 
