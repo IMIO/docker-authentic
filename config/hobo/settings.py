@@ -43,7 +43,7 @@ CACHES = {
     }
 }
 
-LANGUAGE_CODE = 'fr-fr'
+LANGUAGE_CODE = 'fr-be'
 TIME_ZONE = 'Europe/Brussels'
 
 # Email configuration
