@@ -45,7 +45,7 @@ CACHES = {
 }
 
 
-LANGUAGE_CODE = 'fr-fr'
+LANGUAGE_CODE = 'fr-be'
 TIME_ZONE = 'Europe/Brussels'
 
 # Sentry / Raven configuration
@@ -99,7 +99,7 @@ class RrnField(forms.CharField):
             if (97 - int(value[:9]) % 97) != int(value[-2:]):
                 raise ValueError()
         except ValueError:
-            raise forms.ValidationError("Format invalide")
+            raise forms.ValidationError('Format invalide')
 
 
 class NumHouseField(forms.CharField):
@@ -111,7 +111,8 @@ class NumHouseField(forms.CharField):
             if not re.match("[1-9][0-9]*", value):
                 raise ValueError()
         except ValueError:
-            raise forms.ValidationError("Format invalide")
+            raise forms.ValidationError('Format invalide')
+
 
 class NumPhoneField(forms.CharField):
     def validate(self, value):
@@ -122,8 +123,7 @@ class NumPhoneField(forms.CharField):
             if not re.match("^(0|\\+|00)(\d{8,})", value):
                 raise ValueError()
         except ValueError:
-            raise forms.ValidationError("Format invalide")
-
+            raise forms.ValidationError('Format invalide')
 
 
 A2_ATTRIBUTE_KINDS = [
@@ -143,4 +143,3 @@ A2_ATTRIBUTE_KINDS = [
             'field_class': NumPhoneField,
         }
 ]
-
