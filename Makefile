@@ -3,33 +3,29 @@ branch=use-modules-from-git-clones
 pull:
 		docker-compose pull
 
-clean:
-		docker-compose kill
-		docker-compose rm
-		sudo rm -fr data/*/*/
+docker-compose.yml:
+		ln -fs docker-compose-jessie.yml docker-compose.yml
 
-run:
-		docker-compose -f docker-compose-$(branch).yml up
+run: docker-compose.yml
+		docker-compose -f docker-compose.yml up
 
-build:
-		docker-compose -f docker-compose-$(branch).yml build
+up: run
 
-build-no-cache:
-		docker-compose -f docker-compose-$(branch).yml build --no-cache
+build: docker-compose.yml
+		docker-compose build
 
-run-jessie:
-		make run branch=jessie
-build-jessie:
-		make build branch=jessie
-build-no-cache-jessie:
-		make build-no-cache branch=jessie
+build-no-cache: docker-compose.yml
+		docker-compose build --no-cache
 
 docker-prod-image:
 		cd authentic && docker build -f Dockerfile-jessie -t authentic:latest .
 
 cleanall:
-		sudo rm -rf data/combo/* data/authentic2/* data/hobo/*
-		docker-compose stop
+		sudo rm -fr data/*/*/
+		docker-compose kill
 		docker-compose rm -f
-		docker rmi authentic-jessie
-		docker rmi authentic-use-modules-from-git-clones
+		# docker rmi authentic-jessie
+		# docker rmi authentic-use-modules-from-git-clones
+
+add-user:
+	docker-compose exec localauthentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/create-user.py -d local-auth.example.net'
