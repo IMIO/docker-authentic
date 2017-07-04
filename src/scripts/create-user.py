@@ -50,8 +50,8 @@ def create_authentic_user():
         role_admin.members.add(user_admin)
 
 
-def create_password(commune_id):
-    m = hashlib.md5(commune_id)
+def create_password(password):
+    m = hashlib.md5(password)
     return m.hexdigest()[10]
 
 
