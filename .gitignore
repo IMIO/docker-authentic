@@ -3,3 +3,4 @@ data/combo/
 data/passerelle/
 data/wcs/
 data/hobo
+docker-compose.yml
