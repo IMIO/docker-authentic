@@ -36,6 +36,7 @@ RUN apt-get clean
 RUN mkdir -p /var/lib/authentic2/locale/fr/LC_MESSAGES
 COPY mail-translation.py overrides.po /var/lib/authentic2/locale/fr/LC_MESSAGES/
 COPY run.sh /
+COPY fix-permissions.sh /etc/hobo/fix-permissions.sh
 ADD bash-vim.tar.gz /
 RUN echo "Europe/Brussels" > /etc/timezone
 RUN dpkg-reconfigure tzdata
