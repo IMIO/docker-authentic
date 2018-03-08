@@ -24,7 +24,7 @@ pipeline {
                 sh 'docker rmi -f authentic:latest'
                 sh 'docker rmi -f docker-staging.imio.be/authentic:`date +%Y%m%d`-$BUILD_NUMBER'
                 sh 'docker rmi -f docker-staging.imio.be/authentic:latest'
-                sh 'mco shell run "/srv/docker_scripts/authentic/restart.sh" -I /staging/'
+                sh 'mco shell run "/srv/docker_scripts/authentic/restart.sh" -I /^staging.imio.be$/'
             }
         }
     }
