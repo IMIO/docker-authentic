@@ -24,6 +24,7 @@ cleanall:
 		sudo rm -fr data/*/*/
 		docker-compose kill
 		docker-compose rm -f
+		docker-compose down
 		# docker rmi authentic-jessie
 		# docker rmi authentic-use-modules-from-git-clones
 
