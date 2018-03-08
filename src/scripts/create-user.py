@@ -34,7 +34,7 @@ def create_authentic_user():
     with provisionning:
         # create default role in ts2.
         role_admin = Role(
-            name='Administrateur des utilisateurs',
+            name='Administrateur de tous les utilisateurs',
             ou=organisation_unit)
         role_admin.save()
 
