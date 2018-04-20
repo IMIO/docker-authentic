@@ -15,7 +15,8 @@ RUN echo "deb http://http.debian.net/debian jessie-backports main"> /etc/apt/sou
 RUN echo "deb http://deb.entrouvert.org/ jessie main\ndeb http://deb.entrouvert.org/ jessie-eobuilder main\ndeb http://deb.entrouvert.org/ jessie-testing main\n" > /etc/apt/sources.list.d/entrouvert.list
 RUN echo "Package: *\nPin: release a=jessie-eobuilder\nPin-Priority: 900" > /etc/apt/preferences.d/jessie-eobuilder.pref
 RUN apt-get update
-RUN apt install -y -t jessie-backports python-cryptography
+# RUN apt install -y -t jessie-backports python-cryptography
+RUN apt install -y -t jessie-testing python-cryptograph
 RUN apt install -y -t jessie-backports python-django python-django-common
 RUN apt-get install -y combo hobo libjs-leaflet authentic2-multitenant publik-base-theme -t jessie-eobuilder python-django-filters/jessie
 #RUN apt-get install -y combo hobo libjs-leaflet authentic2-multitenant publik-base-theme -t jessie-testing python-django-filters/jessie
