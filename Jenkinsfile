@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'make docker-prod-image'
+                sh 'make docker-image'
             }
         }
         stage('Deploy on staging') {
