@@ -4,8 +4,8 @@ services:
   localauthentic:
     build:
       context: authentic
-      dockerfile: Dockerfile-jessie
-    image: authentic-jessie:latest
+      dockerfile: Dockerfile
+    image: sso:latest
     mem_limit: 2048m
     ports:
         - "80:80"
