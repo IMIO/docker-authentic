@@ -3,28 +3,39 @@
 
 pipeline {
     agent any
-    triggers {             
-		pollSCM('*/3 * * * *')
+    triggers {
+        pollSCM('*/3 * * * *')
     }
     options {
-        // Only keep the 50 most recent builds
+        // Only keep the 10 most recent builds
         buildDiscarder(logRotator(numToKeepStr:'50'))
     }
     stages {
         stage('Build') {
+            agent any
             steps {
                 sh 'make docker-image'
             }
         }
-        stage('Deploy on staging') {
+        stage('Push image to registry') {
+            agent any
             steps {
-                sh 'docker tag authentic:latest docker-staging.imio.be/authentic:`date +%Y%m%d`-$BUILD_NUMBER'
-                sh 'docker tag authentic:latest docker-staging.imio.be/authentic:latest'
-                sh 'docker push docker-staging.imio.be/authentic'
-                sh 'docker rmi -f authentic:latest'
-                sh 'docker rmi -f docker-staging.imio.be/authentic:`date +%Y%m%d`-$BUILD_NUMBER'
-                sh 'docker rmi -f docker-staging.imio.be/authentic:latest'
-                sh 'mco shell run "/srv/docker_scripts/authentic/restart.sh" -I /^staging.imio.be$/'
+                pushImageToRegistry (
+                    env.BUILD_ID,
+                    "wc/sso"
+                )
+            }
+        }
+        stage('Deploy to staging') {
+            agent any
+            when {
+                expression {
+                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps {
+                sh "mco shell run 'docker pull docker-staging.imio.be/wc/sso:$BUILD_ID' -I /^staging.imio.be/"
+                sh "mco shell run 'systemctl restart sso_staging' -t 1200 --tail -I /^staging.imio.be/"
             }
         }
     }
