@@ -34,7 +34,7 @@ pipeline {
                 }
             }
             steps {
-                sh "mco shell run 'docker pull docker-staging.imio.be/wc/sso:$BUILD_ID' -I /^staging.imio.be/"
+                sh "mco shell run 'docker pull docker-staging.imio.be/wc/sso:latest' -I /^staging.imio.be/"
                 sh "mco shell run 'systemctl restart sso_staging' -t 1200 --tail -I /^staging.imio.be/"
             }
         }
