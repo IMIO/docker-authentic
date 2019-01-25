@@ -22,8 +22,8 @@ fi
 service hobo start
 service nginx start
 service supervisor start
-sudo -u hobo hobo-manage cook /etc/hobo/recipe-wca.json
-sudo -u hobo hobo-manage cook /etc/hobo/recipe-wcu.json
+sudo -u hobo hobo-manage cook /etc/hobo/settings.d/recipe-wca.json
+sudo -u hobo hobo-manage cook /etc/hobo/settings.d/recipe-wcu.json
 test -e /etc/hobo/recipe*extra.json && sudo -u hobo hobo-manage cook /etc/hobo/recipe*extra.json
 test -e /var/lib/authentic2-multitenant/tenants/*/settings.json || ln -s /etc/authentic2-multitenant/settings.json /var/lib/authentic2-multitenant/tenants/*/
 
