@@ -17,8 +17,9 @@ RUN echo "deb http://http.debian.net/debian stretch-backports main"> /etc/apt/so
 RUN echo "deb http://deb.entrouvert.org/ stretch main\ndeb http://deb.entrouvert.org/ stretch-eobuilder main\ndeb http://deb.entrouvert.org/ stretch-testing main\n" > /etc/apt/sources.list.d/entrouvert.list
 RUN echo "Package: *\nPin: release a=stretch-eobuilder\nPin-Priority: 900" > /etc/apt/preferences.d/stretch-eobuilder.pref
 RUN apt-get update
+RUN apt install -y -t stretch-eobuilder authentic2-multitenant
 RUN apt install -y -t stretch-backports python-django python-django-common
-RUN apt-get install -y -t stretch wcs-au-quotidien combo hobo libjs-leaflet authentic2-multitenant publik-base-theme python-suds python-django-filters imio-publik-themes python-authentic2-auth-fedict
+RUN apt-get install -y -t stretch wcs-au-quotidien combo hobo libjs-leaflet publik-base-theme python-suds python-django-filters imio-publik-themes python-authentic2-auth-fedict
 
 # Allow services to start, this is necessary as hobo-agent postinst will fail
 # if supervisord is not running
