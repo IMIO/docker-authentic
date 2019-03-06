@@ -3,7 +3,7 @@ version: '2'
 services:
   localauthentic:
     build:
-      context: authentic
+      context: sso
       dockerfile: Dockerfile
     image: sso:latest
     mem_limit: 2048m
