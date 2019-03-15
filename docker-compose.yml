@@ -5,7 +5,7 @@ services:
     build:
       context: sso
       dockerfile: Dockerfile
-    image: sso:latest
+    image: wc/sso:latest
     mem_limit: 2048m
     ports:
         - "80:80"
