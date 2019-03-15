@@ -15,9 +15,6 @@ build: docker-compose.yml
 build-no-cache: docker-compose.yml
 		docker-compose build --no-cache
 
-docker-image:
-		cd sso && docker build -t docker-staging.imio.be/wc/sso:latest .
-
 cleanall:
 		sudo rm -fr data/*/*/
 		docker-compose kill
