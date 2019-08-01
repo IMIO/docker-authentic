@@ -17,8 +17,8 @@ RUN echo "deb http://http.debian.net/debian stretch-backports main"> /etc/apt/so
 RUN echo "deb http://deb.entrouvert.org/ stretch main\ndeb http://deb.entrouvert.org/ stretch-eobuilder main\ndeb http://deb.entrouvert.org/ stretch-testing main\n" > /etc/apt/sources.list.d/entrouvert.list
 RUN echo "Package: *\nPin: release a=stretch-eobuilder\nPin-Priority: 900" > /etc/apt/preferences.d/stretch-eobuilder.pref
 RUN apt-get update
-RUN apt install -y -t stretch-backports python-pywebpush python-django python-django-common
-RUN apt-get install -y -t stretch python-combo combo hobo libjs-leaflet publik-base-theme python-suds python-django-filters imio-publik-themes python-authentic2-auth-fedict
+RUN apt install -y -t stretch-backports python-attr python-pywebpush python-django python-django-common
+RUN apt-get install -y -v -t stretch python-combo combo hobo libjs-leaflet publik-base-theme python-suds python-django-filters imio-publik-themes python-authentic2-auth-fedict
 RUN apt install -y -t stretch-eobuilder authentic2-multitenant python-authentic2
 
 # Allow services to start, this is necessary as hobo-agent postinst will fail
