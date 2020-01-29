@@ -13,7 +13,7 @@ build: docker-compose.yml
 		docker-compose build
 
 build-no-cache: docker-compose.yml
-		docker-compose build --no-cache
+		docker-compose build --no-cache --pull
 
 cleanall:
 		sudo rm -fr data/*/*/
