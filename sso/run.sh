@@ -27,10 +27,4 @@ sudo -u hobo hobo-manage cook /etc/hobo/settings.d/recipe-wcu.json
 test -e /etc/hobo/recipe*extra.json && sudo -u hobo hobo-manage cook /etc/hobo/recipe*extra.json
 test -e /var/lib/authentic2-multitenant/tenants/*/settings.json || ln -s /etc/authentic2-multitenant/settings.json /var/lib/authentic2-multitenant/tenants/*/
 
-if [ x$1 = xfromgit ]
-then
-	/opt/publik/scripts/init-dev.sh
-	screen -d -m -c /opt/publik/screenrc
-fi
-
 tail -f /var/log/syslog
