@@ -4,12 +4,6 @@ rm /var/run/{authentic2-multitenant/authentic2-multitenant,hobo/hobo,combo/combo
 
 HOSTNAME=$(hostname)
 test -f /opt/publik/hooks/$HOSTNAME/run-hook.sh && /opt/publik/hooks/$HOSTNAME/run-hook.sh
-if [[ -z "${AGENTS_HOSTNAME}" ]]; then
-	test -e /var/lib/authentic2-multitenant/tenants/$AGENTS_HOSTNAME/settings.json || ln -s /etc/authentic2-multitenant/agents.json /var/lib/authentic2-multitenant/tenants/$AGENTS_HOSTNAME/settings.json
-fi
-if [[ -z "${USAGERS_HOSTNAME}" ]]; then
-	test -e /var/lib/authentic2-multitenant/tenants/$USAGERS_HOSTNAME/settings.json || ln -s /etc/authentic2-multitenant/agents.json /var/lib/authentic2-multitenant/tenants/$USAGERS_HOSTNAME/settings.json
-fi
 
 service rsyslog start
 service cron start
@@ -31,5 +25,11 @@ service supervisor start
 sudo -u hobo hobo-manage cook /etc/hobo/settings.d/recipe-wca.json
 sudo -u hobo hobo-manage cook /etc/hobo/settings.d/recipe-wcu.json
 test -e /etc/hobo/recipe*extra.json && sudo -u hobo hobo-manage cook /etc/hobo/recipe*extra.json
-
+if [[ -z "${AGENTS_HOSTNAME}" ]]; then
+	test -e /var/lib/authentic2-multitenant/tenants/$AGENTS_HOSTNAME/settings.json || ln -s /etc/authentic2-multitenant/agents.json /var/lib/authentic2-multitenant/tenants/$AGENTS_HOSTNAME/settings.json
+fi
+if [[ -z "${USAGERS_HOSTNAME}" ]]; then
+	test -e /var/lib/authentic2-multitenant/tenants/$USAGERS_HOSTNAME/settings.json || ln -s /etc/authentic2-multitenant/agents.json /var/lib/authentic2-multitenant/tenants/$USAGERS_HOSTNAME/settings.json
+fi
+/etc/hobo/fix-permissions.sh
 tail -f /var/log/syslog
