@@ -29,7 +29,7 @@ if [[ ! -z "${AGENTS_HOSTNAME}" ]]; then
 	test -e /var/lib/authentic2-multitenant/tenants/$AGENTS_HOSTNAME/settings.json || ln -s /etc/authentic2-multitenant/agents.json /var/lib/authentic2-multitenant/tenants/$AGENTS_HOSTNAME/settings.json
 fi
 if [[ ! -z "${USAGERS_HOSTNAME}" ]]; then
-	test -e /var/lib/authentic2-multitenant/tenants/$USAGERS_HOSTNAME/settings.json || ln -s /etc/authentic2-multitenant/agents.json /var/lib/authentic2-multitenant/tenants/$USAGERS_HOSTNAME/settings.json
+	test -e /var/lib/authentic2-multitenant/tenants/$USAGERS_HOSTNAME/settings.json || ln -s /etc/authentic2-multitenant/usagers.json /var/lib/authentic2-multitenant/tenants/$USAGERS_HOSTNAME/settings.json
 fi
 /etc/hobo/fix-permissions.sh
 tail -f /var/log/syslog
