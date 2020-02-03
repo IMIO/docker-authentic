@@ -34,5 +34,6 @@ RUN apt -y remove python-dev && apt -y autoremove && apt clean
 COPY fix-permissions.sh /etc/hobo/fix-permissions.sh
 ADD bash-vim.tar.gz /
 
+COPY update_oidc.sh /
 COPY run.sh /
 CMD ["/run.sh"]
