@@ -3,6 +3,8 @@ set -x
 rm /var/run/{authentic2-multitenant/authentic2-multitenant,hobo/hobo,combo/combo,nginx,rsyslogd,supervisord}.{pid,sock}
 /etc/hobo/fix-permissions.sh
 
+python /var/lib/authentic2/locale/fr/LC_MESSAGES/mail-translation.py
+
 HOSTNAME=$(hostname)
 test -f /opt/publik/hooks/$HOSTNAME/run-hook.sh && /opt/publik/hooks/$HOSTNAME/run-hook.sh
 
