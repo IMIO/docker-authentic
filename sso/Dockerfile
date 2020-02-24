@@ -34,6 +34,7 @@ RUN rm -f /etc/default/authentic2-multitenant
 RUN apt -y remove python-dev && apt -y autoremove && apt clean
 COPY fix-permissions.sh /etc/hobo/fix-permissions.sh
 COPY mail-translation.py /var/lib/authentic2/locale/fr/LC_MESSAGES/
+COPY custom_error.html /usr/share/nginx/html/custom_error.html
 ADD bash-vim.tar.gz /
 
 COPY update_oidc.sh /
