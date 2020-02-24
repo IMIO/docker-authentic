@@ -10,7 +10,7 @@ run: docker-compose.yml
 up: run
 
 build: docker-compose.yml
-		docker-compose build
+		docker-compose build --pull
 
 build-no-cache: docker-compose.yml
 		docker-compose build --no-cache --pull

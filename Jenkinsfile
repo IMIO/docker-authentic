@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             agent any
             steps {
-                sh 'make build-no-cache'
+                sh 'make build'
             }
         }
         stage('Push image to registry') {
