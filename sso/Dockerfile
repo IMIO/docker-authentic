@@ -2,6 +2,7 @@
 FROM debian:stretch
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
 RUN echo "Europe/Brussels" > /etc/timezone
 RUN dpkg-reconfigure tzdata
 
@@ -17,12 +18,12 @@ RUN echo "deb http://deb.entrouvert.org/ stretch main" > /etc/apt/sources.list.d
 RUN echo "deb http://debian.mirrors.ovh.net/debian stretch-backports main" > /etc/apt/sources.list.d/backports.list
 RUN curl https://deb.entrouvert.org/entrouvert.gpg | apt-key add -
 
-# RUN apt update && apt install -y entrouvert-repository entrouvert-repository-hotfix entrouvert-repository-eobuilder && apt update
-RUN apt -o Acquire::Check-Valid-Until=false update && apt install -y entrouvert-repository entrouvert-repository-hotfix entrouvert-repository-eobuilder && apt -o Acquire::Check-Valid-Until=false update
+RUN apt update && apt install -y entrouvert-repository entrouvert-repository-hotfix entrouvert-repository-eobuilder && apt update
+# RUN apt -o Acquire::Check-Valid-Until=false update && apt install -y entrouvert-repository entrouvert-repository-hotfix entrouvert-repository-eobuilder && apt -o Acquire::Check-Valid-Until=false update
 RUN echo "Package: *\nPin: release a=stretch-eobuilder\nPin-Priority: 400" > /etc/apt/preferences.d/entrouvert-eobuilder
 
-RUN apt install -y combo hobo publik-base-theme imio-publik-themes
-RUN apt install -y -t stretch-eobuilder authentic2-multitenant python-authentic2-auth-fedict python-authentic2-wallonie-connect
+RUN apt install -y combo hobo publik-base-theme imio-publik-themes authentic2-multitenant
+RUN apt install -y -t stretch-eobuilder python-authentic2-auth-fedict python-authentic2-wallonie-connect
 
 # Allow services to start, this is necessary as hobo-agent postinst will fail
 # if supervisord is not running
