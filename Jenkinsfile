@@ -34,11 +34,12 @@ pipeline {
                 }
             }
             steps {
-                deployToStaging {
+                deployToStaging (
                     env.BUILD_ID,
                     "wc/sso",
                     "/^staging.imio.be/",
                     "systemctl restart sso_staging"
+                    )
                 }
             }
         }
