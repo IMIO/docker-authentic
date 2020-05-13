@@ -39,8 +39,7 @@ pipeline {
                     "wc/sso",
                     "/^staging.imio.be/",
                     "systemctl restart sso_staging"
-                    )
-                }
+                )
             }
         }
     }
