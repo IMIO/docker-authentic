@@ -1,24 +1,19 @@
 pull:
 		docker-compose pull
 
-docker-compose.yml:
-		ln -fs docker-compose.yml docker-compose.yml
-
-run: docker-compose.yml
-		docker-compose -f docker-compose.yml up
+run:
+		docker-composel up
 
 up: run
 
-build: docker-compose.yml
+build:
 		docker-compose build --pull
 
-build-no-cache: docker-compose.yml
+build-no-cache:
 		docker-compose build --no-cache --pull
 
 cleanall:
 		sudo rm -fr data/*/*/
-		docker-compose kill
-		docker-compose rm -f
 		docker-compose down
 
 add-user:
