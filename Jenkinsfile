@@ -4,7 +4,7 @@
 pipeline {
     agent none
     triggers {
-        cron('0 0 5 ? * MON *') // every monday at 5 am
+        cron('* 5 * * 1') // every monday at 5 am
     }
     options {
         // Only keep the 10 most recent builds
