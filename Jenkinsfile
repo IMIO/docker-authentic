@@ -2,7 +2,10 @@
 @Library('jenkins-pipeline-scripts') _
 
 pipeline {
-    agent any
+    agent none
+    triggers {
+        cron('0 0 5 ? * MON *') // every monday at 5 am
+    }
     options {
         // Only keep the 10 most recent builds
         buildDiscarder(logRotator(numToKeepStr:'50'))
