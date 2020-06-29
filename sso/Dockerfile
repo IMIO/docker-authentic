@@ -23,7 +23,7 @@ RUN apt update && apt install -y entrouvert-repository entrouvert-repository-hot
 RUN echo "Package: *\nPin: release a=stretch-eobuilder\nPin-Priority: 400" > /etc/apt/preferences.d/entrouvert-eobuilder
 
 RUN apt install -y combo hobo publik-base-theme imio-publik-themes authentic2-multitenant
-RUN apt install -y -t stretch-eobuilder python-authentic2-auth-fedict python-authentic2-wallonie-connect
+RUN apt install -y -t stretch-eobuilder python-authentic2-auth-fedict python-authentic2-wallonie-connect python3-pycryptodome
 
 # Allow services to start, this is necessary as hobo-agent postinst will fail
 # if supervisord is not running
