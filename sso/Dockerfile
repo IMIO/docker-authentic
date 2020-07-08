@@ -40,4 +40,5 @@ ADD bash-vim.tar.gz /
 
 COPY update_oidc.sh /
 COPY run.sh /
+EXPOSE 80
 CMD ["/run.sh"]
