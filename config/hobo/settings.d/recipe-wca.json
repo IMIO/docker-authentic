@@ -1,0 +1,58 @@
+{
+  "variables": {
+    "hobo": "hobo-agents.wc.localhost",
+    "authentic": "agents.wc.localhost",
+    "combo": "combo-agents.wc.localhost",
+    "combo_agent": "backoffice-agents.wc.localhost",
+    "wallonie_connect": "agents"
+  },
+  "steps": [
+    {
+      "create-hobo": {
+        "url": "http://${hobo}/"
+      }
+    },
+    {
+      "create-superuser": {
+        "email": "adminwc@imio.be",
+        "password": "admin"
+      }
+    },
+    {
+      "create-authentic": {
+        "url": "http://${authentic}/",
+        "title": "Local WCA - Authentic"
+      }
+    },
+    { "set-idp": {} },
+    {
+      "create-combo": {
+        "url": "http://${combo}/",
+        "title": "Local WCA - Authentic",
+        "template_name": "portal-user"
+      }
+    },
+    {
+      "create-combo": {
+        "url": "http://${combo_agent}/",
+        "slug": "portal-agent",
+        "title": "Local WCA - Authentic",
+        "template_name": "portal-agent"
+      }
+    },
+    {
+      "set-attribute": {
+        "name": "niss",
+        "label": "Numero national",
+        "description": "Le num d'identification au Registre national se trouve sur la carte d'identite.",
+        "kind": "nrn",
+        "enabled": true
+      }
+    },
+    {
+      "set-theme": {
+        "theme": "wallonieconnect"
+      }
+    }
+  ]
+}
