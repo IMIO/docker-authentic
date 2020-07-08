@@ -7,7 +7,7 @@ run:
 up: run
 
 build:
-		docker-compose build --pull
+		docker-compose build --pull authentic
 
 build-no-cache:
 		docker-compose build --no-cache --pull

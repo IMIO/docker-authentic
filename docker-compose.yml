@@ -32,7 +32,7 @@ services:
     volumes:
       - ./data/hobo:/var/lib/hobo/tenants
       - ./data/combo:/var/lib/combo/tenants
-      - ./data/authentic2:/var/lib/authentic2-multitenant/tenants
+      - ./data/authentic2-multitenant:/var/lib/authentic2-multitenant/tenants
       - ./config/combo/settings.d:/etc/combo/settings.d
       - ./config/authentic2-multitenant:/etc/authentic2-multitenant
       - ./config/hobo/settings.d:/etc/hobo/settings.d
