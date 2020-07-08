@@ -33,11 +33,11 @@ services:
       - ./data/hobo:/var/lib/hobo/tenants
       - ./data/combo:/var/lib/combo/tenants
       - ./data/authentic2:/var/lib/authentic2-multitenant/tenants
+      - ./config/combo/settings.d:/etc/combo/settings.d
+      - ./config/authentic2-multitenant:/etc/authentic2-multitenant
+      - ./config/hobo/settings.d:/etc/hobo/settings.d
+      - ./config/hobo-agent/settings.d:/etc/hobo-agent/settings.d
       - ./config/nginx:/etc/nginx/sites-available
-      - ./config/combo:/etc/combo
-      - ./config/authentic2:/etc/authentic2-multitenant
-      - ./config/hobo:/etc/hobo
-      - ./config/hobo-agent:/etc/hobo-agent
       - ./src:/opt/publik
     command: /bin/sh -c "sleep 10 ; /run.sh"
     depends_on:
@@ -52,7 +52,7 @@ services:
     hostname: rabbitmq
   database:
     image: postgres
-    hostname: postgres
+    hostname: database
     volumes:
       - ./data/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
     environment:

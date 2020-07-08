@@ -25,6 +25,7 @@ ALLOWED_HOSTS = [
     "usagers.wc.localhost",
 ]
 
+
 # Databases
 # Default: a local database named "authentic"
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -39,7 +40,7 @@ CACHES = {
     "default": {
         "BACKEND": "hobo.multitenant.cache.TenantCache",
         "REAL_BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
-        "LOCATION": "172.17.0.1:11211",
+        "LOCATION": "memcached:11211",
     }
 }
 
@@ -54,8 +55,8 @@ TIME_ZONE = "Europe/Brussels"
 
 # Email configuration
 EMAIL_SUBJECT_PREFIX = "[authentic local_authentic2]"
-SERVER_EMAIL = "authentic2@example.net"
-DEFAULT_FROM_EMAIL = "authentic2@example.net"
+SERVER_EMAIL = "authentic2@imio.be"
+DEFAULT_FROM_EMAIL = "authentic2@imio.be"
 
 # SMTP configuration
 EMAIL_HOST = "localhost"
@@ -69,7 +70,7 @@ SESSION_COOKIE_SECURE = False
 
 # Idp
 # SAML 2.0 IDP
-# A2_IDP_SAML2_ENABLE = False
+A2_IDP_SAML2_ENABLE = True
 # CAS 1.0 / 2.0 IDP
 # A2_IDP_CAS_ENABLE = False
 # OpenID 1.0 / 2.0 IDP
@@ -85,48 +86,4 @@ BROKER_URL = "amqp://guest:guest@rabbitmq:5672/"
 
 LOCALE_PATHS = ("/var/lib/authentic2/locale",) + LOCALE_PATHS
 
-from django import forms
-import re
-
-
-class RrnField(forms.CharField):
-    def validate(self, value):
-        super(RrnField, self).validate(value)
-        if not value:
-            return
-        try:
-            if (97 - int(value[:9]) % 97) != int(value[-2:]):
-                raise ValueError()
-        except ValueError:
-            raise forms.ValidationError("Format invalide")
-
-
-class NumHouseField(forms.CharField):
-    def validate(self, value):
-        super(NumHouseField, self).validate(value)
-        if not value:
-            return
-        try:
-            if not re.match("[1-9][0-9]*", value):
-                raise ValueError()
-        except ValueError:
-            raise forms.ValidationError("Format invalide")
-
-
-class NumPhoneField(forms.CharField):
-    def validate(self, value):
-        super(NumPhoneField, self).validate(value)
-        if not value:
-            return
-        try:
-            if not re.match("^(0|\\+|00)(\d{8,})", value):
-                raise ValueError()
-        except ValueError:
-            raise forms.ValidationError("Format invalide")
-
-
-A2_ATTRIBUTE_KINDS = [
-    {"label": u"Numéro de registre national", "name": "rrn", "field_class": RrnField,},
-    {"label": u"Numéro de maison", "name": "num_house", "field_class": NumHouseField,},
-    {"label": u"Numéro de téléphone", "name": "phone", "field_class": NumPhoneField,},
-]
+A2_IDP_OIDC_SCOPES = ["openid", "email", "profile", "roles"]

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Configuration for combo.
 # You can override Combo default settings here
 
@@ -40,17 +41,17 @@ CACHES = {
     "default": {
         "BACKEND": "hobo.multitenant.cache.TenantCache",
         "REAL_BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
-        "LOCATION": "172.17.0.1:11211",
+        "LOCATION": "memcached:11211",
     }
 }
 
-LANGUAGE_CODE = "fr-fr"
+LANGUAGE_CODE = "fr-be"
 TIME_ZONE = "Europe/Brussels"
 
 # Email configuration
 EMAIL_SUBJECT_PREFIX = "[combo local]"
-SERVER_EMAIL = "combo@example.net"
-DEFAULT_FROM_EMAIL = "combo@example.net"
+SERVER_EMAIL = "combo@wc.localhost"
+DEFAULT_FROM_EMAIL = "combo@wc.localhost"
 
 # SMTP configuration
 EMAIL_HOST = "localhost"
@@ -61,4 +62,3 @@ EMAIL_HOST = "localhost"
 # HTTPS Security
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
-# SESSION_COOKIE_SECURE = True

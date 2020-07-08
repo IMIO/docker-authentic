@@ -1,0 +1,6 @@
+{
+    "REGISTRATION_OPEN": true,
+    "A2_EMAIL_IS_UNIQUE": true,
+    "A2_USERNAME_LABEL": "E-mail",
+    "A2_IDP_OIDC_SCOPES": ["openid", "email", "profile"]
+}
