@@ -26,20 +26,22 @@ pipeline {
                 )
             }
         }
-        stage('Deploy to staging') {
-            agent any
-            when {
-                expression {
-                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
+        if(env.BRANCH_NAME == 'master'){
+            stage('Deploy to staging') {
+                agent any
+                when {
+                    expression {
+                        currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                    }
                 }
-            }
-            steps {
-                deployToStaging (
-                    env.BUILD_ID,
-                    "wc/sso",
-                    "/^staging.imio.be/",
-                    "systemctl restart sso_staging"
-                )
+                steps {
+                    deployToStaging (
+                        env.BUILD_ID,
+                        "wc/sso",
+                        "/^staging.imio.be/",
+                        "systemctl restart sso_staging"
+                    )
+                }
             }
         }
     }
