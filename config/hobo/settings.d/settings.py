@@ -1,5 +1,6 @@
-# Configuration for combo.
-# You can override Combo default settings here
+# -*- coding: utf-8 -*-
+# Configuration for hobo
+# You can override Hobo default settings here
 
 # Combo is a Django application: for the full list of settings and their
 # values, see https://docs.djangoproject.com/en/1.7/ref/settings/
@@ -20,17 +21,15 @@ ADMINS = (("Admins IMIO", "adminwc@imio.be"),)
 # ALLOWED_HOSTS must be correct in production!
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [
-    "combo-agents.wc.localhost",
-    "backoffice-agents.wc.localhost",
-    "combo-usagers.wc.localhost",
-    "backoffice-usagers.wc.localhost",
+    "hobo-agents.wc.localhost",
+    "hobo-usagers.wc.localhost",
 ]
 
 # Databases
-# Default: a local database named "combo"
+# Default: a local database named "hobo"
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 # Warning: don't change ENGINE
-DATABASES["default"]["NAME"] = "combo"
+DATABASES["default"]["NAME"] = "hobo"
 DATABASES["default"]["USER"] = "postgres"
 DATABASES["default"]["PASSWORD"] = "password"
 DATABASES["default"]["HOST"] = "database"
@@ -44,13 +43,13 @@ CACHES = {
     }
 }
 
-LANGUAGE_CODE = "fr-fr"
+LANGUAGE_CODE = "fr-be"
 TIME_ZONE = "Europe/Brussels"
 
 # Email configuration
-EMAIL_SUBJECT_PREFIX = "[combo local]"
-SERVER_EMAIL = "combo@example.net"
-DEFAULT_FROM_EMAIL = "combo@example.net"
+EMAIL_SUBJECT_PREFIX = "[hobo local]"
+SERVER_EMAIL = "hobo@wc.localhost"
+DEFAULT_FROM_EMAIL = "hobo@wc.localhost"
 
 # SMTP configuration
 EMAIL_HOST = "localhost"
@@ -62,3 +61,5 @@ EMAIL_HOST = "localhost"
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 # SESSION_COOKIE_SECURE = True
+
+BROKER_URL = "amqp://guest:guest@rabbitmq:5672/"
