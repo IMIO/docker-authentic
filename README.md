@@ -22,9 +22,10 @@ docker-compose 1.6 or above
 
 * Sometimes, you need to init data multitimes (into container) with command :
 
-  sudo -u hobo hobo-manage cook /etc/hobo/recipe.json
+  sudo -u hobo hobo-manage cook /etc/hobo/settings.d/recipe-wca.json
+  sudo -u hobo hobo-manage cook /etc/hobo/settings.d/recipe-wcu.json
 
-* Go to http://local.example.net with you favorite browser, an admin account is
+* Go to http://agents.wc.localhost with you favorite browser, an admin account is
   setup, username is "admin" and password is "password" (without the quotes).
 
 ### Development
