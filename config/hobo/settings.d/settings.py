@@ -13,10 +13,10 @@
 # This file is sourced by "execfile" from /usr/lib/combo/debian_config.py
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-TEMPLATE_DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = False
 
-ADMINS = (("Admins IMIO", "adminwc@imio.be"),)
+ADMINS = (("Admin IMIO", "adminwc@imio.be"),)
 
 # ALLOWED_HOSTS must be correct in production!
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
@@ -39,7 +39,7 @@ CACHES = {
     "default": {
         "BACKEND": "hobo.multitenant.cache.TenantCache",
         "REAL_BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
-        "LOCATION": "172.17.0.1:11211",
+        "LOCATION": "memcached:11211",
     }
 }
 
@@ -60,6 +60,4 @@ EMAIL_HOST = "localhost"
 # HTTPS Security
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
-# SESSION_COOKIE_SECURE = True
-
 BROKER_URL = "amqp://guest:guest@rabbitmq:5672/"

@@ -1,0 +1,8 @@
+{
+  "REGISTRATION_OPEN": false,
+  "A2_LOGIN_FORM_OU_SELECTOR": true,
+  "A2_USER_CAN_RESET_PASSWORD": true,
+  "A2_USERNAME_LABEL": "Identifiant",
+  "A2_EMAIL_IS_UNIQUE": false,
+  "A2_IDP_OIDC_SCOPES": ["openid", "email", "profile", "roles"]
+}
