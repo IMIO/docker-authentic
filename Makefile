@@ -14,7 +14,7 @@ build-no-cache:
 
 cleanall:
 		sudo rm -fr data/*/*/
-		docker-compose down
+		docker-compose down --volumes
 
 add-user:
 	docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/create-user.py -d agents.wc.localhost'
@@ -26,3 +26,4 @@ create-plone4-site:
 add-oidc:
 	 docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d agents.wc.localhost agents.json --no-dry-run NO_DRY_RUN'
 	 docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d usagers.wc.localhost usagers.json --no-dry-run NO_DRY_RUN'
+
