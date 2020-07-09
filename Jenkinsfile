@@ -19,6 +19,12 @@ pipeline {
         }
         stage('Push image to registry') {
             agent any
+            when {
+               branch 'master'
+               expression {
+                   currentBuild.result == null || currentBuild.result == 'SUCCESS'
+               }
+            }
             steps {
                 pushImageToRegistry (
                     env.BUILD_ID,
@@ -27,22 +33,21 @@ pipeline {
             }
         }
         stage('Deploy to staging') {
-           agent any
-           when {
-               branch 'master'
-               expression {
-                   currentBuild.result == null || currentBuild.result == 'SUCCESS'
-               }
-           }
-           steps {
-               deployToStaging (
-                   env.BUILD_ID,
-                   "wc/sso",
-                   "/^staging.imio.be/",
-                   "systemctl restart sso_staging"
-               )
-           }
-       }
-   }
-
+            agent any
+            when {
+                branch 'master'
+                expression {
+                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps {
+                deployToStaging (
+                    env.BUILD_ID,
+                    "wc/sso",
+                    "/^staging.imio.be/",
+                    "systemctl restart sso_staging"
+                )
+            }
+        }
+    }
 }
