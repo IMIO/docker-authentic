@@ -28,7 +28,7 @@
     {
       "create-combo": {
         "url": "http://${combo}/",
-        "title": "Local WCU - Authentic",
+        "title": "Local WCU - Combo",
         "template_name": "portal-user"
       }
     },
@@ -36,7 +36,7 @@
       "create-combo": {
         "url": "http://${combo_agent}/",
         "slug": "portal-agent",
-        "title": "Local WCU - Authentic",
+        "title": "Local WCU - Combo backend",
         "template_name": "portal-agent"
       }
     },
