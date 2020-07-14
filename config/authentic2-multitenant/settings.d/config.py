@@ -55,8 +55,8 @@ TIME_ZONE = "Europe/Brussels"
 
 # Email configuration
 EMAIL_SUBJECT_PREFIX = "[authentic local_authentic2]"
-SERVER_EMAIL = "authentic2@imio.be"
-DEFAULT_FROM_EMAIL = "authentic2@imio.be"
+SERVER_EMAIL = "authentic2@wc.localhost"
+DEFAULT_FROM_EMAIL = "authentic2@wc.localhost"
 
 # SMTP configuration
 EMAIL_HOST = "localhost"
