@@ -14,7 +14,8 @@
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-TEMPLATE_DEBUG = True
+# TEMPLATES[0]["OPTIONS"]["debug"] = True
+
 
 ADMINS = (("Admins IMIO", "adminwc@imio.be"),)
 
