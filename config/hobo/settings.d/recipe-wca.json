@@ -28,7 +28,7 @@
     {
       "create-combo": {
         "url": "http://${combo}/",
-        "title": "Local WCA - Authentic",
+        "title": "Local WCA - Combo",
         "template_name": "portal-user"
       }
     },
@@ -36,17 +36,8 @@
       "create-combo": {
         "url": "http://${combo_agent}/",
         "slug": "portal-agent",
-        "title": "Local WCA - Authentic",
+        "title": "Local WCA - Combo backend",
         "template_name": "portal-agent"
-      }
-    },
-    {
-      "set-attribute": {
-        "name": "niss",
-        "label": "Numero national",
-        "description": "Le num d'identification au Registre national se trouve sur la carte d'identite.",
-        "kind": "nrn",
-        "enabled": true
       }
     },
     {
