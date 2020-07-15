@@ -1,4 +1,4 @@
-version: '2'
+version: '2.4'
 
 services:
   authentic:
@@ -39,14 +39,21 @@ services:
       - ./config/hobo-agent/settings.d:/etc/hobo-agent/settings.d
       - ./config/nginx:/etc/nginx/sites-available
       - ./src:/opt/publik
-    command: /bin/sh -c "sleep 10 ; /run.sh"
+      - ./sso/agents.json:/agents.json
+      - ./sso/usagers.json:/usagers.json
+    command: >
+      /bin/sh -c "
+        echo Waiting for rabbitmq and postgres services start...;
+        sleep 12;
+        /run.sh;
+      "  
     depends_on:
       - database
       - rabbitmq
+      - memcached
       #- reverse-proxy
     labels:
       - "traefik.http.routers.authentic.rule=HostRegexp(`wc.localhost`, `{subdomain:[a-z]+-+[a-z]+}.wc.localhost`) || Host(`agents.wc.localhost`)"
-
   rabbitmq:
     image: rabbitmq
     hostname: rabbitmq
