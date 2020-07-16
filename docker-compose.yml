@@ -10,8 +10,10 @@ services:
       - AGENTS_HOSTNAME=agents.wc.localhost
       - USAGERS_HOSTNAME=usagers.wc.localhost
     mem_limit: 2048m
-    ports:
-        - "80:80"
+    expose:
+      - 80
+    #ports:
+    #    - "80:80"
     extra_hosts:
       hobo-agents.wc.localhost:
         127.0.0.1
@@ -41,19 +43,24 @@ services:
       - ./src:/opt/publik
       - ./sso/agents.json:/agents.json
       - ./sso/usagers.json:/usagers.json
+      - ./sso/index.json:/index.json
     command: >
       /bin/sh -c "
         echo Waiting for rabbitmq and postgres services start...;
-        sleep 12;
+        while ! nc -z rabbitmq 5672;
+        do
+          sleep 3;
+        done;
+        echo Connected!;
         /run.sh;
       "  
     depends_on:
       - database
       - rabbitmq
       - memcached
-      #- reverse-proxy
+      - reverse-proxy
     labels:
-      - "traefik.http.routers.authentic.rule=HostRegexp(`wc.localhost`, `{subdomain:[a-z]+-+[a-z]+}.wc.localhost`) || Host(`agents.wc.localhost`)"
+      - "traefik.http.routers.authentic.rule=HostRegexp(`wc.localhost`, `{subdomain:[a-z]+-+[a-z]+}.wc.localhost`) || Host(`agents.wc.localhost`) || Host(`usagers.wc.localhost`)"
   rabbitmq:
     image: rabbitmq
     hostname: rabbitmq
@@ -72,11 +79,14 @@ services:
       context: plone4
       dockerfile: Dockerfile
     image: plone4
-    ports:
-      - "8084:8080"
+    expose:
+      - 8080
+    #ports:
+    #  - "8084:8080"
     environment:
       zope_i18n_compile_mo_files: "true"
       TZ: "Europe/Brussels"
+      ENV: "dev"
       PLONE_CSRF_DISABLED: "true"
       consumer_key_usagers: "client-id-plone4-wcu"
       consumer_key_agents: "client-id-plone4-wca"
@@ -90,17 +100,18 @@ services:
       - plone4-data:/data
     labels:
       - "traefik.http.routers.plone4.rule=Host(`plone4.localhost`)"
-      - 'traefik.http.services.plone4.loadbalancer.server.port=8084'
+      #- 'traefik.http.services.plone4.loadbalancer.server.port=8084'
       - "traefik.http.routers.plone4.middlewares=add-plone"
       - "traefik.http.middlewares.add-plone.addprefix.prefix=/VirtualHostBase/http/plone4.localhost/Plone/VirtualHostRoot"
   reverse-proxy:
     image: traefik:2.2
     command:
+      #- "--log.level=DEBUG"
       - '--api.insecure=true'
       - '--providers.docker'
       - '--entryPoints.web.address=:80'
     ports:
-      #- "80:80"
+      - "80:80"
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
