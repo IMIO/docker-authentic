@@ -19,6 +19,7 @@ RUN apt update && apt install -y \
   gettext \
   gnupg \
   libjs-jquery \
+  netcat \
   nginx \
   procps \
   python-dns \
