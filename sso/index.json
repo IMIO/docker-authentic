@@ -1,0 +1,54 @@
+{
+  "pages": [
+    {
+      "fields": {
+        "title": "Accueil",
+        "slug": "index",
+        "sub_slug": "",
+        "description": "",
+        "template_name": "standard",
+        "parent": null,
+        "order": 1,
+        "exclude_from_navigation": true,
+        "redirect_url": "",
+        "public": true,
+        "creation_timestamp": "2020-07-16T07:01:26.641Z",
+        "last_update_timestamp": "2020-07-16T07:30:56.550Z",
+        "picture": "",
+        "snapshot": null,
+        "groups": []
+      },
+      "cells": [
+        {
+          "model": "data.textcell",
+          "fields": {
+            "placeholder": "content",
+            "order": 1,
+            "slug": "",
+            "extra_css_class": "",
+            "public": true,
+            "restricted_to_unlogged": true,
+            "last_update_timestamp": "2020-07-16T07:20:10.739Z",
+            "text": "<p>Bienvenue sur le portail</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><a href=\"/login\">Connectez-vous</a>.</p>",
+            "groups": []
+          }
+        },
+        {
+          "model": "data.textcell",
+          "fields": {
+            "placeholder": "content",
+            "order": 2,
+            "slug": "",
+            "extra_css_class": "",
+            "public": false,
+            "restricted_to_unlogged": false,
+            "last_update_timestamp": "2020-07-16T07:30:56.487Z",
+            "text": "<p>Bienvenue sur Wallonie-Connect.</p>\r\n\r\n<p>Acc&eacute;der &agrave; votre <a href=\"/accounts\">page de gestion de compte</a>.</p>\r\n\r\n<p>Acc&eacute;der &agrave; la <a href=\"/manage/users/\">gestion des utilisateurs</a></p>",
+            "groups": []
+          }
+        }
+      ]
+    }
+  ]
+}
+
