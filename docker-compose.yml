@@ -79,6 +79,9 @@ services:
       context: plone4
       dockerfile: Dockerfile
     image: plone4
+    links:
+      - authentic:agents.wc.localhost
+      - authentic:usagers.wc.localhost
     expose:
       - 8080
     #ports:
