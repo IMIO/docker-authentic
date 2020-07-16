@@ -19,8 +19,9 @@ def create_authentic_user():
 
         # Set default user with default organisation unit.
         user_admin = User.objects.get(username="admin")
-        user_admin.ou = organisation_unit
-        user_admin.save()
+        if not user_admin.ou:
+            user_admin.ou = organisation_unit
+            user_admin.save()
 
         # Set role to user
         role_admin.members.add(user_admin)

@@ -32,6 +32,16 @@ docker-compose 1.6 or above
 - Go to http://agents.wc.localhost with you favorite browser, an admin account is
   setup, username is "admin" and password is "password" (without the quotes).
 
+### Testing
+
+- Create images
+
+  docker-compose build
+
+- Set testing environment
+
+  make testing-env
+
 ### Development
 
 You can clone modules into the src/ directory and they will automatically be
@@ -45,5 +55,5 @@ Supported modules are:
 Services will be run in django-runserver mode, and can be seen in a screen
 session running in the container.
 
-    docker exec -ti dockerauthentic_authentic_1 bash
+    docker-compose exec authentic bash
     script -c "screen -r"
