@@ -1,189 +1,153 @@
 {
-    "data": [
+  "data": [
+    {
+      "services": [
         {
-            "services": [
-                {
-                    "redirect_uris": [
-                        "http://plone4.localhost/authentic-handler/authentic-agents",
-                        "http://plone4.localhost/authentic-handler/authentic-usagers"
-                    ],
-                    "name": "Plone 4",
-                    "identifier_policy": 1,
-                    "has_api_access": true,
-                    "post_logout_redirect_uris": [
-                        "http://plone4.localhost"
-                    ],
-                    "open_to_all": false,
-                    "client_id": "client-id-plone4-wca",
-                    "claims": [
-                        {
-                            "scopes": [
-                                "profile"
-                            ],
-                            "name": "preferred_username",
-                            "value": "django_user_username"
-                        },
-                        {
-                            "scopes": [
-                                "profile"
-                            ],
-                            "name": "given_name",
-                            "value": "django_user_first_name"
-                        },
-                        {
-                            "scopes": [
-                                "profile"
-                            ],
-                            "name": "family_name",
-                            "value": "django_user_last_name"
-                        },
-                        {
-                            "scopes": [
-                                "email"
-                            ],
-                            "name": "email",
-                            "value": "django_user_email"
-                        },
-                        {
-                            "scopes": [
-                                "roles"
-                            ],
-                            "name": "roles",
-                            "value": "a2_role_slugs"
-                        }
-                    ],
-                    "client_secret": "client-secret-plone4-wca",
-                    "slug": "plone4-iasmartweb",
-                    "frontchannel_logout_uri": "http://plone4.localhost/logout"
-                },
-                {
-                    "redirect_uris": [
-                        "http://plone5.localhost/authentic-handler/authentic-agents",
-                        "http://plone5.localhost/authentic-handler/authentic-usagers"
-                    ],
-                    "name": "Plone 5",
-                    "identifier_policy": 1,
-                    "has_api_access": true,
-                    "post_logout_redirect_uris": [
-                        "http://plone5.localhost"
-                    ],
-                    "open_to_all": false,
-                    "client_id": "client-id-plone5-wca",
-                    "claims": [
-                        {
-                            "scopes": [
-                                "profile"
-                            ],
-                            "name": "preferred_username",
-                            "value": "django_user_username"
-                        },
-                        {
-                            "scopes": [
-                                "profile"
-                            ],
-                            "name": "given_name",
-                            "value": "django_user_first_name"
-                        },
-                        {
-                            "scopes": [
-                                "profile"
-                            ],
-                            "name": "family_name",
-                            "value": "django_user_last_name"
-                        },
-                        {
-                            "scopes": [
-                                "email"
-                            ],
-                            "name": "email",
-                            "value": "django_user_email"
-                        },
-                        {
-                            "scopes": [
-                                "roles"
-                            ],
-                            "name": "roles",
-                            "value": "a2_role_slugs"
-                        }
-                    ],
-                    "client_secret": "client-secret-plone5-wca",
-                    "slug": "plone5-iasmartweb",
-                    "frontchannel_logout_uri": "http://plone5.localhost/logout"
-                },
-                {
-                    "redirect_uris": [
-                        "http://ts-auth.wca/accounts/oidc/callback/"
-                    ],
-                    "name": "My Imio",
-                    "identifier_policy": 2,
-                    "has_api_access": false,
-                    "post_logout_redirect_uris": [
-                        "http://ts-auth.wca/accounts/oidc/logout/",
-                        "http://ts-auth.wca/logout/"
-                    ],
-                    "open_to_all": false,
-                    "client_id": "client-id-ts",
-                    "claims": [
-                        {
-                            "scopes": [
-                                "profile"
-                            ],
-                            "name": "preferred_username",
-                            "value": "django_user_username"
-                        },
-                        {
-                            "scopes": [
-                                "profile"
-                            ],
-                            "name": "given_name",
-                            "value": "django_user_first_name"
-                        },
-                        {
-                            "scopes": [
-                                "profile"
-                            ],
-                            "name": "family_name",
-                            "value": "django_user_last_name"
-                        },
-                        {
-                            "scopes": [
-                                "email"
-                            ],
-                            "name": "email",
-                            "value": "django_user_email"
-                        },
-                        {
-                            "scopes": [
-                                "roles"
-                            ],
-                            "name": "roles",
-                            "value": "a2_role_slugs"
-                        }
-                    ],
-                    "client_secret": "client-secret-ts-wca",
-                    "slug": "ts-iateleservice",
-                    "frontchannel_logout_uri": "http://ts-auth.wca/logout"
-                }
-            ],
-            "locality": {
-                "name": "iMio, IC",
-                "slug": "0841470248"
+          "redirect_uris": [
+            "http://plone4.localhost/authentic-handler/authentic-agents",
+            "http://plone4.localhost/authentic-handler/authentic-usagers"
+          ],
+          "name": "Plone 4",
+          "identifier_policy": 1,
+          "has_api_access": true,
+          "post_logout_redirect_uris": ["http://plone4.localhost"],
+          "open_to_all": false,
+          "client_id": "client-id-plone4-wca",
+          "claims": [
+            {
+              "scopes": ["profile"],
+              "name": "preferred_username",
+              "value": "django_user_username"
             },
-            "users": [
-                {
-                    "username": "jdoe",
-                    "first_name": "John",
-                    "last_name": "Doe",
-                    "email": "bsu+jdoe@imio.be",
-                    "password": "{SSHA}vS4g4MtzJyAjvhyW7vsrgjpJ6lDCU+Y42a6p",
-                    "allowed_services": [
-                        "ts-iateleservice",
-                        "plone4-iasmartweb",
-                        "plone5-iasmartweb"
-                    ],
-                    "uuid": "c863384ed8e1403a983956597f2367f6"
-                }
-            ]
+            {
+              "scopes": ["profile"],
+              "name": "given_name",
+              "value": "django_user_first_name"
+            },
+            {
+              "scopes": ["profile"],
+              "name": "family_name",
+              "value": "django_user_last_name"
+            },
+            {
+              "scopes": ["email"],
+              "name": "email",
+              "value": "django_user_email"
+            },
+            {
+              "scopes": ["roles"],
+              "name": "roles",
+              "value": "a2_role_slugs"
+            }
+          ],
+          "client_secret": "client-secret-plone4-wca",
+          "slug": "plone4-iasmartweb",
+          "frontchannel_logout_uri": "http://plone4.localhost/logout"
+        },
+        {
+          "redirect_uris": [
+            "http://plone5.localhost/authentic-handler/authentic-agents",
+            "http://plone5.localhost/authentic-handler/authentic-usagers"
+          ],
+          "name": "Plone 5",
+          "identifier_policy": 1,
+          "has_api_access": true,
+          "post_logout_redirect_uris": ["http://plone5.localhost"],
+          "open_to_all": false,
+          "client_id": "client-id-plone5-wca",
+          "claims": [
+            {
+              "scopes": ["profile"],
+              "name": "preferred_username",
+              "value": "django_user_username"
+            },
+            {
+              "scopes": ["profile"],
+              "name": "given_name",
+              "value": "django_user_first_name"
+            },
+            {
+              "scopes": ["profile"],
+              "name": "family_name",
+              "value": "django_user_last_name"
+            },
+            {
+              "scopes": ["email"],
+              "name": "email",
+              "value": "django_user_email"
+            },
+            {
+              "scopes": ["roles"],
+              "name": "roles",
+              "value": "a2_role_slugs"
+            }
+          ],
+          "client_secret": "client-secret-plone5-wca",
+          "slug": "plone5-iasmartweb",
+          "frontchannel_logout_uri": "http://plone5.localhost/logout"
+        },
+        {
+          "redirect_uris": ["http://ts-auth.wca/accounts/oidc/callback/"],
+          "name": "My Imio",
+          "identifier_policy": 2,
+          "has_api_access": false,
+          "post_logout_redirect_uris": [
+            "http://ts-auth.wca/accounts/oidc/logout/",
+            "http://ts-auth.wca/logout/"
+          ],
+          "open_to_all": false,
+          "client_id": "client-id-ts",
+          "claims": [
+            {
+              "scopes": ["profile"],
+              "name": "preferred_username",
+              "value": "django_user_username"
+            },
+            {
+              "scopes": ["profile"],
+              "name": "given_name",
+              "value": "django_user_first_name"
+            },
+            {
+              "scopes": ["profile"],
+              "name": "family_name",
+              "value": "django_user_last_name"
+            },
+            {
+              "scopes": ["email"],
+              "name": "email",
+              "value": "django_user_email"
+            },
+            {
+              "scopes": ["roles"],
+              "name": "roles",
+              "value": "a2_role_slugs"
+            }
+          ],
+          "client_secret": "client-secret-ts-wca",
+          "slug": "ts-iateleservice",
+          "frontchannel_logout_uri": "http://ts-auth.wca/logout"
         }
-    ]
+      ],
+      "locality": {
+        "name": "iMio, IC",
+        "slug": "0841470248"
+      },
+      "users": [
+        {
+          "username": "jdoe",
+          "first_name": "John",
+          "last_name": "Doe",
+          "email": "bsu+jdoe@imio.be",
+          "password": "jdoe",
+          "allowed_services": [
+            "ts-iateleservice",
+            "plone4-iasmartweb",
+            "plone5-iasmartweb"
+          ]
+        }
+      ]
+    }
+  ]
 }
+
