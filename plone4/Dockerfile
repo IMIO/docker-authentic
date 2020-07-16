@@ -39,10 +39,8 @@ RUN apk add --no-cache --virtual .build-deps \
 
 WORKDIR /plone/instance
 
-HEALTHCHECK --interval=1m --timeout=5s --start-period=1m \
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s \
   CMD nc -z -w5 127.0.0.1 8080 || exit 1
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["start"]
-
-RUN apk add --update --no-cache --virtual .build-deps \
