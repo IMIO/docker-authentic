@@ -61,26 +61,26 @@ pipeline {
                 )
             }
         }
-        post{
-            regression{
-                mail to: 'benoit.suttor+jenkins@imio.be',
-                     subject: "Broken Pipeline: ${currentBuild.fullDisplayName}",
-                     body: "The pipeline ${env.JOB_NAME} ${env.BUILD_NUMBER} is broken (${env.BUILD_URL})"
-            }
-            fixed{
-                mail to: 'benoit.suttor+jenkins@imio.be',
-                     subject: "Fixed Pipeline: ${currentBuild.fullDisplayName}",
-                     body: "The pipeline ${env.JOB_NAME} ${env.BUILD_NUMBER} is back to normal (${env.BUILD_URL})"
-            }
-            failure{
-                mail to: 'benoit.suttor+jenkins@imio.be',
-                     subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-                     body: "The pipeline${env.JOB_NAME} ${env.BUILD_NUMBER} failed (${env.BUILD_URL})"
-            }
-            cleanup{
-				sh 'docker-compose stop'
-                //deleteDir()
-            }
+    }
+    post {
+        regression{
+            mail to: 'benoit.suttor+jenkins@imio.be',
+                 subject: "Broken Pipeline: ${currentBuild.fullDisplayName}",
+                 body: "The pipeline ${env.JOB_NAME} ${env.BUILD_NUMBER} is broken (${env.BUILD_URL})"
+        }
+        fixed{
+            mail to: 'benoit.suttor+jenkins@imio.be',
+                 subject: "Fixed Pipeline: ${currentBuild.fullDisplayName}",
+                 body: "The pipeline ${env.JOB_NAME} ${env.BUILD_NUMBER} is back to normal (${env.BUILD_URL})"
+        }
+        failure{
+            mail to: 'benoit.suttor+jenkins@imio.be',
+                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                 body: "The pipeline${env.JOB_NAME} ${env.BUILD_NUMBER} failed (${env.BUILD_URL})"
+        }
+        cleanup{
+            sh 'docker-compose stop'
+            //deleteDir()
         }
     }
 }
