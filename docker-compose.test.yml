@@ -47,6 +47,10 @@ services:
       - reverse-proxy:agents.wc.localhost
       - reverse-proxy:combo-agents.wc.localhost
     command: --browser chrome
+  reverse-proxy:
+    ports:
+      - "80"
+
 
 
 volumes:
