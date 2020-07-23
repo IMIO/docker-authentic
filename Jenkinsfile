@@ -61,7 +61,7 @@ pipeline {
                 )
             }
         }
-		post{
+        post{
             regression{
                 mail to: 'benoit.suttor+jenkins@imio.be',
                      subject: "Broken Pipeline: ${currentBuild.fullDisplayName}",
