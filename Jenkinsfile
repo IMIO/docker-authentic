@@ -7,10 +7,22 @@ pipeline {
         cron('* 5 * * 1') // every monday at 5 am
     }
     options {
-        // Only keep the 10 most recent builds
-        buildDiscarder(logRotator(numToKeepStr:'50'))
+        // Only keep the 20 most recent builds
+        buildDiscarder(logRotator(numToKeepStr:'20'))
     }
     stages {
+        stage('Build testing env'){
+            agent any
+            steps {
+                sh 'make testing-env'
+            }
+        }
+        stage('Tests'){
+            steps {
+                echo "Running build ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                sh 'make run-cypress'
+            }
+        }
         stage('Build') {
             agent any
             steps {

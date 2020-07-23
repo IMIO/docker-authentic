@@ -1,0 +1,26 @@
+{
+  "name": "automation",
+  "version": "1.0.0",
+  "description": "This repo is a package of some [entr'ouvert](https://www.entrouvert.com) products. It's a docker-compose based project to allow locally usage of e-guichet project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IMIO/docker-authentic.git"
+  },
+  "keywords": [
+    "automation",
+    "tests"
+  ],
+  "author": "bsuttor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IMIO/docker-authentic/issues"
+  },
+  "homepage": "https://github.com/IMIO/docker-authentic#readme",
+  "devDependencies": {
+    "cypress": "^4.10.0"
+  }
+}
