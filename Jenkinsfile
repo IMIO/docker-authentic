@@ -75,7 +75,7 @@ pipeline {
                  body: "The pipeline${env.JOB_NAME} ${env.BUILD_NUMBER} failed (${env.BUILD_URL})"
         }
         cleanup{
-            sh 'docker-compose rm -s -f'
+            sh 'docker-compose -f docker-compose.yml -f docker-compose.test.yml rm -s -f'
             //deleteDir()
         }
     }
