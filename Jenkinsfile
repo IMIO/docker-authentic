@@ -2,7 +2,7 @@
 @Library('jenkins-pipeline-scripts') _
 
 pipeline {
-    agent none
+    agent any
     triggers {
         cron('0 5 * * 1') // every monday at 5 am
     }
@@ -12,7 +12,6 @@ pipeline {
     }
     stages {
         stage('Build testing env'){
-            agent any
             steps {
                 sh 'make testing-env'
             }
@@ -24,13 +23,11 @@ pipeline {
             }
         }
         stage('Build') {
-            agent any
             steps {
                 sh 'make build'
             }
         }
         stage('Push image to registry') {
-            agent any
             when {
                branch 'master'
                expression {
@@ -45,7 +42,6 @@ pipeline {
             }
         }
         stage('Deploy to staging') {
-            agent any
             when {
                 branch 'master'
                 expression {
@@ -63,7 +59,6 @@ pipeline {
         }
     }
     post {
-        agent any
         regression{
             mail to: 'benoit.suttor+jenkins@imio.be',
                  subject: "Broken Pipeline: ${currentBuild.fullDisplayName}",
