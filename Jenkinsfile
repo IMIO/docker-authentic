@@ -63,6 +63,7 @@ pipeline {
         }
     }
     post {
+        agent any
         regression{
             mail to: 'benoit.suttor+jenkins@imio.be',
                  subject: "Broken Pipeline: ${currentBuild.fullDisplayName}",
@@ -79,7 +80,6 @@ pipeline {
                  body: "The pipeline${env.JOB_NAME} ${env.BUILD_NUMBER} failed (${env.BUILD_URL})"
         }
         cleanup{
-            agent any
             sh 'docker-compose stop'
             //deleteDir()
         }
