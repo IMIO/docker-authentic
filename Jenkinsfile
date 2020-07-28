@@ -79,6 +79,7 @@ pipeline {
                  body: "The pipeline${env.JOB_NAME} ${env.BUILD_NUMBER} failed (${env.BUILD_URL})"
         }
         cleanup{
+            agent any
             sh 'docker-compose stop'
             //deleteDir()
         }
