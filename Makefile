@@ -23,9 +23,12 @@ plone4-site:
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm -v docker-authentic_plone4-data:/data plone4 buildout install plonesite
 
 wait-until-started:
-	until [ -d data/combo/backoffice-usagers.wc.localhost ]; do echo "waiting..."; sleep 10; done
+	until [ -d data/combo/backoffice-usagers.wc.localhost ]; do echo "waiting for creation of tenants..."; sleep 10; done
 	echo "Tenants created"
 	sleep 3
+	while [ "`docker inspect -f {{.State.Health.Status}} $$(docker-compose ps -q database)`" != "healthy" ]; do echo "waiting for postgres..."; sleep 3; done
+	echo "Postgres ready"
+	sleep 1
 
 add-oidc:
 	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d agents.wc.localhost agents.json --no-dry-run NO_DRY_RUN'
