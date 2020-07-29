@@ -49,3 +49,13 @@ open-cypress:
 
 run-cypress:
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from cypress
+
+localhost-env:
+	docker-compose up -d
+	make wait-until-started
+	make set-agents-admin-to-default-ou
+	make add-usagers-user
+	make add-oidc
+	make add-index-pages
+
+
