@@ -10,6 +10,7 @@ test -f "/opt/publik/hooks/$HOSTNAME/run-hook.sh" && "/opt/publik/hooks/$HOSTNAM
 
 
 service hobo start
+service supervisor start
 
 service rsyslog start
 service cron start
@@ -26,7 +27,6 @@ then
 fi
 
 service nginx start
-service supervisor start
 sudo -u hobo hobo-manage cook /etc/hobo/settings.d/recipe-wca.json
 sudo -u hobo hobo-manage cook /etc/hobo/settings.d/recipe-wcu.json
 test -e /etc/hobo/recipe*extra.json && sudo -u hobo hobo-manage cook /etc/hobo/recipe*extra.json
