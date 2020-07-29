@@ -68,6 +68,7 @@ services:
     hostname: database
     volumes:
       - ./data/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
+      - pgdata:/var/lib/postgresql/data
     environment:
       - "POSTGRES_PASSWORD=password"
     healthcheck:
@@ -88,3 +89,5 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
+volumes:
+  pgdata:
