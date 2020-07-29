@@ -20,7 +20,7 @@ add-user:
 	docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/create-user.py -d agents.wc.localhost'
 
 plone4-site:
-	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm -v docker-authentic_plone4-data:/data plone4 buildout install plonesite
+	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm plone4 buildout install plonesite
 
 wait-until-started:
 	until [ -d data/combo/backoffice-usagers.wc.localhost ]; do echo "waiting for creation of tenants..."; sleep 10; done
@@ -52,6 +52,7 @@ open-cypress:
 
 run-cypress:
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from cypress
+	#sudo chown -R 1000:1000 cypress
 
 localhost-env:
 	docker-compose up -d
