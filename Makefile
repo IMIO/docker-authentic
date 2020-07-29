@@ -28,18 +28,18 @@ wait-until-started:
 	sleep 3
 
 add-oidc:
-	docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d agents.wc.localhost agents.json --no-dry-run NO_DRY_RUN'
-	docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d usagers.wc.localhost usagers.json --no-dry-run NO_DRY_RUN'
+	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d agents.wc.localhost agents.json --no-dry-run NO_DRY_RUN'
+	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d usagers.wc.localhost usagers.json --no-dry-run NO_DRY_RUN'
 
 set-agents-admin-to-default-ou:
-	docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/set-ou-to-admin-user.py -d agents.wc.localhost'
+	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/set-ou-to-admin-user.py -d agents.wc.localhost'
 
 add-usagers-user:
-	docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/create-usagers-user.py -d usagers.wc.localhost'
+	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/create-usagers-user.py -d usagers.wc.localhost'
 
 add-index-pages:
-	docker-compose exec -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-agents.wc.localhost /index.json'
-	docker-compose exec -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-usagers.wc.localhost /index.json'
+	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-agents.wc.localhost /index.json'
+	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-usagers.wc.localhost /index.json'
 
 testing-env: plone4-site run wait-until-started set-agents-admin-to-default-ou add-usagers-user add-oidc add-index-pages
 	@echo "testing"
