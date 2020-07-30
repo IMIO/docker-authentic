@@ -44,8 +44,8 @@ add-usagers-user:
 	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/create-usagers-user.py -d usagers.wc.localhost'
 
 add-index-pages:
-	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-agents.wc.localhost /index.json'
-	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-usagers.wc.localhost /index.json'
+	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-agents.wc.localhost /agents-index.json'
+	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-usagers.wc.localhost /usagers-index.json'
 
 testing-env: plone4-site plone5-site run wait-until-started set-agents-admin-to-default-ou add-usagers-user add-oidc add-index-pages
 	@echo "testing"

@@ -1,6 +1,5 @@
 describe("Login Plone 5 with WCA", () => {
   it("Visits Plone 5 site", () => {
-    Cypress.Cookies.debug(true);
     cy.visit("http://plone5.localhost");
     cy.contains("Welcome!").click();
     cy.contains("Log in").click();
