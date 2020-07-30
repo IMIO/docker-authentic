@@ -41,7 +41,8 @@ services:
       - ./src:/opt/publik
       - ./sso/agents.json:/agents.json
       - ./sso/usagers.json:/usagers.json
-      - ./sso/index.json:/index.json
+      - ./sso/agents-index.json:/agents-index.json
+      - ./sso/usagers-index.json:/usagers-index.json
     command: >
       /bin/sh -c "
         echo Waiting for rabbitmq and postgres services start...;
