@@ -40,6 +40,8 @@ services:
       - authentic:usagers.wc.localhost
     expose:
       - 8080
+    ports:
+      - 8080
     environment:
       zope_i18n_compile_mo_files: "true"
       TZ: "Europe/Brussels"
@@ -80,7 +82,8 @@ services:
     command: --browser chrome
   reverse-proxy:
     ports:
-      - "80"
+      - "80:80"
+      - "8080:8080"
 
 
 volumes:
