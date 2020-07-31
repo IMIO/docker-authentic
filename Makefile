@@ -25,13 +25,20 @@ plone4-site:
 plone5-site:
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm plone5 buildout install plonesite
 
+plone-sites: plone4-site plone5-site
+
 wait-until-started:
 	until [ -d data/combo/backoffice-usagers.wc.localhost ]; do echo "waiting for creation of tenants..."; sleep 10; done
 	echo "Tenants created"
-	sleep 3
+	sleep 1
 	while [ "`docker inspect -f {{.State.Health.Status}} $$(docker-compose ps -q database)`" != "healthy" ]; do echo "waiting for postgres..."; sleep 3; done
 	echo "Postgres ready"
 	sleep 1
+	while [ "`docker inspect -f {{.State.Health.Status}} $$(docker-compose -f docker-compose.yml -f docker-compose.test.yml ps -q plone4)`" != "healthy" ]; do echo "waiting for plone4..."; sleep 3; done
+	echo "Plone 4 ready"
+	while [ "`docker inspect -f {{.State.Health.Status}} $$(docker-compose -f docker-compose.yml -f docker-compose.test.yml ps -q plone5)`" != "healthy" ]; do echo "waiting for plone5..."; sleep 3; done
+	echo "Plone 5 ready"
+
 
 add-oidc:
 	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d agents.wc.localhost agents.json --no-dry-run NO_DRY_RUN'
@@ -47,7 +54,15 @@ add-index-pages:
 	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-agents.wc.localhost /agents-index.json'
 	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-usagers.wc.localhost /usagers-index.json'
 
-testing-env: plone4-site plone5-site run wait-until-started set-agents-admin-to-default-ou add-usagers-user add-oidc add-index-pages
+configure-wc: set-agents-admin-to-default-ou add-usagers-user add-oidc add-index-pages
+
+testing-env-j: run
+	$(MAKE) plone-sites -j2
+	$(MAKE) wait-until-started
+	$(MAKE) configure-wc -j3
+
+
+testing-env: run plone4-site plone5-site wait-until-started set-agents-admin-to-default-ou add-usagers-user add-oidc add-index-pages
 	@echo "testing"
 
 open-cypress:
@@ -67,9 +82,9 @@ localhost-env:
 
 
 localhost-test-env:
+	docker-compose -f docker-compose.yml -f docker-compose.test.yml -f docker-compose.test.local.yml up -d
 	make plone4-site
 	make plone5-site
-	docker-compose -f docker-compose.yml -f docker-compose.test.local.yml up -d
 	make wait-until-started
 	make set-agents-admin-to-default-ou
 	make add-usagers-user
