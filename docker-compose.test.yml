@@ -1,6 +1,9 @@
 version: '2.4'
 
 services:
+  plone4-zeo:
+    image: plone4
+    command: zeo
   plone4:
     build:
       context: plone4
@@ -9,6 +12,7 @@ services:
     links:
       - authentic:agents.wc.localhost
       - authentic:usagers.wc.localhost
+      - plone4-zeo
     expose:
       - 8080
     environment:
@@ -16,6 +20,7 @@ services:
       TZ: "Europe/Brussels"
       ENV: "dev"
       PLONE_CSRF_DISABLED: "true"
+      ZEO_ADDRESS: "plone4-zeo:8080"
       consumer_key_usagers: "client-id-plone4-wcu"
       consumer_key_agents: "client-id-plone4-wca"
       consumer_secret_usagers: "client-secret-plone4-wcu"
@@ -30,6 +35,9 @@ services:
       - "traefik.http.routers.plone4.rule=Host(`plone4.localhost`)"
       - "traefik.http.routers.plone4.middlewares=add-plone"
       - "traefik.http.middlewares.add-plone.addprefix.prefix=/VirtualHostBase/http/plone4.localhost/Plone/VirtualHostRoot"
+  plone5-zeo:
+    image: plone5
+    command: zeo
   plone5:
     build:
       context: plone5
@@ -38,6 +46,7 @@ services:
     links:
       - authentic:agents.wc.localhost
       - authentic:usagers.wc.localhost
+      - plone5-zeo
     expose:
       - 8080
     environment:
@@ -45,6 +54,7 @@ services:
       TZ: "Europe/Brussels"
       ENV: "dev"
       PLONE_CSRF_DISABLED: "true"
+      ZEO_ADDRESS: "plone5-zeo:8080"
       consumer_key_usagers: "client-id-plone5-wcu"
       consumer_key_agents: "client-id-plone5-wca"
       consumer_secret_usagers: "client-secret-plone5-wcu"
@@ -61,9 +71,6 @@ services:
       - "traefik.http.middlewares.add-plone5.addprefix.prefix=/VirtualHostBase/http/plone5.localhost/Plone/VirtualHostRoot"
 
   cypress:
-    #build:
-    #  context: cypress
-    #image: automation
     image: cypress/included:4.11.0
     volumes:
       - ./cypress:/cypress
