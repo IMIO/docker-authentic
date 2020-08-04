@@ -2,12 +2,12 @@ version: '2.4'
 
 services:
   plone4-zeo:
-    image: plone4
-    command: zeo
-  plone4:
     build:
       context: plone4
       dockerfile: Dockerfile
+    image: plone4
+    command: zeo
+  plone4:
     image: plone4
     links:
       - authentic:agents.wc.localhost
@@ -36,12 +36,13 @@ services:
       - "traefik.http.routers.plone4.middlewares=add-plone"
       - "traefik.http.middlewares.add-plone.addprefix.prefix=/VirtualHostBase/http/plone4.localhost/Plone/VirtualHostRoot"
   plone5-zeo:
-    image: plone5
-    command: zeo
-  plone5:
     build:
       context: plone5
       dockerfile: Dockerfile
+
+    image: plone5
+    command: zeo
+  plone5:
     image: plone5
     links:
       - authentic:agents.wc.localhost
