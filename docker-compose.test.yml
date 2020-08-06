@@ -39,7 +39,6 @@ services:
     build:
       context: plone5
       dockerfile: Dockerfile
-
     image: plone5
     command: zeo
   plone5:

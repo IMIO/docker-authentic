@@ -13,19 +13,46 @@ build-no-cache:
 		docker-compose build --no-cache --pull
 
 cleanall:
-		sudo rm -fr data/*/*/
 		docker-compose -f docker-compose.yml -f docker-compose.test.yml down --volumes
 
 add-user:
 	docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/create-user.py -d agents.wc.localhost'
 
 plone4-site:
-	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm plone4 buildout install plonesite
+	sleep 3  # wait zope
+	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --no-deps --rm plone4 buildout install plonesite
 
 plone5-site:
-	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm plone5 buildout install plonesite
+	sleep 3 # wait zope
+	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --no-deps --rm plone5 buildout install plonesite
 
-plone-sites: plone4-site plone5-site
+authentic-data:
+	docker-compose up database
+
+init-data-and-run: plone4-site plone5-site run
+
+testing-env:
+	docker-compose up --no-start reverse-proxy # create network
+	$(MAKE) init-data-and-run -j3
+
+open-cypress:
+	npx cypress open
+
+run-cypress:
+	docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from cypress
+
+localhost-env:
+	docker-compose up -d
+
+localhost-test-env:
+	docker-compose -f docker-compose.yml -f docker-compose.test.yml -f docker-compose.test.local.yml up -d
+	$(MAKE) plone4-site
+	$(MAKE) plone5-site
+
+dump-data:
+	docker-compose up -d database
+	docker-compose exec database pg_dumpall -U postgres --no-comments > data/docker-entrypoint-initdb.d/data.sql
+	sed "s/CREATE ROLE postgres;/-- CREATE ROLE postgres;/" -i data/docker-entrypoint-initdb.d/data.sql 
 
 wait-until-started:
 	until [ -d data/combo/backoffice-usagers.wc.localhost ]; do echo "waiting for creation of tenants..."; sleep 10; done
@@ -53,42 +80,5 @@ add-usagers-user:
 add-index-pages:
 	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-agents.wc.localhost /agents-index.json'
 	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-usagers.wc.localhost /usagers-index.json'
-
-configure-wc: set-agents-admin-to-default-ou add-usagers-user add-oidc add-index-pages
-
-testing-env-j: run
-	$(MAKE) plone-sites -j2
-	$(MAKE) wait-until-started
-	$(MAKE) configure-wc -j3
-
-
-testing-env: run plone4-site plone5-site wait-until-started set-agents-admin-to-default-ou add-usagers-user add-oidc add-index-pages
-	@echo "testing"
-
-open-cypress:
-	npx cypress open
-
-run-cypress:
-	docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from cypress
-	#sudo chown -R 1000:1000 cypress
-
-localhost-env:
-	docker-compose up -d
-	make wait-until-started
-	make set-agents-admin-to-default-ou
-	make add-usagers-user
-	make add-oidc
-	make add-index-pages
-
-
-localhost-test-env:
-	docker-compose -f docker-compose.yml -f docker-compose.test.yml -f docker-compose.test.local.yml up -d
-	make plone4-site
-	make plone5-site
-	make wait-until-started
-	make set-agents-admin-to-default-ou
-	make add-usagers-user
-	make add-oidc
-	make add-index-pages
 
 
