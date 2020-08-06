@@ -1,9 +1,3 @@
-data/authentic2-multitenant/
-data/combo/
-data/passerelle/
-data/wcs/
-data/hobo
-docker-compose.yml
 node_modules/
 cypress/videos/
 cypress/support/

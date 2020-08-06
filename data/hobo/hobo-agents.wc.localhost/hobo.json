@@ -1,0 +1,217 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "first_name": "Admin",
+      "last_name": "",
+      "email": "adminwc@imio.be",
+      "password": "pbkdf2_sha256$36000$1umpDl4LOdTx$4mfzOD09juyCeS6KS6L6h9mwv0rYVQIfH35jADiogh0="
+    }
+  ],
+  "services": [
+    {
+      "secret_key": "dc98062968c4c712fb92d2a43e1802c09ad159b7",
+      "service-id": "hobo",
+      "title": "Hobo",
+      "slug": "hobo",
+      "base_url": "http://hobo-agents.wc.localhost/",
+      "saml-sp-metadata-url": "http://hobo-agents.wc.localhost/accounts/mellon/metadata/",
+      "backoffice-menu-url": "http://hobo-agents.wc.localhost/menu.json",
+      "provisionning-url": "http://hobo-agents.wc.localhost/__provision__/",
+      "this": true
+    },
+    {
+      "id": 1,
+      "title": "Local WCA - Authentic",
+      "slug": "idp",
+      "base_url": "http://agents.wc.localhost/",
+      "secret_key": "@c7%1r_2mt3^@n9d^m091vn6yjndgnh%7!+whan)wkme3w65i&",
+      "template_name": "",
+      "secondary": false,
+      "use_as_idp_for_self": true,
+      "service-id": "authentic",
+      "service-label": "Authentic",
+      "variables": {},
+      "saml-idp-metadata-url": "http://agents.wc.localhost/idp/saml2/metadata",
+      "backoffice-menu-url": "http://agents.wc.localhost/manage/menu.json"
+    },
+    {
+      "id": 1,
+      "title": "Local WCA - Combo",
+      "slug": "portal",
+      "base_url": "http://combo-agents.wc.localhost/",
+      "secret_key": "bfiy7x(ssqwyskj+#inzdkpg3^%vr-e5b)()(tkj#b=)%!tc%0",
+      "template_name": "portal-user",
+      "secondary": false,
+      "service-id": "combo",
+      "service-label": "Combo",
+      "variables": {},
+      "saml-sp-metadata-url": "http://combo-agents.wc.localhost/accounts/mellon/metadata/",
+      "backoffice-menu-url": "http://combo-agents.wc.localhost/manage/menu.json",
+      "provisionning-url": "http://combo-agents.wc.localhost/__provision__/"
+    },
+    {
+      "id": 2,
+      "title": "Local WCA - Combo backend",
+      "slug": "portal-agent",
+      "base_url": "http://backoffice-agents.wc.localhost/",
+      "secret_key": "%t(w^!vwmioqz1@e=uy**^kr3h8e94bak2l8966o9$&8+52+lk",
+      "template_name": "portal-agent",
+      "secondary": false,
+      "service-id": "combo",
+      "service-label": "Combo",
+      "variables": {},
+      "saml-sp-metadata-url": "http://backoffice-agents.wc.localhost/accounts/mellon/metadata/",
+      "backoffice-menu-url": "http://backoffice-agents.wc.localhost/manage/menu.json",
+      "provisionning-url": "http://backoffice-agents.wc.localhost/__provision__/"
+    }
+  ],
+  "variables": {
+    "css_variant": "wallonieconnect",
+    "favicon": "wallonieconnect/images/favicon.ico",
+    "included_js_libraries": [
+      "jquery.js"
+    ],
+    "no_extra_js": false,
+    "pwa_display": "standalone",
+    "theme_color": "#D8297B",
+    "theme": "wallonieconnect"
+  },
+  "profile": {
+    "fields": [
+      {
+        "label": "Civilit\u00e9",
+        "description": "",
+        "name": "title",
+        "required": false,
+        "asked_on_registration": false,
+        "user_editable": true,
+        "user_visible": true,
+        "searchable": false,
+        "kind": "title",
+        "disabled": false
+      },
+      {
+        "label": "Pr\u00e9nom",
+        "description": "",
+        "name": "first_name",
+        "required": true,
+        "asked_on_registration": true,
+        "user_editable": true,
+        "user_visible": true,
+        "searchable": false,
+        "kind": "string",
+        "disabled": false
+      },
+      {
+        "label": "Nom",
+        "description": "",
+        "name": "last_name",
+        "required": true,
+        "asked_on_registration": true,
+        "user_editable": true,
+        "user_visible": true,
+        "searchable": false,
+        "kind": "string",
+        "disabled": false
+      },
+      {
+        "label": "Adresse \u00e9lectronique",
+        "description": "",
+        "name": "email",
+        "required": true,
+        "asked_on_registration": false,
+        "user_editable": true,
+        "user_visible": true,
+        "searchable": false,
+        "kind": "email",
+        "disabled": false
+      },
+      {
+        "label": "Adresse",
+        "description": "",
+        "name": "address",
+        "required": false,
+        "asked_on_registration": false,
+        "user_editable": true,
+        "user_visible": true,
+        "searchable": false,
+        "kind": "string",
+        "disabled": false
+      },
+      {
+        "label": "Code postal",
+        "description": "",
+        "name": "zipcode",
+        "required": false,
+        "asked_on_registration": false,
+        "user_editable": true,
+        "user_visible": true,
+        "searchable": false,
+        "kind": "string",
+        "disabled": false
+      },
+      {
+        "label": "Commune",
+        "description": "",
+        "name": "city",
+        "required": false,
+        "asked_on_registration": false,
+        "user_editable": true,
+        "user_visible": true,
+        "searchable": false,
+        "kind": "string",
+        "disabled": false
+      },
+      {
+        "label": "Pays",
+        "description": "",
+        "name": "country",
+        "required": false,
+        "asked_on_registration": false,
+        "user_editable": true,
+        "user_visible": true,
+        "searchable": false,
+        "kind": "string",
+        "disabled": true
+      },
+      {
+        "label": "Date de naissance",
+        "description": "",
+        "name": "birthdate",
+        "required": false,
+        "asked_on_registration": false,
+        "user_editable": true,
+        "user_visible": true,
+        "searchable": false,
+        "kind": "birthdate",
+        "disabled": true
+      },
+      {
+        "label": "T\u00e9l\u00e9phone",
+        "description": "",
+        "name": "phone",
+        "required": false,
+        "asked_on_registration": false,
+        "user_editable": true,
+        "user_visible": true,
+        "searchable": false,
+        "kind": "phone_number",
+        "disabled": false
+      },
+      {
+        "label": "Mobile",
+        "description": "",
+        "name": "mobile",
+        "required": false,
+        "asked_on_registration": false,
+        "user_editable": true,
+        "user_visible": true,
+        "searchable": false,
+        "kind": "phone_number",
+        "disabled": false
+      }
+    ]
+  },
+  "timestamp": "1596697137.10304"
+}
