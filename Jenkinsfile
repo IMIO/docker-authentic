@@ -71,6 +71,7 @@ pipeline {
         }
         cleanup{
             sh 'docker-compose -f docker-compose.yml -f docker-compose.test.yml rm -s -f'
+            sh 'git checkout -- data'
             //deleteDir()
         }
     }
