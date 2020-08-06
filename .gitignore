@@ -4,3 +4,5 @@ cypress/support/
 cypress/plugins/
 cypress/screenshots/
 cypress/fixtures/
+*idp-metadata-1.xml
+data/hobo/hobo-usagers.wc.localhost/idp-metadata-1.xml
