@@ -48,17 +48,21 @@ services:
         echo Waiting for rabbitmq and postgres services start...;
         while ! nc -z rabbitmq 5672;
         do
+          echo .;
           sleep 3;
         done;
-        echo Connected!;
-        sleep 1;
+        echo Connected to rabbitmq!;
         /run.sh;
       "
     depends_on:
-      - database
-      - rabbitmq
-      - memcached
-      - reverse-proxy
+      database:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+      memcached:
+        condition: service_started
+      reverse-proxy:
+        condition: service_started
     labels:
       - "traefik.http.routers.authentic.rule=HostRegexp(`wc.localhost`, `{subdomain:[a-z-]+}.wc.localhost`)"
   rabbitmq:
@@ -73,7 +77,7 @@ services:
     environment:
       - "POSTGRES_PASSWORD=password"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -h database"]
       interval: 10s
       timeout: 5s
       retries: 5
