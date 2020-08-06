@@ -78,7 +78,6 @@ services:
       - "POSTGRES_PASSWORD=password"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -h database"]
-      start_period: 30s
       interval: 15s
       timeout: 30s
       retries: 50
