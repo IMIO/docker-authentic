@@ -22,11 +22,6 @@ pipeline {
                 sh 'make run-cypress'
             }
         }
-        stage('Build') {
-            steps {
-                sh 'make build'
-            }
-        }
         stage('Push image to registry') {
             when {
                branch 'master'
