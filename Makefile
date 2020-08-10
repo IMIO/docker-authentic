@@ -81,4 +81,5 @@ add-index-pages:
 	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-agents.wc.localhost /agents-index.json'
 	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-usagers.wc.localhost /usagers-index.json'
 
-
+set-jenkins-data-ower:
+	docker-compose run --rm authentic bash -c 'chown 110:65534 -R /var/lib/hobo/tenants /var/lib/combo/tenants /var/lib/authentic2-multitenant/tenants'
