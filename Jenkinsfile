@@ -19,6 +19,7 @@ pipeline {
         stage('Tests'){
             steps {
                 echo "Running build ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                sh 'make wait-until-started'
                 sh 'make run-cypress'
             }
         }

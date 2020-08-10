@@ -65,6 +65,8 @@ wait-until-started:
 	echo "Plone 4 ready"
 	while [ "`docker inspect -f {{.State.Health.Status}} $$(docker-compose -f docker-compose.yml -f docker-compose.test.yml ps -q plone5)`" != "healthy" ]; do echo "waiting for plone5..."; sleep 3; done
 	echo "Plone 5 ready"
+	while [ "`docker inspect -f {{.State.Health.Status}} $$(docker-compose ps -q authentic)`" != "healthy" ]; do echo "waiting for authenitc..."; sleep 3; done
+	echo "Authentic ready"
 
 
 add-oidc:

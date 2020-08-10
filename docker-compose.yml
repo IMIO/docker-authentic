@@ -45,7 +45,7 @@ services:
       - ./sso/usagers-index.json:/usagers-index.json
     command: >
       /bin/sh -c "
-        echo Waiting for rabbitmq and postgres services start...;
+        echo Waiting for rabbitmq service start...;
         while ! nc -z rabbitmq 5672;
         do
           echo .;
@@ -63,6 +63,8 @@ services:
         condition: service_started
       reverse-proxy:
         condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://agents.wc.localhost"]
     labels:
       - "traefik.http.routers.authentic.rule=HostRegexp(`wc.localhost`, `{subdomain:[a-z-]+}.wc.localhost`)"
   rabbitmq:
