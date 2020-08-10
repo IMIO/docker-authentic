@@ -65,6 +65,7 @@ services:
         condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "http://agents.wc.localhost"]
+      retries: 50
     labels:
       - "traefik.http.routers.authentic.rule=HostRegexp(`wc.localhost`, `{subdomain:[a-z-]+}.wc.localhost`)"
   rabbitmq:
