@@ -19,11 +19,9 @@ add-user:
 	docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/create-user.py -d agents.wc.localhost'
 
 plone4-site:
-	sleep 3  # wait zope
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --no-deps --rm plone4 buildout install plonesite
 
 plone5-site:
-	sleep 3 # wait zope
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --no-deps --rm plone5 buildout install plonesite
 
 authentic-data:
@@ -52,7 +50,7 @@ localhost-test-env:
 dump-data:
 	docker-compose up -d database
 	docker-compose exec database pg_dumpall -U postgres --no-comments > data/docker-entrypoint-initdb.d/data.sql
-	sed "s/CREATE ROLE postgres;/-- CREATE ROLE postgres;/" -i data/docker-entrypoint-initdb.d/data.sql 
+	sed "s/CREATE ROLE postgres;/-- CREATE ROLE postgres;/" -i data/docker-entrypoint-initdb.d/data.sql
 
 wait-until-started:
 	until [ -d data/combo/backoffice-usagers.wc.localhost ]; do echo "waiting for creation of tenants..."; sleep 10; done

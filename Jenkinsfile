@@ -72,8 +72,8 @@ pipeline {
         }
         cleanup{
             sh 'docker-compose -f docker-compose.yml -f docker-compose.test.yml rm -s -f'
-            sh 'make set-jenkins-data-ower'
-            sh 'git update-index --assume-unchanged data/authentic2-multitenant/agents.wc.localhost/hobo.json data/authentic2-multitenant/usagers.wc.localhost/hobo.json data/combo/backoffice-agents.wc.localhost/hobo.json data/combo/backoffice-usagers.wc.localhost/hobo.json  data/combo/combo-agents.wc.localhost/hobo.json data/combo/combo-usagers.wc.localhost/hobo.json data/hobo/hobo-agents.wc.localhost/hobo.json data/hobo/hobo-usagers.wc.localhost/hobo.json data/combo/backoffice-agents.wc.localhost/idp-metadata-1.xml data/combo/backoffice-usagers.wc.localhost/idp-metadata-1.xml data/combo/combo-agents.wc.localhost/idp-metadata-1.xml data/combo/combo-usagers.wc.localhost/idp-metadata-1.xml data/hobo/hobo-agents.wc.localhost/idp-metadata-1.xml data/hobo/hobo-usagers.wc.localhost/idp-metadata-1.xml'
+            //sh 'make set-jenkins-data-ower'
+            //sh 'git update-index --assume-unchanged data/authentic2-multitenant/agents.wc.localhost/hobo.json data/authentic2-multitenant/usagers.wc.localhost/hobo.json data/combo/backoffice-agents.wc.localhost/hobo.json data/combo/backoffice-usagers.wc.localhost/hobo.json  data/combo/combo-agents.wc.localhost/hobo.json data/combo/combo-usagers.wc.localhost/hobo.json data/hobo/hobo-agents.wc.localhost/hobo.json data/hobo/hobo-usagers.wc.localhost/hobo.json data/combo/backoffice-agents.wc.localhost/idp-metadata-1.xml data/combo/backoffice-usagers.wc.localhost/idp-metadata-1.xml data/combo/combo-agents.wc.localhost/idp-metadata-1.xml data/combo/combo-usagers.wc.localhost/idp-metadata-1.xml data/hobo/hobo-agents.wc.localhost/idp-metadata-1.xml data/hobo/hobo-usagers.wc.localhost/idp-metadata-1.xml'
             //deleteDir()
         }
     }

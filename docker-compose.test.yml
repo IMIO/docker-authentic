@@ -29,6 +29,9 @@ services:
       authentic_agents_hostname: "agents.wc.localhost"
       service_ou: "0841470248"
       service_slug: "plone4-iasmartweb"
+    depends_on:
+      plone4-zeo:
+        condition: service_healthy
     volumes:
       - plone4-data:/data
     labels:
@@ -63,6 +66,9 @@ services:
       authentic_agents_hostname: "agents.wc.localhost"
       service_ou: "0841470248"
       service_slug: "plone5-iasmartweb"
+    depends_on:
+      plone5-zeo:
+        condition: service_healthy
     volumes:
       - plone5-data:/data
     labels:
