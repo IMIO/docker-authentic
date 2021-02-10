@@ -38,7 +38,6 @@ services:
       - ./config/hobo/settings.d:/etc/hobo/settings.d
       - ./config/hobo-agent/settings.d:/etc/hobo-agent/settings.d
       - ./config/nginx:/etc/nginx/sites-available
-      - ./src:/opt/publik
       - ./sso/agents.json:/agents.json
       - ./sso/usagers.json:/usagers.json
       - ./sso/agents-index.json:/agents-index.json
@@ -63,9 +62,9 @@ services:
         condition: service_started
       reverse-proxy:
         condition: service_started
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://agents.wc.localhost"]
-      retries: 50
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://agents.wc.localhost"]
+    #   retries: 50
     labels:
       - "traefik.http.routers.authentic.rule=HostRegexp(`wc.localhost`, `{subdomain:[a-z-]+}.wc.localhost`)"
   rabbitmq:
@@ -88,9 +87,9 @@ services:
     image: memcached
     hostname: memcached
   reverse-proxy:
-    image: traefik:2.2
+    image: traefik:2.4
     command:
-      #- "--log.level=DEBUG"
+      - "--log.level=DEBUG"
       - '--api.insecure=true'
       - '--providers.docker'
       - '--entryPoints.web.address=:80'
