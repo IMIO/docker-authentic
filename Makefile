@@ -14,6 +14,7 @@ build-no-cache:
 
 cleanall:
 		docker-compose -f docker-compose.yml -f docker-compose.test.yml down --volumes
+		sudo rm -rf data/hobo data/authentic2-multitenant data/combo
 
 add-user:
 	docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/create-user.py -d agents.wc.localhost'
