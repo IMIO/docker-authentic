@@ -9,6 +9,7 @@ services:
     environment:
       - AGENTS_HOSTNAME=agents.wc.localhost
       - USAGERS_HOSTNAME=usagers.wc.localhost
+      - environment_label="dev"
     mem_limit: 2048m
     expose:
       - 80
@@ -34,7 +35,9 @@ services:
       - ./data/combo:/var/lib/combo/tenants
       - ./data/authentic2-multitenant:/var/lib/authentic2-multitenant/tenants
       - ./config/combo/settings.d:/etc/combo/settings.d
-      - ./config/authentic2-multitenant:/etc/authentic2-multitenant
+      - ./config/authentic2-multitenant/settings.d:/etc/authentic2-multitenant/settings.d
+      - ./config/authentic2-multitenant/agents.json:/etc/authentic2-multitenant/agents.json
+      - ./config/authentic2-multitenant/usagers.json:/etc/authentic2-multitenant/usagers.json
       - ./config/hobo/settings.d:/etc/hobo/settings.d
       - ./config/hobo-agent/settings.d:/etc/hobo-agent/settings.d
       - ./config/nginx:/etc/nginx/sites-available
@@ -42,6 +45,7 @@ services:
       - ./sso/usagers.json:/usagers.json
       - ./sso/agents-index.json:/agents-index.json
       - ./sso/usagers-index.json:/usagers-index.json
+      - ./src/scripts:/opt/scripts
     command: >
       /bin/sh -c "
         echo Waiting for rabbitmq service start...;

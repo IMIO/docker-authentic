@@ -13,7 +13,7 @@ build-no-cache:
 		docker-compose build --no-cache --pull
 
 cleanall:
-		docker-compose -f docker-compose.yml -f docker-compose.test.yml down --volumes
+		docker-compose -f docker-compose.yml -f docker-compose.test.yml down --volumes --remove-orphans
 		sudo rm -rf data/hobo data/authentic2-multitenant data/combo
 
 add-user:
@@ -27,6 +27,8 @@ plone5-site:
 
 authentic-data:
 	docker-compose up database
+
+init-data: plone4-site plone5-site authentic
 
 init-data-and-run: plone4-site plone5-site run
 
@@ -42,16 +44,22 @@ run-cypress:
 
 localhost-env:
 	docker-compose up -d
+	$(MAKE) wait-until-started
+	$(MAKE) set-agents-admin-to-default-ou
+	$(MAKE) add-usagers-user
+	$(MAKE) add-oidc
+	$(MAKE) add-index-pages
 
 localhost-test-env:
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml -f docker-compose.test.local.yml up -d
 	$(MAKE) plone4-site
 	$(MAKE) plone5-site
+	$(MAKE) wait-until-started
+	$(MAKE) set-agents-admin-to-default-ou
+	$(MAKE) add-usagers-user
+	$(MAKE) add-oidc
+	$(MAKE) add-index-pages
 
-dump-data:
-	docker-compose up -d database
-	docker-compose exec database pg_dumpall -U postgres --no-comments > data/docker-entrypoint-initdb.d/data.sql
-	sed "s/CREATE ROLE postgres;/-- CREATE ROLE postgres;/" -i data/docker-entrypoint-initdb.d/data.sql
 
 wait-until-started:
 	until [ -d data/combo/backoffice-usagers.wc.localhost ]; do echo "waiting for creation of tenants..."; sleep 10; done
@@ -64,7 +72,7 @@ wait-until-started:
 	echo "Plone 4 ready"
 	while [ "`docker inspect -f {{.State.Health.Status}} $$(docker-compose -f docker-compose.yml -f docker-compose.test.yml ps -q plone5)`" != "healthy" ]; do echo "waiting for plone5..."; sleep 3; done
 	echo "Plone 5 ready"
-	while [ "`docker inspect -f {{.State.Health.Status}} $$(docker-compose ps -q authentic)`" != "healthy" ]; do echo "waiting for authenitc..."; sleep 3; done
+	# while [ "`docker inspect -f {{.State.Health.Status}} $$(docker-compose ps -q authentic)`" != "healthy" ]; do echo "waiting for authenitc..."; sleep 3; done
 	echo "Authentic ready"
 
 
@@ -73,14 +81,17 @@ add-oidc:
 	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d usagers.wc.localhost usagers.json --no-dry-run NO_DRY_RUN'
 
 set-agents-admin-to-default-ou:
-	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/set-ou-to-admin-user.py -d agents.wc.localhost'
+	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/scripts/set-ou-to-admin-user.py -d agents.wc.localhost'
 
 add-usagers-user:
-	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/create-usagers-user.py -d usagers.wc.localhost'
+	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/scripts/create-usagers-user.py -d usagers.wc.localhost'
 
 add-index-pages:
 	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-agents.wc.localhost /agents-index.json'
 	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-usagers.wc.localhost /usagers-index.json'
+
+
+configure-wc: set-agents-admin-to-default-ou add-usagers-user add-oidc add-index-pages
 
 set-jenkins-data-ower:
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm --no-deps authentic bash -c 'chown 110:65534 -R /var/lib/hobo/tenants /var/lib/combo/tenants /var/lib/authentic2-multitenant/tenants'
