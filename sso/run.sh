@@ -15,14 +15,14 @@ service supervisor start
 service rsyslog start
 service cron start
 
-if [ x$1 != xfromgit ] || [ ! -d /opt/publik/combo ]
+if [ ! -d /opt/publik/combo ]
 then
 	service combo start
 fi
 
-if [ x$1 != xfromgit ] || [ ! -d /opt/publik/authentic ]
+if [ ! -d /opt/publik/authentic ]
 then
-	service authentic2-multitenant update
+	# service authentic2-multitenant update
 	service authentic2-multitenant start
 fi
 
