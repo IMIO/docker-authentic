@@ -7,14 +7,15 @@ up:
 	docker-compose up
 
 build:
-		docker-compose build --pull authentic
+	docker-compose build --pull authentic
 
 build-no-cache:
-		docker-compose build --no-cache --pull
+	docker-compose build --no-cache --pull
 
 cleanall:
-		docker-compose -f docker-compose.yml -f docker-compose.test.yml down --volumes --remove-orphans
-		sudo rm -rf data/hobo data/authentic2-multitenant data/combo
+	docker-compose stop
+	docker-compose run authentic rm -rf /var/lib/hobo /var/lib/authentic2-multitenant /var/lib/combo
+	docker-compose -f docker-compose.yml -f docker-compose.test.yml down --volumes --remove-orphans
 
 add-user:
 	docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/create-user.py -d agents.wc.localhost'
