@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-run:
+test-run:
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d
 
 up:
@@ -13,54 +13,37 @@ build-no-cache:
 	docker-compose build --no-cache --pull
 
 cleanall:
-	docker-compose stop
-	docker-compose run authentic rm -rf /var/lib/hobo /var/lib/authentic2-multitenant /var/lib/combo
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml down --volumes --remove-orphans
+	sudo rm -rf data/hobo data/authentic2-multitenant data/combo
 
 add-user:
 	docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/create-user.py -d agents.wc.localhost'
 
 plone4-site:
-	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --no-deps --rm plone4 buildout install plonesite
+	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm --no-deps plone4 buildout install plonesite
 
 plone5-site:
-	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --no-deps --rm plone5 buildout install plonesite
+	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm --no-deps plone5 buildout install plonesite
 
 authentic-data:
 	docker-compose up database
 
-init-data: plone4-site plone5-site authentic
+authentic:
+	docker-compose run --rm  authentic ./build.sh
 
-init-data-and-run: plone4-site plone5-site run
+init-data: plone4-site plone5-site authentic
 
 testing-env:
 	docker-compose up --no-start reverse-proxy # create network
-	$(MAKE) init-data-and-run -j3
+	$(MAKE) init-data -j3
+	$(MAKE) configure-wc
+	# $(MAKE) test-run
 
 open-cypress:
 	npx cypress open
 
 run-cypress:
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from cypress
-
-localhost-env:
-	docker-compose up -d
-	$(MAKE) wait-until-started
-	$(MAKE) set-agents-admin-to-default-ou
-	$(MAKE) add-usagers-user
-	$(MAKE) add-oidc
-	$(MAKE) add-index-pages
-
-localhost-test-env:
-	docker-compose -f docker-compose.yml -f docker-compose.test.yml -f docker-compose.test.local.yml up -d
-	$(MAKE) plone4-site
-	$(MAKE) plone5-site
-	$(MAKE) wait-until-started
-	$(MAKE) set-agents-admin-to-default-ou
-	$(MAKE) add-usagers-user
-	$(MAKE) add-oidc
-	$(MAKE) add-index-pages
-
 
 wait-until-started:
 	until [ -d data/combo/backoffice-usagers.wc.localhost ]; do echo "waiting for creation of tenants..."; sleep 10; done
@@ -78,24 +61,19 @@ wait-until-started:
 
 
 add-oidc:
-	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d agents.wc.localhost agents.json --no-dry-run NO_DRY_RUN'
-	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d usagers.wc.localhost usagers.json --no-dry-run NO_DRY_RUN'
+	docker-compose run authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d agents.wc.localhost agents.json --no-dry-run NO_DRY_RUN'
+	docker-compose run authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d usagers.wc.localhost usagers.json --no-dry-run NO_DRY_RUN'
 
 set-agents-admin-to-default-ou:
-	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/scripts/set-ou-to-admin-user.py -d agents.wc.localhost'
+	docker-compose run authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/scripts/set-ou-to-admin-user.py -d agents.wc.localhost'
 
 add-usagers-user:
-	docker-compose exec -T authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/scripts/create-usagers-user.py -d usagers.wc.localhost'
+	docker-compose run authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/scripts/create-usagers-user.py -d usagers.wc.localhost'
 
 add-index-pages:
-	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-agents.wc.localhost /agents-index.json'
-	docker-compose exec -T -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-usagers.wc.localhost /usagers-index.json'
+	docker-compose run -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-agents.wc.localhost /agents-index.json'
+	docker-compose run -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-usagers.wc.localhost /usagers-index.json'
 
 
 configure-wc: set-agents-admin-to-default-ou add-usagers-user add-oidc add-index-pages
 
-set-jenkins-data-ower:
-	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm --no-deps authentic bash -c 'chown 110:65534 -R /var/lib/hobo/tenants /var/lib/combo/tenants /var/lib/authentic2-multitenant/tenants'
-
-assume-unchanged:
-	git update-index --assume-unchanged data/authentic2-multitenant/agents.wc.localhost/hobo.json data/authentic2-multitenant/usagers.wc.localhost/hobo.json data/combo/backoffice-agents.wc.localhost/hobo.json data/combo/backoffice-usagers.wc.localhost/hobo.json  data/combo/combo-agents.wc.localhost/hobo.json data/combo/combo-usagers.wc.localhost/hobo.json data/hobo/hobo-agents.wc.localhost/hobo.json data/hobo/hobo-usagers.wc.localhost/hobo.json data/combo/backoffice-agents.wc.localhost/idp-metadata-1.xml data/combo/backoffice-usagers.wc.localhost/idp-metadata-1.xml data/combo/combo-agents.wc.localhost/idp-metadata-1.xml data/combo/combo-usagers.wc.localhost/idp-metadata-1.xml data/hobo/hobo-agents.wc.localhost/idp-metadata-1.xml data/hobo/hobo-usagers.wc.localhost/idp-metadata-1.xml
