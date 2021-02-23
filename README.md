@@ -3,11 +3,15 @@ Authentic app is developped by [entr'ouvert](https://www.entrouvert.com).
 
 It's a docker-compose based project to allow locally usage of authentic project.
 
-### Requirements
+## Badges
+
+[![CI](https://github.com/IMIO/docker-authentic/actions/workflows/ci.yml/badge.svg)](https://github.com/IMIO/docker-authentic/actions/workflows/ci.yml)
+
+## Requirements
 
 docker-compose 1.6 or above
 
-### Authentic usage
+## Authentic usage
 
 - Compose and run the container image
 
@@ -20,7 +24,7 @@ You can now go to agents.wc.localhost but if you want Wallonie Connect dev env, 
 - Go to http://agents.wc.localhost with you favorite browser, an admin account is
   setup, username is "admin" and password is "admin" (without the quotes).
 
-### Authentic and other app usage
+## Authentic and other app usage
 
 - To set complete testing environment (Plone 4, Plone 5 and Authentic apps at this moment), you can created test env with data with this command:
 
