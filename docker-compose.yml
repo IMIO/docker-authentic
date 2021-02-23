@@ -46,6 +46,7 @@ services:
       - ./sso/agents-index.json:/agents-index.json
       - ./sso/usagers-index.json:/usagers-index.json
       - ./src/scripts:/opt/scripts
+      - ./sso/build.sh:/build.sh
     command: >
       /bin/sh -c "
         echo Waiting for rabbitmq service start...;
@@ -66,9 +67,9 @@ services:
         condition: service_started
       reverse-proxy:
         condition: service_started
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://agents.wc.localhost"]
-    #   retries: 50
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://agents.wc.localhost"]
+      retries: 50
     labels:
       - "traefik.http.routers.authentic.rule=HostRegexp(`wc.localhost`, `{subdomain:[a-z-]+}.wc.localhost`)"
   rabbitmq:
@@ -92,8 +93,11 @@ services:
     hostname: memcached
   reverse-proxy:
     image: traefik:2.4
+    ports:
+      - "80:80"
+      - "8080:8080"
     command:
-      - "--log.level=DEBUG"
+      # - "--log.level=DEBUG"
       - '--api.insecure=true'
       - '--providers.docker'
       - '--entryPoints.web.address=:80'
