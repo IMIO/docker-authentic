@@ -75,5 +75,9 @@ add-index-pages:
 	docker-compose run -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-usagers.wc.localhost /usagers-index.json'
 
 
-configure-wc: set-agents-admin-to-default-ou add-usagers-user add-oidc add-index-pages
+set-hobo-variable:
+	docker-compose run -u hobo authentic bash -c 'hobo-manage tenant_command runscript  /opt/scripts/set-hobo-variable.py -d hobo-agents.wc.localhost'
+	docker-compose run -u hobo authentic bash -c 'hobo-manage tenant_command runscript  /opt/scripts/set-hobo-variable.py -d hobo-usagers.wc.localhost'
+
+configure-wc: set-agents-admin-to-default-ou add-usagers-user add-oidc add-index-pages set-hobo-variable
 
