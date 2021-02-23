@@ -44,3 +44,16 @@ jobs:
         with:
           name: cypress-videos
           path: cypress/videos
+
+      - name: Login to DockerHub
+        env:
+          DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        runs: |
+          docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+
+      - name: Push to Docker Hub
+        run: |
+          docker tag wc/sso imiobe/authentic:$(date +%Y%m%d)
+          docker tag wc/sso imiobe/authentic:latest
+          docker push imiobe/authentic
