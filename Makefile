@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-test-run:
+run-test:
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d
 
 up:
@@ -15,9 +15,6 @@ build-no-cache:
 cleanall:
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml down --volumes --remove-orphans
 	sudo rm -rf data/hobo data/authentic2-multitenant data/combo
-
-add-user:
-	docker-compose exec authentic bash -c 'authentic2-multitenant-manage tenant_command runscript /opt/publik/scripts/create-user.py -d agents.wc.localhost'
 
 plone4-site:
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm --no-deps plone4 buildout install plonesite
@@ -44,20 +41,6 @@ open-cypress:
 
 run-cypress:
 	docker-compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from cypress
-
-wait-until-started:
-	until [ -d data/combo/backoffice-usagers.wc.localhost ]; do echo "waiting for creation of tenants..."; sleep 10; done
-	echo "Tenants created"
-	sleep 1
-	while [ "`docker inspect -f {{.State.Health.Status}} $$(docker-compose ps -q database)`" != "healthy" ]; do echo "waiting for postgres..."; sleep 3; done
-	echo "Postgres ready"
-	sleep 1
-	while [ "`docker inspect -f {{.State.Health.Status}} $$(docker-compose -f docker-compose.yml -f docker-compose.test.yml ps -q plone4)`" != "healthy" ]; do echo "waiting for plone4..."; sleep 3; done
-	echo "Plone 4 ready"
-	while [ "`docker inspect -f {{.State.Health.Status}} $$(docker-compose -f docker-compose.yml -f docker-compose.test.yml ps -q plone5)`" != "healthy" ]; do echo "waiting for plone5..."; sleep 3; done
-	echo "Plone 5 ready"
-	# while [ "`docker inspect -f {{.State.Health.Status}} $$(docker-compose ps -q authentic)`" != "healthy" ]; do echo "waiting for authenitc..."; sleep 3; done
-	echo "Authentic ready"
 
 
 add-oidc:
