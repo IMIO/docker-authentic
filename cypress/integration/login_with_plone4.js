@@ -10,7 +10,7 @@ describe("Login Plone 4 with WCA", () => {
     });
     cy.get("input[name=password]").type(`jdoe{enter}`);
     cy.get("button[name=accept]").click();
-    cy.contains("You are now logged in");
+    cy.contains("Logged in with");
     cy.contains("John Doe").click();
     cy.contains("Log out").click();
   });
