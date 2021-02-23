@@ -1,3 +1,0 @@
-screen -t combo sh -c "(cd /opt/publik/scripts; su combo -s /bin/sh -c ./combo-run.sh)"
-screen -t authentic sh -c "(cd /opt/publik/scripts; su authentic-multitenant -s /bin/sh -c ./authentic-run.sh)"
-screen -t imio-publik-themes sh -c "(cd /opt/publik/scripts; ./build-sass.sh)"

@@ -2,14 +2,15 @@
 
 name: CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master, gha ]
+    branches: [ main, gha ]
   pull_request:
-    branches: [ master ]
-
+    branches: [ main ]
+  schedule:
+    - cron: '0 4 * * 1' # Every mondays at 04:00
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -20,7 +21,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+      # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
+
       - name: Create testing env
         run: |
           make testing-env
@@ -30,6 +35,28 @@ jobs:
         run: |
           make configure-wc
           docker-compose ps
-        
+
       - name: Start Cypress tests
         run: make run-cypress
+
+      # Upload Cypress videos
+      - uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+
+      - name: Login to DockerHub
+        env:
+          DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        if: ${{ github.ref == 'main' }}
+        run: |
+          docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+
+      - name: Push to Docker Hub
+        if: ${{ github.ref == 'main' }}
+        run: |
+          docker tag wc/sso imiobe/authentic:$(date +%Y%m%d)
+          docker tag wc/sso imiobe/authentic:latest
+          docker push imiobe/authentic
