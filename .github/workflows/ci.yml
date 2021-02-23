@@ -50,12 +50,12 @@ jobs:
         env:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-        if: ${{ github.ref == 'main' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
 
       - name: Push to Docker Hub
-        if: ${{ github.ref == 'main' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           docker tag wc/sso imiobe/authentic:$(date +%Y%m%d)
           docker tag wc/sso imiobe/authentic:latest
