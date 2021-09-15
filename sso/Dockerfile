@@ -4,7 +4,7 @@ FROM debian:buster
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=Europe/Brussels
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
-RUN echo "Europe/Brussels" > /etc/timezone
+RUN echo "Europe/Brussels" > /etc/timezone && ln -sf /usr/share/zoneinfo/Europe/Brussels /etc/localtime
 
 #Update Packages List
 RUN echo "APT::Install-Suggests \"false\";\nAPT::Install-Recommends \"false\";" >> /etc/apt/apt.conf
