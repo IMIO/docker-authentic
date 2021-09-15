@@ -4,7 +4,7 @@ FROM debian:buster
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=Europe/Brussels
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
-RUN echo "Europe/Brussels" > /etc/timezone && ln -sf /usr/share/zoneinfo/Europe/Brussels /etc/localtime
+RUN echo "Europe/Brussels" > /etc/timezone
 
 #Update Packages List
 RUN echo "APT::Install-Suggests \"false\";\nAPT::Install-Recommends \"false\";" >> /etc/apt/apt.conf
@@ -65,4 +65,5 @@ ADD bash-vim.tar.gz /
 
 COPY update_oidc.sh /
 COPY run.sh /
+RUN ln -sf /usr/share/zoneinfo/Europe/Brussels /etc/localtime
 CMD ["/run.sh"]
