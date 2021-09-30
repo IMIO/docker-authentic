@@ -28,6 +28,7 @@ jobs:
 
       - name: Create testing env
         run: |
+          make build-no-cache
           make testing-env
           docker-compose ps
 
@@ -52,6 +53,6 @@ jobs:
       - name: Push to Docker Hub
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          docker tag wc/sso imiobe/authentic:$(date +%Y%m%d)
+          docker tag wc/sso imiobe/authentic:$(date +%Y%m%d%H%M)
           docker tag wc/sso imiobe/authentic:latest
           docker push imiobe/authentic
