@@ -34,3 +34,6 @@ You can now go to agents.wc.localhost but if you want Wallonie Connect dev env, 
 
   docker-compose -f docker-compose.yml -f docker-compose.test.yml up
 
+# Docker image
+
+https://hub.docker.com/r/imiobe/authentic
