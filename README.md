@@ -9,7 +9,7 @@ It's a docker-compose based project to allow locally usage of authentic project.
 
 ## Requirements
 
-docker-compose 1.6 or above
+docker-compose 1.6 or above and docker
 
 ## Authentic usage
 
