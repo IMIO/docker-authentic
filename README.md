@@ -1,4 +1,4 @@
-This repo is used to package [authenitc](https://authentic2.readthedocs.io/en/stable/) single sign on app.
+This repo is used to package [authenitc](https://authentic2.readthedocs.io/en/stable/) single sign on app (SSO).
 Authentic app is developped by [entr'ouvert](https://www.entrouvert.com). 
 
 It's a docker-compose based project to allow locally usage of authentic project.
