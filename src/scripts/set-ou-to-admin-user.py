@@ -2,6 +2,7 @@
 from django.contrib.auth import get_user_model
 from django_rbac.utils import get_ou_model
 from hobo.agent.authentic2.provisionning import provisionning
+from authentic2.apps.authenticators.models import LoginPasswordAuthenticator
 
 
 def set_ou_to_authentic_admin_user():
@@ -14,6 +15,7 @@ def set_ou_to_authentic_admin_user():
         if not user_admin.ou:
             user_admin.ou = organisation_unit
             user_admin.save()
+    LoginPasswordAuthenticator.objects.update(include_ou_selector=True)
 
 
 set_ou_to_authentic_admin_user()
