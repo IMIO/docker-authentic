@@ -66,5 +66,6 @@ ADD bash-vim.tar.gz /
 
 COPY update_oidc.sh /
 COPY run.sh /
+COPY prometheus.sh /
 RUN ln -sf /usr/share/zoneinfo/Europe/Brussels /etc/localtime
 CMD ["/run.sh"]
