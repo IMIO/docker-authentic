@@ -44,7 +44,8 @@ RUN apt install -y \
   hobo \
   publik-base-theme \
   imio-publik-themes \
-  authentic2-multitenant
+  authentic2-multitenant \
+  prometheus-entrouvert-exporter
 RUN apt install -y -t buster-eobuilder \
   python3-authentic2-auth-fedict \
   python3-authentic2-wallonie-connect \
