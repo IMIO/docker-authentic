@@ -9,7 +9,8 @@ services:
     environment:
       - AGENTS_HOSTNAME=agents.wc.localhost
       - USAGERS_HOSTNAME=usagers.wc.localhost
-      - environment_label="dev"
+      - environment_label=dev
+      - INSTANCE_NAME=authentic80
     mem_limit: 2048m
     expose:
       - 80
