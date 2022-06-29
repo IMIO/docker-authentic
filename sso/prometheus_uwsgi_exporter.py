@@ -7,9 +7,6 @@ import os
 import socket
 import statistics
 
-from django.contrib.auth import get_user_model
-from django.contrib.sessions.models import Session
-from django.utils import timezone
 from prometheus_client import CollectorRegistry, Gauge, write_to_textfile
 
 registry = CollectorRegistry()
@@ -111,7 +108,7 @@ for stats_sock in glob.glob("/run/*/stats.sock"):
         workers_status[worker["status"]] += 1
         workers_rss.append(worker["rss"])
         workers_vsz.append(worker["vsz"])
-    compose_service = os.getenv("INSTANCE_NAME")
+    compose_service = os.getenv("INSTANCE_NAME", "authentic")
     uwsgi_workers_rss_total.labels(app=app_name, compose_service=compose_service).set(
         sum(workers_rss)
     )
@@ -141,45 +138,7 @@ for stats_sock in glob.glob("/run/*/stats.sock"):
             app=app_name, status=k, compose_service=compose_service
         ).set(workers_status[k])
 
-User = get_user_model()
-users = User.objects.all()
-total_users.labels(app=app_name, compose_service=compose_service).set(len(users))
 
-
-def get_all_logged_in_users():
-    # Query all non-expired sessions
-    # use timezone.now() instead of datetime.now() in latest versions of Django
-    sessions = Session.objects.filter(expire_date__gte=timezone.now())
-    uid_list = []
-
-    # Build a list of user ids from that query
-    for session in sessions:
-        data = session.get_decoded()
-        uid_list.append(data.get("_auth_user_id", None))
-
-    # Query all logged in users based on id list
-    User = get_user_model()
-    return User.objects.filter(id__in=uid_list)
-
-
-logged_users.labels(app=app_name, compose_service=compose_service).set(
-    len(get_all_logged_in_users())
+write_to_textfile(
+    f"/var/lib/prometheus/node-exporter/{compose_service}_uwsgi.prom", registry
 )
-
-if app_name:
-    write_to_textfile("/var/lib/prometheus/node-exporter/uwsgi.prom", registry)
-else:
-    # host for containers?
-    content = ""
-    for machine_stat in glob.glob(
-        "/var/lib/machines/*/var/lib/prometheus/node-exporter/uwsgi.prom"
-    ):
-        with open(machine_stat) as fd:
-            content += fd.read()
-    if content:
-        with open("/var/lib/prometheus/node-exporter/uwsgi.prom.tmp", "w") as fd:
-            fd.write(content)
-        os.rename(
-            "/var/lib/prometheus/node-exporter/uwsgi.prom.tmp",
-            "/var/lib/prometheus/node-exporter/uwsgi.prom",
-        )

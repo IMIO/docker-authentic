@@ -66,7 +66,8 @@ ADD bash-vim.tar.gz /
 
 COPY update_oidc.sh /
 COPY run.sh /
-COPY prometheus_exporter.py /usr/bin/
+COPY prometheus_uwsgi_exporter.py /usr/bin/
+RUN crontab -l | { cat; echo "* * * * * /usr/bin/prometheus_uwsgi_exporter.py"; } | crontab -
 COPY prometheus_user_exporter.py /usr/bin/
 RUN ln -sf /usr/share/zoneinfo/Europe/Brussels /etc/localtime
 CMD ["/run.sh"]

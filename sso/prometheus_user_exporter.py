@@ -1,6 +1,6 @@
 """
 How to use me on container: 
-# authentic2-multitenant-manage shell -d "$AGENTS_HOSTNAME" < /usr/bin/prometheus_users_exporter.py
+# authentic2-multitenant-manage shell -d "$AGENTS_HOSTNAME" < /usr/bin/prometheus_user_exporter.py
 """
 #! /usr/bin/python3
 from datetime import timedelta
@@ -40,12 +40,12 @@ total_users.labels(app=app_name).set(len(users))
 
 # --- Logged users
 sessions = Session.objects.filter(expire_date__gte=timezone.now())
-uid_list = []
+uid_logged = []
 for session in sessions:
     data = session.get_decoded()
-    uid_list.append(data.get("_auth_user_id", None))
+    uid_logged.append(data.get("_auth_user_id", None))
 
-logged_users.labels(app=app_name).set(len(User.objects.filter(id__in=uid_list)))
+logged_users.labels(app=app_name).set(len(User.objects.filter(id__in=uid_logged)))
 
 # --- Active users
 actusers = []
