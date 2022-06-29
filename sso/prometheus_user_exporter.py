@@ -7,8 +7,8 @@ from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.contrib.sessions.models import Session
-from prometheus_client import CollectorRegistry, Gauge, write_to_textfile
-
+from prometheus_client import CollectorRegistry, Gauge
+from prometheus_client.exposition import generate_latest
 
 registry = CollectorRegistry()
 
@@ -56,6 +56,7 @@ for user in users:
 active_users.labels(app=app_name).set(len(actusers))
 
 
-write_to_textfile(
-    f"/var/lib/prometheus/node-exporter/waco_{waco_type}_users.prom", registry
-)
+# write_to_textfile(
+#     f"/var/lib/prometheus/node-exporter/waco_{waco_type}_users.prom", registry
+# )
+print(generate_latest(registry).decode())
