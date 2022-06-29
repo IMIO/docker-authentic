@@ -1,7 +1,7 @@
 version: '2.4'
 
 services:
-  authentic:
+  base:
     build:
       context: sso
       dockerfile: Dockerfile
@@ -48,6 +48,9 @@ services:
       - ./sso/usagers-index.json:/usagers-index.json
       - ./src/scripts:/opt/scripts
       - ./sso/build.sh:/build.sh
+    command: echo "base"
+  authentic:
+    extends: base
     command: >
       /bin/sh -c "
         echo Waiting for rabbitmq service start...;
@@ -104,6 +107,8 @@ services:
       - '--entryPoints.web.address=:80'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
+  monitor:
+    extends: base
+    command: /prometheus.sh
 volumes:
   pgdata:
