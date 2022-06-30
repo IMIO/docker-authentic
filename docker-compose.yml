@@ -48,7 +48,7 @@ services:
       - ./sso/usagers-index.json:/usagers-index.json
       - ./src/scripts:/opt/scripts
       - ./sso/build.sh:/build.sh
-    command: echo "base"
+    command: tail -f /dev/null
   authentic:
     extends: base
     command: >
