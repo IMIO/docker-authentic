@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -x
+printenv >> /etc/environment # set env variables for cron jobs
 rm /var/run/{authentic2-multitenant/authentic2-multitenant,hobo/hobo,combo/combo,nginx,rsyslogd,supervisord}.{pid,sock}
 /etc/hobo/fix-permissions.sh
 
