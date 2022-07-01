@@ -13,19 +13,19 @@ from prometheus_client.exposition import generate_latest
 registry = CollectorRegistry()
 
 total_users = Gauge(
-    "total_users",
+    "waco_total_users",
     "Total users on Authentic",
     ["app"],
     registry=registry,
 )
 logged_users = Gauge(
-    "logged_users",
+    "waco_logged_users",
     "Logged users on Authentic",
     ["app"],
     registry=registry,
 )
 active_users = Gauge(
-    "active_users",
+    "waco_active_users",
     "Users logged on last 30 days on Authentic",
     ["app"],
     registry=registry,

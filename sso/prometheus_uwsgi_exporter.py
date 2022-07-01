@@ -12,69 +12,57 @@ from prometheus_client import CollectorRegistry, Gauge, write_to_textfile
 registry = CollectorRegistry()
 
 uwsgi_workers_rss_avg = Gauge(
-    "uwsgi_workers_rss_avg",
+    "waco_uwsgi_workers_rss_avg",
     "Average RSS of uwsgi workers",
     ["app", "compose_service"],
     registry=registry,
 )
 uwsgi_workers_rss_med = Gauge(
-    "uwsgi_workers_rss_med",
+    "waco_uwsgi_workers_rss_med",
     "Median RSS of uwsgi workers",
     ["app", "compose_service"],
     registry=registry,
 )
 uwsgi_workers_rss_max = Gauge(
-    "uwsgi_workers_rss_max",
+    "waco_uwsgi_workers_rss_max",
     "Maximum RSS of uwsgi workers",
     ["app", "compose_service"],
     registry=registry,
 )
 uwsgi_workers_rss_total = Gauge(
-    "uwsgi_workers_rss_total",
+    "waco_uwsgi_workers_rss_total",
     "Total RSS of uwsgi workers",
     ["app", "compose_service"],
     registry=registry,
 )
 uwsgi_workers_vsz_avg = Gauge(
-    "uwsgi_workers_vsz_avg",
+    "waco_uwsgi_workers_vsz_avg",
     "Average VSZ of uwsgi workers",
     ["app", "compose_service"],
     registry=registry,
 )
 uwsgi_workers_vsz_med = Gauge(
-    "uwsgi_workers_vsz_med",
+    "waco_uwsgi_workers_vsz_med",
     "Median VSZ of uwsgi workers",
     ["app", "compose_service"],
     registry=registry,
 )
 uwsgi_workers_vsz_max = Gauge(
-    "uwsgi_workers_vsz_max",
+    "waco_uwsgi_workers_vsz_max",
     "Maximum VSZ of uwsgi workers",
     ["app", "compose_service"],
     registry=registry,
 )
 uwsgi_workers_vsz_total = Gauge(
-    "uwsgi_workers_vsz_total",
+    "waco_uwsgi_workers_vsz_total",
     "Total VSZ of uwsgi workers",
     ["app", "compose_service"],
     registry=registry,
 )
 uwsgi_workers_status = Gauge(
-    "uwsgi_workers_status",
+    "waco_uwsgi_workers_status",
     "uwsgi workers status",
     ["app", "status", "compose_service"],
-    registry=registry,
-)
-total_users = Gauge(
-    "total_users",
-    "Total users on Authentic",
-    ["app", "compose_service"],
-    registry=registry,
-)
-logged_users = Gauge(
-    "logged_users",
-    "Logged users on Authentic",
-    ["app", "compose_service"],
     registry=registry,
 )
 app_name = None
