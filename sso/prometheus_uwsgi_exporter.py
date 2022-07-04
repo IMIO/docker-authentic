@@ -70,10 +70,10 @@ app_name = None
 for stats_sock in glob.glob("/run/*/stats.sock"):
     app_name = stats_sock.split("/")[2]
     app_name = app_name.replace("authentic2-multitenant", "authentic")
-    # if app_name == "authentic":
-    #     # do not collect authentic data as it triggers some uwsgi bug
-    #     # https://dev.entrouvert.org/issues/54624
-    #     continue
+    if app_name == "authentic":
+        # do not collect authentic data as it triggers some uwsgi bug
+        # https://dev.entrouvert.org/issues/54624
+        continue
     stats_json = ""
     with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as s:
         s.connect(stats_sock)

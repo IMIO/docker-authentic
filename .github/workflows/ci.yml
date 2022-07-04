@@ -26,7 +26,7 @@ jobs:
       # Ignore the failure of a step and avoid terminating the job.
         continue-on-error: true
         
-      - name: clean up beacuse "out of space"
+      - name: clean up because "out of space"
         run: |
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /opt/ghc
