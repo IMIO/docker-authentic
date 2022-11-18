@@ -17,15 +17,16 @@ DEBUG = True
 # TEMPLATES[0]["OPTIONS"]["debug"] = True
 
 
-ADMINS = (("Admins IMIO", "adminwc@imio.be"),)
+ADMINS = (("Admins IMIO", "adminwaco@imio.be"),)
 
 # ALLOWED_HOSTS must be correct in production!
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [
-    "combo-agents.wc.localhost",
-    "backoffice-agents.wc.localhost",
-    "combo-usagers.wc.localhost",
-    "backoffice-usagers.wc.localhost",
+    "combo-agents.waco.localhost",
+    "backoffice-agents.waco.localhost",
+    "combo-usagers.waco.localhost",
+    "backoffice-usagers.waco.localhost",
+    "*",
 ]
 
 # Databases
@@ -51,8 +52,8 @@ TIME_ZONE = "Europe/Brussels"
 
 # Email configuration
 EMAIL_SUBJECT_PREFIX = "[combo local]"
-SERVER_EMAIL = "combo@wc.localhost"
-DEFAULT_FROM_EMAIL = "combo@wc.localhost"
+SERVER_EMAIL = "combo@waco.localhost"
+DEFAULT_FROM_EMAIL = "combo@waco.localhost"
 
 # SMTP configuration
 EMAIL_HOST = "localhost"

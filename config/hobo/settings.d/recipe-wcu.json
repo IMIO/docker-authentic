@@ -1,9 +1,9 @@
 {
   "variables": {
-    "hobo": "hobo-usagers.wc.localhost",
-    "authentic": "usagers.wc.localhost",
-    "combo": "combo-usagers.wc.localhost",
-    "combo_agent": "backoffice-usagers.wc.localhost",
+    "hobo": "hobo-usagers.waco.localhost",
+    "authentic": "usagers.waco.localhost",
+    "combo": "combo-usagers.waco.localhost",
+    "combo_agent": "backoffice-usagers.waco.localhost",
     "wallonie_connect": "usagers"
   },
   "steps": [
@@ -14,7 +14,7 @@
     },
     {
       "create-superuser": {
-        "email": "adminwc@imio.be",
+        "email": "adminwaco@imio.be",
         "password": "admin"
       }
     },

@@ -24,6 +24,8 @@ ADMINS = (("Admins IMIO", "adminwc@imio.be"),)
 ALLOWED_HOSTS = [
     "agents.wc.localhost",
     "usagers.wc.localhost",
+    "*",
+    "hobo.waco.localhost",
 ]
 
 

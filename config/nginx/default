@@ -1,33 +1,5 @@
-server {
-        listen   80;
-
-        location ~ ^/static/(.+)$ {
-            root /;
-            try_files /var/lib/combo/tenants/$host/static/$1
-                      /var/lib/combo/tenants/$host/theme/static/$1
-                      /var/lib/combo/collectstatic/$1
-                      =404;
-            add_header         'Access-Control-Allow-Origin' '*';
-        }
-
-        location ~ ^/media/(.+)$ {
-            alias /var/lib/combo/tenants/$host/media/$1;
-        }
-
-        server_name combo-agents.wc.localhost;
-
-        location / {
-            proxy_pass         http://unix:/var/run/combo/combo.sock;
-            proxy_set_header   Host $http_host;
-            proxy_set_header   X-Real-IP       $remote_addr;
-            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            # proxy_set_header   X-Forwarded-SSL on;
-            # proxy_set_header   X-Forwarded-Protocol ssl;
-            # proxy_set_header   X-Forwarded-Proto https;
-        }
-
-        error_log /var/log/nginx/error-combo-agents.wc.localhost.log warn;
-        access_log /var/log/nginx/access-combo-agents.wc.localhost.log combined;
+upstream combo {
+    server combo:8100;
 }
 server {
         listen   80;
@@ -45,10 +17,10 @@ server {
             alias /var/lib/combo/tenants/$host/media/$1;
         }
 
-        server_name backoffice-agents.wc.localhost;
+        server_name combo-agents.waco.localhost;
 
         location / {
-            proxy_pass         http://unix:/var/run/combo/combo.sock;
+            proxy_pass         http://combo;
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -57,8 +29,8 @@ server {
             # proxy_set_header   X-Forwarded-Proto https;
         }
 
-        error_log /var/log/nginx/error-backoffice-agents.wc.localhost.log warn;
-        access_log /var/log/nginx/access-backoffice-agents.wc.localhost.log combined;
+        error_log /var/log/nginx/error-combo-agents.waco.localhost.log warn;
+        access_log /var/log/nginx/access-combo-agents.waco.localhost.log combined;
 }
 server {
         listen   80;
@@ -76,10 +48,10 @@ server {
             alias /var/lib/combo/tenants/$host/media/$1;
         }
 
-        server_name combo-usagers.wc.localhost;
+        server_name backoffice-agents.waco.localhost;
 
         location / {
-            proxy_pass         http://unix:/var/run/combo/combo.sock;
+            proxy_pass         http://combo;
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -88,8 +60,8 @@ server {
             # proxy_set_header   X-Forwarded-Proto https;
         }
 
-        error_log /var/log/nginx/error-combo-usagers.wc.localhost.log warn;
-        access_log /var/log/nginx/access-combo-usagers.wc.localhost.log combined;
+        error_log /var/log/nginx/error-backoffice-agents.waco.localhost.log warn;
+        access_log /var/log/nginx/access-backoffice-agents.waco.localhost.log combined;
 }
 server {
         listen   80;
@@ -107,10 +79,10 @@ server {
             alias /var/lib/combo/tenants/$host/media/$1;
         }
 
-        server_name backoffice-usagers.wc.localhost;
+        server_name combo-usagers.waco.localhost;
 
         location / {
-            proxy_pass         http://unix:/var/run/combo/combo.sock;
+            proxy_pass         http://combo;
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -119,15 +91,48 @@ server {
             # proxy_set_header   X-Forwarded-Proto https;
         }
 
-        error_log /var/log/nginx/error-backoffice-usagers.wc.localhost.log warn;
-        access_log /var/log/nginx/access-backoffice-usagers.wc.localhost.log combined;
+        error_log /var/log/nginx/error-combo-usagers.waco.localhost.log warn;
+        access_log /var/log/nginx/access-combo-usagers.waco.localhost.log combined;
 }
-
-
 server {
         listen   80;
 
-        server_name agents.wc.localhost;
+        location ~ ^/static/(.+)$ {
+            root /;
+            try_files /var/lib/combo/tenants/$host/static/$1
+                      /var/lib/combo/tenants/$host/theme/static/$1
+                      /var/lib/combo/collectstatic/$1
+                      =404;
+            add_header         'Access-Control-Allow-Origin' '*';
+        }
+
+        location ~ ^/media/(.+)$ {
+            alias /var/lib/combo/tenants/$host/media/$1;
+        }
+
+        server_name backoffice-usagers.waco.localhost;
+
+        location / {
+            proxy_pass         http://combo;
+            proxy_set_header   Host $http_host;
+            proxy_set_header   X-Real-IP       $remote_addr;
+            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+            # proxy_set_header   X-Forwarded-SSL on;
+            # proxy_set_header   X-Forwarded-Protocol ssl;
+            # proxy_set_header   X-Forwarded-Proto https;
+        }
+
+        error_log /var/log/nginx/error-backoffice-usagers.waco.localhost.log warn;
+        access_log /var/log/nginx/access-backoffice-usagers.waco.localhost.log combined;
+}
+
+upstream authentic {
+    server authentic:8080;
+}
+server {
+        listen   80;
+
+        server_name agents.waco.localhost;
 
         location ~ ^/static/(.+)$ {
             root /;
@@ -138,7 +143,9 @@ server {
 
         location / {
             rewrite            ^/accounts/saml/login/ /accounts/fedict/login/ last;
-            proxy_pass         http://unix:/run/authentic2-multitenant/authentic2-multitenant.sock;
+            # include            uwsgi_params;
+            # uwsgi_pass         authentic;
+            proxy_pass         http://authentic;
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -146,13 +153,14 @@ server {
             # proxy_set_header   X-Forwarded-Protocol ssl;
             # proxy_set_header   X-Forwarded-Proto https;
         }
-        error_log /var/log/nginx/error-agents.wc.localhost.log warn;
-        access_log /var/log/nginx/access-agents.wc.localhost.log combined;
+        error_log /var/log/nginx/error-agents.waco.localhost.log warn;
+        access_log /var/log/nginx/access-agents.waco.localhost.log combined;
 }
+
 server {
         listen   80;
 
-        server_name usagers.wc.localhost;
+        server_name usagers.waco.localhost;
 
         location ~ ^/static/(.+)$ {
             root /;
@@ -163,7 +171,7 @@ server {
 
         location / {
             rewrite            ^/accounts/saml/login/ /accounts/fedict/login/ last;
-            proxy_pass         http://unix:/run/authentic2-multitenant/authentic2-multitenant.sock;
+            proxy_pass         http://authentic;
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -171,14 +179,16 @@ server {
             # proxy_set_header   X-Forwarded-Protocol ssl;
             # proxy_set_header   X-Forwarded-Proto https;
         }
-        error_log /var/log/nginx/error-usagers.wc.localhost.log warn;
-        access_log /var/log/nginx/access-usagers.wc.localhost.log combined;
+        error_log /var/log/nginx/error-usagers.waco.localhost.log warn;
+        access_log /var/log/nginx/access-usagers.waco.localhost.log combined;
 }
-
+upstream hobo {
+    server hobo:8090;
+}
 server {
         listen   80;
 
-        server_name hobo-agents.wc.localhost;
+        server_name hobo-agents.waco.localhost;
 
         location ~ ^/static/(.+)$ {
             root /;
@@ -189,7 +199,7 @@ server {
         }
 
         location / {
-            proxy_pass         http://unix:/var/run/hobo/hobo.sock;
+            proxy_pass         http://hobo;
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -197,13 +207,13 @@ server {
             # proxy_set_header   X-Forwarded-Protocol ssl;
             # proxy_set_header   X-Forwarded-Proto https;
         }
-        error_log /var/log/nginx/error-hobo-agents.wc.localhost.log warn;
-        access_log /var/log/nginx/access-hobo-agents.wc.localhost.log combined;
+        error_log /var/log/nginx/error-hobo-agents.waco.localhost.log warn;
+        access_log /var/log/nginx/access-hobo-agents.waco.localhost.log combined;
 }
 server {
         listen   80;
 
-        server_name hobo-usagers.wc.localhost;
+        server_name hobo-usagers.waco.localhost;
 
         location ~ ^/static/(.+)$ {
             root /;
@@ -214,7 +224,7 @@ server {
         }
 
         location / {
-            proxy_pass         http://unix:/var/run/hobo/hobo.sock;
+            proxy_pass         http://hobo;
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -222,6 +232,6 @@ server {
             # proxy_set_header   X-Forwarded-Protocol ssl;
             # proxy_set_header   X-Forwarded-Proto https;
         }
-        error_log /var/log/nginx/error-hobo-usagers.wc.localhost.log warn;
-        access_log /var/log/nginx/access-hobo-usagers.wc.localhost.log combined;
+        error_log /var/log/nginx/error-hobo-usagers.waco.localhost.log warn;
+        access_log /var/log/nginx/access-hobo-usagers.waco.localhost.log combined;
 }

@@ -16,13 +16,13 @@
 DEBUG = True
 # TEMPLATES[0]["OPTIONS"]["debug"] = True
 
-ADMINS = (("Admin IMIO", "adminwc@imio.be"),)
+ADMINS = (("Admin IMIO", "adminwaco@imio.be"),)
 
 # ALLOWED_HOSTS must be correct in production!
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [
-    "hobo-agents.wc.localhost",
-    "hobo-usagers.wc.localhost",
+    "hobo.waco.localhost",
+    "*",
 ]
 
 # Databases
@@ -48,8 +48,8 @@ TIME_ZONE = "Europe/Brussels"
 
 # Email configuration
 EMAIL_SUBJECT_PREFIX = "[hobo local]"
-SERVER_EMAIL = "hobo@wc.localhost"
-DEFAULT_FROM_EMAIL = "hobo@wc.localhost"
+SERVER_EMAIL = "hobo@waco.localhost"
+DEFAULT_FROM_EMAIL = "hobo@waco.localhost"
 
 # SMTP configuration
 EMAIL_HOST = "localhost"

@@ -3,85 +3,178 @@ version: '2.4'
 services:
   base:
     build:
-      context: sso
+      context: sso/authentic
       dockerfile: Dockerfile
-    image: wc/sso:latest
+    image: waco/sso:latest
     environment:
-      - AGENTS_HOSTNAME=agents.wc.localhost
-      - USAGERS_HOSTNAME=usagers.wc.localhost
+      - AGENTS_HOSTNAME=agents.waco.localhost
+      - USAGERS_HOSTNAME=usagers.waco.localhost
       - environment_label=dev
-      - INSTANCE_NAME=authentic80
+      - INSTANCE_NAME=waco
     mem_limit: 2048m
-    expose:
-      - 80
-    extra_hosts:
-      hobo-agents.wc.localhost:
-        127.0.0.1
-      agents.wc.localhost:
-        127.0.0.1
-      combo-agents.wc.localhost:
-        127.0.0.1
-      backoffice-agents.wc.localhost:
-        127.0.0.1
-      hobo-usagers.wc.localhost:
-        127.0.0.1
-      usagers.wc.localhost:
-        127.0.0.1
-      combo-usagers.wc.localhost:
-        127.0.0.1
-      backoffice-usagers.wc.localhost:
-        127.0.0.1
+    networks:
+      local:
+    #extra_hosts:
+      # hobo.waco.localhost:
+      #   127.0.0.1
+      # agents.waco.localhost:
+      #   127.0.0.1
+      # combo-agents.waco.localhost:
+      #   127.0.0.1
+      # backoffice-agents.waco.localhost:
+      #   127.0.0.1
+      # usagers.waco.localhost:
+      #   127.0.0.1
+      # combo-usagers.waco.localhost:
+      #   127.0.0.1
+      # backoffice-usagers.waco.localhost:
+      #   127.0.0.1
     volumes:
-      - ./data/hobo:/var/lib/hobo/tenants
-      - ./data/combo:/var/lib/combo/tenants
-      - ./data/authentic2-multitenant:/var/lib/authentic2-multitenant/tenants
-      - ./config/combo/settings.d:/etc/combo/settings.d
-      - ./config/authentic2-multitenant/settings.d:/etc/authentic2-multitenant/settings.d
-      - ./config/authentic2-multitenant/agents.json:/etc/authentic2-multitenant/agents.json
-      - ./config/authentic2-multitenant/usagers.json:/etc/authentic2-multitenant/usagers.json
-      - ./config/hobo/settings.d:/etc/hobo/settings.d
-      - ./config/hobo-agent/settings.d:/etc/hobo-agent/settings.d
-      - ./config/nginx:/etc/nginx/sites-available
       - ./sso/agents.json:/agents.json
       - ./sso/usagers.json:/usagers.json
       - ./sso/agents-index.json:/agents-index.json
       - ./sso/usagers-index.json:/usagers-index.json
       - ./src/scripts:/opt/scripts
-      - ./sso/build.sh:/build.sh
     command: tail -f /dev/null
   authentic:
     extends: base
-    command: >
-      /bin/sh -c "
-        echo Waiting for rabbitmq service start...;
-        while ! nc -z rabbitmq 5672;
-        do
-          echo .;
-          sleep 3;
-        done;
-        echo Connected to rabbitmq!;
-        /run.sh;
-      "
+    build:
+      context: sso/authentic
+    image: waco/authentic:latest
+    ports:
+        - 8080:8080
     depends_on:
       database:
         condition: service_healthy
       rabbitmq:
-        condition: service_started
+        condition: service_healthy
       memcached:
         condition: service_started
-      reverse-proxy:
-        condition: service_started
+    environment:
+      - AUTHENTIC2_SETTINGS_FILE=/usr/lib/authentic2-multitenant/debian_config.py
+    command: >
+      /bin/sh -c "
+        install -d -m 755 -o authentic-multitenant -g authentic-multitenant /run/authentic2-multitenant/
+        chown authentic-multitenant:authentic-multitenant -R /var/lib/authentic2-multitenant
+        # export /usr/lib/authentic2-multitenant/debian_config.py
+        # --chdir=/etc/authentic2-multitenant \
+        # --env DJANGO_SETTINGS_MODULE="authentic2.settings" \
+        /usr/bin/uwsgi --pidfile=/run/authentic2-multitenant/authentic2-multitenant.pid \
+          --uid authentic-multitenant --gid authentic-multitenant \
+          --ini /etc/authentic2-multitenant/authentic2-multitenant-uwsgi.ini \
+          --spooler /var/lib/authentic2-multitenant/spooler/ \
+          --http-socket 0.0.0.0:8080
+      "
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://agents.wc.localhost"]
+      test: ["CMD", "curl", "-f", "http://agents.waco.localhost"]
       retries: 50
-    labels:
-      - "traefik.http.routers.authentic.rule=HostRegexp(`wc.localhost`, `{subdomain:[a-z-]+}.wc.localhost`)"
+    volumes:
+      - ./data/authentic2-multitenant:/var/lib/authentic2-multitenant/tenants
+      - ./config/authentic2-multitenant/settings.d:/etc/authentic2-multitenant/settings.d
+      - ./config/authentic2-multitenant/agents.json:/etc/authentic2-multitenant/agents.json
+      - ./config/authentic2-multitenant/usagers.json:/etc/authentic2-multitenant/usagers.json
+    # labels:
+    #   - "traefik.http.routers.authentic.rule=HostRegexp(`waco.localhost`, `{subdomain:[a-z-]+}.waco.localhost`)"
+  combo:
+    extends: base
+    build:
+      context: sso/combo
+    image: waco/combo:latest
+    volumes:
+      - ./data/combo:/var/lib/combo/tenants
+      - ./config/combo/settings.d:/etc/combo/settings.d
+    environment:
+      - COMBO_SETTINGS_FILE=/usr/lib/combo/debian_config.py
+    command: >
+      /bin/sh -c "
+        install -d -m 755 -o combo -g combo /run/combo/
+        chown combo:combo /var/lib/combo/tenants/
+        # export /usr/lib/combo/debian_config.py
+        /usr/bin/uwsgi --pidfile=/run/combo/combo.pid \
+          --uid combo --gid combo \
+          --chdir=/etc/combo \
+          --env DJANGO_SETTINGS_MODULE="combo.settings" \
+          --ini /etc/combo/uwsgi.ini \
+          --spooler /var/lib/combo/spooler/ \
+          --http-socket 0.0.0.0:8100
+      "
+    expose:
+      - 8100
+  hobo:
+    extends: base
+    build:
+      context: sso/hobo
+    image: waco/hobo:latest
+    depends_on:
+      database:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      memcached:
+        condition: service_started
+      # reverse-proxy:
+      #   condition: service_started
+    volumes:
+      - ./data/hobo:/var/lib/hobo/tenants
+      - ./config/hobo/settings.d:/etc/hobo/settings.d
+      - ./config/hobo-agent/settings.d:/etc/hobo-agent/settings.d
+    environment:
+      - HOBO_SETTINGS_FILE=/usr/lib/hobo/debian_config.py
+    expose:
+      - 8090
+    command: >
+      /bin/sh -c "
+        install -d -m 755 -o hobo -g hobo /run/hobo/
+        chown hobo:hobo /var/lib/hobo/tenants
+        # export /usr/lib/hobo/debian_config.py
+        /usr/bin/uwsgi --pidfile=/run/hobo/hobo.pid \
+          --uid hobo --gid hobo \
+          --chdir=/etc/hobo \
+          --env DJANGO_SETTINGS_MODULE="hobo.settings" \
+          --ini /etc/hobo/uwsgi.ini \
+          --spooler /var/lib/hobo/spooler/ \
+          --http-socket 0.0.0.0:8090
+      "
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./config/nginx/default:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    depends_on:
+      authentic:
+        condition: service_started
+      combo:
+        condition: service_started
+      hobo:
+        condition: service_started
+    networks:
+      local:
+        aliases:
+          - hobo-agents.waco.localhost
+          - hobo-usagers.waco.localhost
+          - agents.waco.localhost
+          - combo-agents.waco.localhost
+          - backoffice-agents.waco.localhost
+          - usagers.waco.localhost
+          - combo-usagers.waco.localhost
+          - backoffice-usagers.waco.localhost
+    command: [nginx-debug, '-g', 'daemon off;']
   rabbitmq:
     image: rabbitmq
     hostname: rabbitmq
+    networks:
+      local:
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 3s
+      timeout: 10s
+      retries: 15
   database:
     image: postgres
     hostname: database
+    networks:
+      local:
     volumes:
       - ./data/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
       - pgdata:/var/lib/postgresql/data
@@ -89,26 +182,30 @@ services:
       - "POSTGRES_PASSWORD=password"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -h database"]
-      interval: 15s
+      interval: 5s
       timeout: 30s
       retries: 50
   memcached:
     image: memcached
     hostname: memcached
-  reverse-proxy:
-    image: traefik:2.4
-    ports:
-      - "80:80"
-      - "8080:8080"
-    command:
-      # - "--log.level=DEBUG"
-      - '--api.insecure=true'
-      - '--providers.docker'
-      - '--entryPoints.web.address=:80'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-  monitor:
-    extends: base
-    command: /prometheus.sh
+    networks:
+      local:
+  # reverse-proxy:
+  #   image: traefik:2.4
+  #   ports:
+  #     - "80:80"
+  #     - "8081:8080"
+  #   command:
+  #     # - "--log.level=DEBUG"
+  #     - '--api.insecure=true'
+  #     - '--providers.docker'
+  #     - '--entryPoints.web.address=:80'
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  # monitor:
+  #   extends: base
+  #   command: /prometheus.sh
 volumes:
   pgdata:
+networks:
+  local:

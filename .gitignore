@@ -8,3 +8,5 @@ cypress/fixtures/
 data/hobo/
 data/combo/
 data/authentic2-multitenant/
+.vscode
+tests/venv/
