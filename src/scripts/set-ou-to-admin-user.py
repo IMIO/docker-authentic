@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import get_user_model
-from django_rbac.utils import get_ou_model
+from authentic2.a2_rbac.utils import get_default_ou
 from hobo.agent.authentic2.provisionning import provisionning
 from authentic2.apps.authenticators.models import LoginPasswordAuthenticator
 
 
 def set_ou_to_authentic_admin_user():
     User = get_user_model()
-    OU = get_ou_model()
-    organisation_unit = OU.objects.get(default=True)
+    organisation_unit = get_default_ou()
     with provisionning:
         # Set default user with default organisation unit.
         user_admin = User.objects.get(username="admin")
