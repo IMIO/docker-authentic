@@ -14,3 +14,5 @@ test -e /etc/hobo/recipe*extra.json && sudo -u hobo hobo-manage cook /etc/hobo/r
 
 /etc/hobo/fix-permissions.sh
 tail -f /var/log/syslog
+
+python3 /usr/bin/celery --app=hobo.agent.worker worker --hostname=agent.hobo --loglevel=INFO --concurrency=1 --max-tasks-per-child=100

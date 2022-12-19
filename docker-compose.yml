@@ -14,21 +14,6 @@ services:
     mem_limit: 2048m
     networks:
       local:
-    #extra_hosts:
-      # hobo.waco.localhost:
-      #   127.0.0.1
-      # agents.waco.localhost:
-      #   127.0.0.1
-      # combo-agents.waco.localhost:
-      #   127.0.0.1
-      # backoffice-agents.waco.localhost:
-      #   127.0.0.1
-      # usagers.waco.localhost:
-      #   127.0.0.1
-      # combo-usagers.waco.localhost:
-      #   127.0.0.1
-      # backoffice-usagers.waco.localhost:
-      #   127.0.0.1
     volumes:
       - ./sso/agents.json:/agents.json
       - ./sso/usagers.json:/usagers.json
@@ -56,14 +41,7 @@ services:
       /bin/sh -c "
         install -d -m 755 -o authentic-multitenant -g authentic-multitenant /run/authentic2-multitenant/
         chown authentic-multitenant:authentic-multitenant -R /var/lib/authentic2-multitenant
-        # export /usr/lib/authentic2-multitenant/debian_config.py
-        # --chdir=/etc/authentic2-multitenant \
-        # --env DJANGO_SETTINGS_MODULE="authentic2.settings" \
-        /usr/bin/uwsgi --pidfile=/run/authentic2-multitenant/authentic2-multitenant.pid \
-          --uid authentic-multitenant --gid authentic-multitenant \
-          --ini /etc/authentic2-multitenant/authentic2-multitenant-uwsgi.ini \
-          --spooler /var/lib/authentic2-multitenant/spooler/ \
-          --http-socket 0.0.0.0:8080
+        /usr/bin/uwsgi --pidfile=/run/authentic2-multitenant/authentic2-multitenant.pid --uid authentic-multitenant --gid authentic-multitenant --ini /etc/authentic2-multitenant/authentic2-multitenant-uwsgi.ini --spooler /var/lib/authentic2-multitenant/spooler/  --http-socket 0.0.0.0:8080
       "
     healthcheck:
       test: ["CMD", "curl", "-f", "http://agents.waco.localhost"]
@@ -90,13 +68,7 @@ services:
         install -d -m 755 -o combo -g combo /run/combo/
         chown combo:combo /var/lib/combo/tenants/
         # export /usr/lib/combo/debian_config.py
-        /usr/bin/uwsgi --pidfile=/run/combo/combo.pid \
-          --uid combo --gid combo \
-          --chdir=/etc/combo \
-          --env DJANGO_SETTINGS_MODULE="combo.settings" \
-          --ini /etc/combo/uwsgi.ini \
-          --spooler /var/lib/combo/spooler/ \
-          --http-socket 0.0.0.0:8100
+        /usr/bin/uwsgi --pidfile=/run/combo/combo.pid --uid combo --gid combo --ini /etc/combo/uwsgi.ini --spooler /var/lib/combo/spooler/ --http-socket 0.0.0.0:8100
       "
     expose:
       - 8100
@@ -122,19 +94,13 @@ services:
       - HOBO_SETTINGS_FILE=/usr/lib/hobo/debian_config.py
     expose:
       - 8090
-    command: >
-      /bin/sh -c "
+    command:
+      - /bin/sh
+      - -c
+      - |
         install -d -m 755 -o hobo -g hobo /run/hobo/
         chown hobo:hobo /var/lib/hobo/tenants
-        # export /usr/lib/hobo/debian_config.py
-        /usr/bin/uwsgi --pidfile=/run/hobo/hobo.pid \
-          --uid hobo --gid hobo \
-          --chdir=/etc/hobo \
-          --env DJANGO_SETTINGS_MODULE="hobo.settings" \
-          --ini /etc/hobo/uwsgi.ini \
-          --spooler /var/lib/hobo/spooler/ \
-          --http-socket 0.0.0.0:8090
-      "
+        /usr/bin/uwsgi --pidfile=/run/hobo/hobo.pid --uid hobo --gid hobo --ini /etc/hobo/uwsgi.ini --spooler /var/lib/hobo/spooler/ --http-socket 0.0.0.0:8090
   nginx:
     image: nginx:latest
     volumes:
@@ -159,7 +125,7 @@ services:
           - usagers.waco.localhost
           - combo-usagers.waco.localhost
           - backoffice-usagers.waco.localhost
-    command: [nginx-debug, '-g', 'daemon off;']
+    # command: [nginx-debug, '-g', 'daemon off;']
   rabbitmq:
     image: rabbitmq
     hostname: rabbitmq
