@@ -12,19 +12,22 @@ RUN echo "APT::Install-Suggests \"false\";\nAPT::Install-Recommends \"false\";" 
 RUN echo "#!/bin/sh\nexit 101" > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
 RUN sed -i "s%httpredir.debian.org%debian.mirrors.ovh.net%g" /etc/apt/sources.list
 RUN apt update && apt install -y \
+  apt-transport-https \
   bash-completion \
+  ca-certificates \
   cron \
   curl \
   debian-archive-keyring \
   gettext \
   gnupg \
-  libjs-jquery \
-  netcat \
+  lftp \
+  libreoffice \
+  locales \
   nginx \
   procps \
-  python-dns \
   rsyslog \
-  vim.nox \
+  vim-nox \
+  zip \
   wget
 
 RUN echo "deb http://deb.entrouvert.org/ buster main" > /etc/apt/sources.list.d/entrouvert-local.list
