@@ -30,8 +30,8 @@ RUN apt update && apt install -y \
   zip \
   wget
 
-RUN echo "deb http://deb.entrouvert.org/ buster main" > /etc/apt/sources.list.d/entrouvert-local.list
-RUN echo "deb http://debian.mirrors.ovh.net/debian buster-backports main" > /etc/apt/sources.list.d/backports.list
+RUN echo "deb http://deb.entrouvert.org/ bullseye main" > /etc/apt/sources.list.d/entrouvert-local.list
+#RUN echo "deb http://debian.mirrors.ovh.net/debian bullseye-backports main" > /etc/apt/sources.list.d/backports.list
 RUN curl https://deb.entrouvert.org/entrouvert.gpg | apt-key add -
 
 RUN apt update && apt install -y \
@@ -40,7 +40,7 @@ RUN apt update && apt install -y \
   entrouvert-repository-eobuilder \
   && apt update
 # RUN apt -o Acquire::Check-Valid-Until=false update && apt install -y entrouvert-repository entrouvert-repository-hotfix entrouvert-repository-eobuilder && apt -o Acquire::Check-Valid-Until=false update
-RUN echo "Package: *\nPin: release a=buster-eobuilder\nPin-Priority: 400" > /etc/apt/preferences.d/entrouvert-eobuilder
+RUN echo "Package: *\nPin: release a=bullseye-eobuilder\nPin-Priority: 400" > /etc/apt/preferences.d/entrouvert-eobuilder
 
 RUN apt install -y \
   combo \
@@ -49,7 +49,7 @@ RUN apt install -y \
   imio-publik-themes \
   authentic2-multitenant \
   prometheus-entrouvert-exporter
-RUN apt install -y -t buster-eobuilder \
+RUN apt install -y -t bullseye-eobuilder \
   python3-authentic2-auth-fedict \
   python3-authentic2-wallonie-connect \
   python3-pycryptodome
