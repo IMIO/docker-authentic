@@ -45,6 +45,7 @@ RUN echo "Package: *\nPin: release a=bullseye-eobuilder\nPin-Priority: 400" > /e
 RUN apt install -y \
   combo \
   hobo \
+  hobo-agent \
   publik-base-theme \
   imio-publik-themes \
   authentic2-multitenant \
@@ -56,8 +57,8 @@ RUN apt install -y -t bullseye-eobuilder \
 
 # Allow services to start, this is necessary as hobo-agent postinst will fail
 # if supervisord is not running
-RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
-RUN apt install -y hobo-agent
+# RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
+# RUN apt install -y 
 
 #cleanup
 RUN rm -f /etc/default/authentic2-multitenant
