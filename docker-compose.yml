@@ -11,6 +11,7 @@ services:
       - USAGERS_HOSTNAME=usagers.wc.localhost
       - environment_label=dev
       - INSTANCE_NAME=authentic80
+      - CSRF_FAILURE_VIEW='django.views.csrf.csrf_failure'
     mem_limit: 2048m
     expose:
       - 80
@@ -48,25 +49,17 @@ services:
       - ./sso/usagers-index.json:/usagers-index.json
       - ./src/scripts:/opt/scripts
       - ./sso/build.sh:/build.sh
+      # - ./imio-publik-themes/templates:/usr/share/publik/themes/imio/templates
+      # - ./imio-publik-themes/static:/usr/share/publik/themes/imio/static
     command: tail -f /dev/null
   authentic:
     extends: base
-    command: >
-      /bin/sh -c "
-        echo Waiting for rabbitmq service start...;
-        while ! nc -z rabbitmq 5672;
-        do
-          echo .;
-          sleep 3;
-        done;
-        echo Connected to rabbitmq!;
-        /run.sh;
-      "
+    command: /run.sh
     depends_on:
       database:
         condition: service_healthy
       rabbitmq:
-        condition: service_started
+        condition: service_healthy
       memcached:
         condition: service_started
       reverse-proxy:
@@ -79,6 +72,11 @@ services:
   rabbitmq:
     image: rabbitmq
     hostname: rabbitmq
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 30s
+      retries: 5
   database:
     image: postgres
     hostname: database
