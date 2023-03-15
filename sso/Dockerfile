@@ -18,16 +18,14 @@ RUN apt update && apt install -y \
   cron \
   curl \
   debian-archive-keyring \
+  netcat \
   gettext \
   gnupg \
-  lftp \
-  libreoffice \
   locales \
   nginx \
   procps \
   rsyslog \
   vim-nox \
-  zip \
   wget
 
 RUN echo "deb http://deb.entrouvert.org/ bullseye main" > /etc/apt/sources.list.d/entrouvert-local.list
@@ -40,7 +38,7 @@ RUN apt update && apt install -y \
   entrouvert-repository-eobuilder \
   && apt update
 # RUN apt -o Acquire::Check-Valid-Until=false update && apt install -y entrouvert-repository entrouvert-repository-hotfix entrouvert-repository-eobuilder && apt -o Acquire::Check-Valid-Until=false update
-RUN echo "Package: *\nPin: release a=bullseye-eobuilder\nPin-Priority: 400" > /etc/apt/preferences.d/entrouvert-eobuilder
+RUN echo "Package: *\nPin: release a=bullseye-eobuilder\nPin-Priority: 400" > /etc/apt/preferences.d/entrouvert-eobuilder && rm /etc/apt/sources.list.d/entrouvert-local.list
 
 RUN apt install -y \
   combo \
