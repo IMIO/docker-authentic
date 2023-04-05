@@ -29,7 +29,7 @@ RUN apt update && apt install -y \
   wget
 
 RUN echo "deb http://deb.entrouvert.org/ bullseye main" > /etc/apt/sources.list.d/entrouvert-local.list
-#RUN echo "deb http://debian.mirrors.ovh.net/debian bullseye-backports main" > /etc/apt/sources.list.d/backports.list
+RUN echo "deb http://debian.mirrors.ovh.net/debian bullseye-backports main" > /etc/apt/sources.list.d/backports.list
 RUN curl https://deb.entrouvert.org/entrouvert.gpg | apt-key add -
 
 RUN apt update && apt install -y \
