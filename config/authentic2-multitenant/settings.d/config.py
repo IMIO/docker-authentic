@@ -45,6 +45,10 @@ CACHES = {
     }
 }
 
+if "authentic2_wallonie_connect" not in INSTALLED_APPS:
+    INSTALLED_APPS += ("authentic2_wallonie_connect",)
+if "authentic2_wallonie_connect" not in TENANT_APPS:
+    TENANT_APPS += ("authentic2_wallonie_connect",)
 
 LANGUAGE_CODE = "fr-be"
 TIME_ZONE = "Europe/Brussels"
