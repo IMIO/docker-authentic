@@ -30,6 +30,8 @@ jobs:
 
       - name: Start Cypress tests
         run: make run-cypress
+        env:
+          ELECTRON_EXTRA_LAUNCH_ARGS: '--disable-gpu'
 
       # Upload Cypress videos
       - uses: actions/upload-artifact@v1
