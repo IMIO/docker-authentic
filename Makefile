@@ -37,7 +37,7 @@ testing-env:
 	# $(MAKE) test-run
 
 open-cypress:
-	npx cypress open
+	cypress open
 
 run-cypress:
 	docker compose -f docker-compose.yml -f docker-compose.test.yml up --exit-code-from cypress
