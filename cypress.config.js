@@ -1,5 +1,5 @@
 module.exports = {
-  chromeWebSecurity: false,
+  // chromeWebSecurity: false,
   e2e: {
     baseUrl: 'http://agents.wc.localhost',
     // specPattern: '**/*.cy.js',

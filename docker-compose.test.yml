@@ -77,7 +77,7 @@ services:
       - reverse-proxy:plone5.localhost
       - reverse-proxy:agents.wc.localhost
       - reverse-proxy:combo-agents.wc.localhost
-
+    command: --browser firefox
 volumes:
   plone4-data:
   plone5-data:
