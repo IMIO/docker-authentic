@@ -60,7 +60,7 @@ services:
       - "traefik.http.routers.plone5.middlewares=add-plone5"
       - "traefik.http.middlewares.add-plone5.addprefix.prefix=/VirtualHostBase/http/plone5.localhost/Plone/VirtualHostRoot"
   cypress:
-    image: cypress/included:12.2.0
+    image: cypress/included:12.10.0
     volumes:
       - ./cypress:/e2e/cypress
       - ./cypress.config.js:/e2e/cypress.config.js
