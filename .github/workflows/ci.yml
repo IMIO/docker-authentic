@@ -27,11 +27,13 @@ jobs:
           make build-no-cache
           make testing-env
           docker compose ps
+          ls -lah
+          ls -lah cypress
 
       - name: Start Cypress tests
-        run: make run-cypress
-        env:
-          ELECTRON_EXTRA_LAUNCH_ARGS: '--disable-gpu'
+        run: |
+          ls -lah cypress
+          make run-cypress
 
       # Upload Cypress videos
       - uses: actions/upload-artifact@v1
