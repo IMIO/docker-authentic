@@ -1,227 +1,304 @@
 server {
-        listen   80;
+    listen 443 ssl;
+    server_name combo-agents.traefik.me;
 
-        location ~ ^/static/(.+)$ {
-            root /;
-            try_files /var/lib/combo/tenants/$host/static/$1
-                      /var/lib/combo/tenants/$host/theme/static/$1
-                      /var/lib/combo/collectstatic/$1
-                      =404;
-            add_header         'Access-Control-Allow-Origin' '*';
-        }
+    ssl_certificate /etc/nginx/certs/fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/privkey.pem;
 
-        location ~ ^/media/(.+)$ {
-            alias /var/lib/combo/tenants/$host/media/$1;
-        }
+    location ~ ^/static/(.+)$ {
+        root /;
+        try_files /var/lib/combo/tenants/$host/static/$1
+                    /var/lib/combo/tenants/$host/theme/static/$1
+                    /var/lib/combo/collectstatic/$1
+                    =404;
+        add_header         'Access-Control-Allow-Origin' '*';
+    }
 
-        server_name combo-agents.traefik.me;
+    location ~ ^/media/(.+)$ {
+        alias /var/lib/combo/tenants/$host/media/$1;
+    }
 
-        location / {
-            proxy_pass         http://unix:/var/run/combo/combo.sock;
-            proxy_set_header   Host $http_host;
-            proxy_set_header   X-Real-IP       $remote_addr;
-            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header   X-Forwarded-SSL on;
-            proxy_set_header   X-Forwarded-Protocol ssl;
-            proxy_set_header   X-Forwarded-Proto https;
-        }
+    location / {
+        proxy_pass         http://unix:/var/run/combo/combo.sock;
+        proxy_set_header   Host $http_host;
+        proxy_set_header   X-Real-IP       $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-SSL on;
+        proxy_set_header   X-Forwarded-Protocol ssl;
+        proxy_set_header   X-Forwarded-Proto https;
+    }
 
-        error_log /var/log/nginx/error-combo-agents.traefik.me.log warn;
-        access_log /var/log/nginx/access-combo-agents.traefik.me.log combined;
+    error_log /var/log/nginx/error-combo-agents.traefik.me.log warn;
+    access_log /var/log/nginx/access-combo-agents.traefik.me.log combined;
 }
+# catchall http → https
 server {
-        listen   80;
-
-        location ~ ^/static/(.+)$ {
-            root /;
-            try_files /var/lib/combo/tenants/$host/static/$1
-                      /var/lib/combo/tenants/$host/theme/static/$1
-                      /var/lib/combo/collectstatic/$1
-                      =404;
-            add_header         'Access-Control-Allow-Origin' '*';
-        }
-
-        location ~ ^/media/(.+)$ {
-            alias /var/lib/combo/tenants/$host/media/$1;
-        }
-
-        server_name backoffice-agents.traefik.me;
-
-        location / {
-            proxy_pass         http://unix:/var/run/combo/combo.sock;
-            proxy_set_header   Host $http_host;
-            proxy_set_header   X-Real-IP       $remote_addr;
-            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header   X-Forwarded-SSL on;
-            proxy_set_header   X-Forwarded-Protocol ssl;
-            proxy_set_header   X-Forwarded-Proto https;
-        }
-
-        error_log /var/log/nginx/error-backoffice-agents.traefik.me.log warn;
-        access_log /var/log/nginx/access-backoffice-agents.traefik.me.log combined;
-}
-server {
-        listen   80;
-
-        location ~ ^/static/(.+)$ {
-            root /;
-            try_files /var/lib/combo/tenants/$host/static/$1
-                      /var/lib/combo/tenants/$host/theme/static/$1
-                      /var/lib/combo/collectstatic/$1
-                      =404;
-            add_header         'Access-Control-Allow-Origin' '*';
-        }
-
-        location ~ ^/media/(.+)$ {
-            alias /var/lib/combo/tenants/$host/media/$1;
-        }
-
-        server_name combo-usagers.traefik.me;
-
-        location / {
-            proxy_pass         http://unix:/var/run/combo/combo.sock;
-            proxy_set_header   Host $http_host;
-            proxy_set_header   X-Real-IP       $remote_addr;
-            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header   X-Forwarded-SSL on;
-            proxy_set_header   X-Forwarded-Protocol ssl;
-            proxy_set_header   X-Forwarded-Proto https;
-        }
-
-        error_log /var/log/nginx/error-combo-usagers.traefik.me.log warn;
-        access_log /var/log/nginx/access-combo-usagers.traefik.me.log combined;
-}
-server {
-        listen   80;
-
-        location ~ ^/static/(.+)$ {
-            root /;
-            try_files /var/lib/combo/tenants/$host/static/$1
-                      /var/lib/combo/tenants/$host/theme/static/$1
-                      /var/lib/combo/collectstatic/$1
-                      =404;
-            add_header         'Access-Control-Allow-Origin' '*';
-        }
-
-        location ~ ^/media/(.+)$ {
-            alias /var/lib/combo/tenants/$host/media/$1;
-        }
-
-        server_name backoffice-usagers.traefik.me;
-
-        location / {
-            proxy_pass         http://unix:/var/run/combo/combo.sock;
-            proxy_set_header   Host $http_host;
-            proxy_set_header   X-Real-IP       $remote_addr;
-            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header   X-Forwarded-SSL on;
-            proxy_set_header   X-Forwarded-Protocol ssl;
-            proxy_set_header   X-Forwarded-Proto https;
-        }
-
-        error_log /var/log/nginx/error-backoffice-usagers.traefik.me.log warn;
-        access_log /var/log/nginx/access-backoffice-usagers.traefik.me.log combined;
-}
-
-
-server {
-        listen   80;
-
-        server_name agents.traefik.me;
-
-        location ~ ^/static/(.+)$ {
-            root /;
-            try_files /var/lib/authentic2-multitenant/static/$1
-                      /var/lib/authentic2-multitenant/collectstatic/$1
-                      =404;
-        }
-
-        location / {
-            rewrite            ^/accounts/saml/login/ /accounts/fedict/login/ last;
-            proxy_pass         http://unix:/run/authentic2-multitenant/authentic2-multitenant.sock;
-            proxy_set_header   Host $http_host;
-            proxy_set_header   X-Real-IP       $remote_addr;
-            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header   X-Forwarded-SSL on;
-            proxy_set_header   X-Forwarded-Protocol ssl;
-            proxy_set_header   X-Forwarded-Proto https;
-        }
-        error_log /var/log/nginx/error-agents.traefik.me.log warn;
-        access_log /var/log/nginx/access-agents.traefik.me.log combined;
-}
-server {
-        listen   80;
-
-        server_name usagers.traefik.me;
-
-        location ~ ^/static/(.+)$ {
-            root /;
-            try_files /var/lib/authentic2-multitenant/static/$1
-                      /var/lib/authentic2-multitenant/collectstatic/$1
-                      =404;
-        }
-
-        location / {
-            rewrite            ^/accounts/saml/login/ /accounts/fedict/login/ last;
-            proxy_pass         http://unix:/run/authentic2-multitenant/authentic2-multitenant.sock;
-            proxy_set_header   Host $http_host;
-            proxy_set_header   X-Real-IP       $remote_addr;
-            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header   X-Forwarded-SSL on;
-            proxy_set_header   X-Forwarded-Protocol ssl;
-            proxy_set_header   X-Forwarded-Proto https;
-        }
-        error_log /var/log/nginx/error-usagers.traefik.me.log warn;
-        access_log /var/log/nginx/access-usagers.traefik.me.log combined;
+    listen   80;
+    server_name combo-agents.traefik.me;
+    error_log /var/log/nginx/error-combo-agents.traefik.me.log warn;
+    access_log /var/log/nginx/access-combo-agents.traefik.me.log combined;
+    return 301 https://$host$request_uri;
 }
 
 server {
-        listen   80;
+    listen 443 ssl;
+    server_name backoffice-agents.traefik.me;
 
-        server_name hobo-agents.traefik.me;
+    ssl_certificate /etc/nginx/certs/fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/privkey.pem;
 
-        location ~ ^/static/(.+)$ {
-            root /;
-            try_files /var/lib/hobo/static/$1
-                      /var/lib/hobo/theme/static/$1
-                      /var/lib/hobo/collectstatic/$1
-                      =404;
-        }
+    location ~ ^/static/(.+)$ {
+        root /;
+        try_files /var/lib/combo/tenants/$host/static/$1
+                    /var/lib/combo/tenants/$host/theme/static/$1
+                    /var/lib/combo/collectstatic/$1
+                    =404;
+        add_header         'Access-Control-Allow-Origin' '*';
+    }
 
-        location / {
-            proxy_pass         http://unix:/var/run/hobo/hobo.sock;
-            proxy_set_header   Host $http_host;
-            proxy_set_header   X-Real-IP       $remote_addr;
-            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header   X-Forwarded-SSL on;
-            proxy_set_header   X-Forwarded-Protocol ssl;
-            proxy_set_header   X-Forwarded-Proto https;
-        }
-        error_log /var/log/nginx/error-hobo-agents.traefik.me.log warn;
-        access_log /var/log/nginx/access-hobo-agents.traefik.me.log combined;
+    location ~ ^/media/(.+)$ {
+        alias /var/lib/combo/tenants/$host/media/$1;
+    }
+
+
+    location / {
+        proxy_pass         http://unix:/var/run/combo/combo.sock;
+        proxy_set_header   Host $http_host;
+        proxy_set_header   X-Real-IP       $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-SSL on;
+        proxy_set_header   X-Forwarded-Protocol ssl;
+        proxy_set_header   X-Forwarded-Proto https;
+    }
+
+    error_log /var/log/nginx/error-backoffice-agents.traefik.me.log warn;
+    access_log /var/log/nginx/access-backoffice-agents.traefik.me.log combined;
 }
 server {
-        listen   80;
+    listen   80;
+    server_name backoffice-agents.traefik.me;
+    error_log /var/log/nginx/error-backoffice-agents.traefik.me.log warn;
+    access_log /var/log/nginx/access-backoffice-agents.traefik.me.log combined;
+    return 301 https://$host$request_uri;
+}
 
-        server_name hobo-usagers.traefik.me;
+server {
+    listen 443 ssl;
+    server_name combo-usagers.traefik.me;
 
-        location ~ ^/static/(.+)$ {
-            root /;
-            try_files /var/lib/hobo/static/$1
-                      /var/lib/hobo/theme/static/$1
-                      /var/lib/hobo/collectstatic/$1
-                      =404;
-        }
+    ssl_certificate /etc/nginx/certs/fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/privkey.pem;
 
-        location / {
-            proxy_pass         http://unix:/var/run/hobo/hobo.sock;
-            proxy_set_header   Host $http_host;
-            proxy_set_header   X-Real-IP       $remote_addr;
-            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header   X-Forwarded-SSL on;
-            proxy_set_header   X-Forwarded-Protocol ssl;
-            proxy_set_header   X-Forwarded-Proto https;
-        }
-        error_log /var/log/nginx/error-hobo-usagers.traefik.me.log warn;
-        access_log /var/log/nginx/access-hobo-usagers.traefik.me.log combined;
+    location ~ ^/static/(.+)$ {
+        root /;
+        try_files /var/lib/combo/tenants/$host/static/$1
+                    /var/lib/combo/tenants/$host/theme/static/$1
+                    /var/lib/combo/collectstatic/$1
+                    =404;
+        add_header         'Access-Control-Allow-Origin' '*';
+    }
+
+    location ~ ^/media/(.+)$ {
+        alias /var/lib/combo/tenants/$host/media/$1;
+    }
+
+    location / {
+        proxy_pass         http://unix:/var/run/combo/combo.sock;
+        proxy_set_header   Host $http_host;
+        proxy_set_header   X-Real-IP       $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-SSL on;
+        proxy_set_header   X-Forwarded-Protocol ssl;
+        proxy_set_header   X-Forwarded-Proto https;
+    }
+    error_log /var/log/nginx/error-combo-usagers.traefik.me.log warn;
+    access_log /var/log/nginx/access-combo-usagers.traefik.me.log combined;
+}
+server {
+    listen   80;
+    server_name combo-usagers.traefik.me;
+    error_log /var/log/nginx/error-combo-usagers.traefik.me.log warn;
+    access_log /var/log/nginx/access-combo-usagers.traefik.me.log combined;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name backoffice-usagers.traefik.me;
+
+    ssl_certificate /etc/nginx/certs/fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/privkey.pem;
+
+    location ~ ^/static/(.+)$ {
+        root /;
+        try_files /var/lib/combo/tenants/$host/static/$1
+                    /var/lib/combo/tenants/$host/theme/static/$1
+                    /var/lib/combo/collectstatic/$1
+                    =404;
+        add_header         'Access-Control-Allow-Origin' '*';
+    }
+
+    location ~ ^/media/(.+)$ {
+        alias /var/lib/combo/tenants/$host/media/$1;
+    }
+
+    location / {
+        proxy_pass         http://unix:/var/run/combo/combo.sock;
+        proxy_set_header   Host $http_host;
+        proxy_set_header   X-Real-IP       $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-SSL on;
+        proxy_set_header   X-Forwarded-Protocol ssl;
+        proxy_set_header   X-Forwarded-Proto https;
+    }
+
+    error_log /var/log/nginx/error-backoffice-usagers.traefik.me.log warn;
+    access_log /var/log/nginx/access-backoffice-usagers.traefik.me.log combined;
+}
+server {
+    listen   80;
+    server_name backoffice-usagers.traefik.me;
+    error_log /var/log/nginx/error-backoffice-usagers.traefik.me.log warn;
+    access_log /var/log/nginx/access-backoffice-usagers.traefik.me.log combined;
+    return 301 https://$host$request_uri;
+}
+
+
+server {
+    listen 443 ssl;
+    server_name agents.traefik.me;
+
+    ssl_certificate /etc/nginx/certs/fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/privkey.pem;
+
+    location ~ ^/static/(.+)$ {
+        root /;
+        try_files /var/lib/authentic2-multitenant/static/$1
+                    /var/lib/authentic2-multitenant/collectstatic/$1
+                    =404;
+    }
+
+    location / {
+        rewrite            ^/accounts/saml/login/ /accounts/fedict/login/ last;
+        proxy_pass         http://unix:/run/authentic2-multitenant/authentic2-multitenant.sock;
+        proxy_set_header   Host $http_host;
+        proxy_set_header   X-Real-IP       $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-SSL on;
+        proxy_set_header   X-Forwarded-Protocol ssl;
+        proxy_set_header   X-Forwarded-Proto https;
+    }
+    error_log /var/log/nginx/error-agents.traefik.me.log warn;
+    access_log /var/log/nginx/access-agents.traefik.me.log combined;
+}
+server {
+    listen   80;
+    server_name agents.traefik.me;
+   error_log /var/log/nginx/error-agents.traefik.me.log warn;
+    access_log /var/log/nginx/access-agents.traefik.me.log combined;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name usagers.traefik.me;
+
+    ssl_certificate /etc/nginx/certs/fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/privkey.pem;
+
+    location ~ ^/static/(.+)$ {
+        root /;
+        try_files /var/lib/authentic2-multitenant/static/$1
+                    /var/lib/authentic2-multitenant/collectstatic/$1
+                    =404;
+    }
+
+    location / {
+        rewrite            ^/accounts/saml/login/ /accounts/fedict/login/ last;
+        proxy_pass         http://unix:/run/authentic2-multitenant/authentic2-multitenant.sock;
+        proxy_set_header   Host $http_host;
+        proxy_set_header   X-Real-IP       $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-SSL on;
+        proxy_set_header   X-Forwarded-Protocol ssl;
+        proxy_set_header   X-Forwarded-Proto https;
+    }
+    error_log /var/log/nginx/error-usagers.traefik.me.log warn;
+    access_log /var/log/nginx/access-usagers.traefik.me.log combined;
+}
+server {
+    listen   80;
+    server_name usagers.traefik.me;
+    error_log /var/log/nginx/error-usagers.traefik.me.log warn;
+    access_log /var/log/nginx/access-usagers.traefik.me.log combined;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name hobo-agents.traefik.me;
+
+    ssl_certificate /etc/nginx/certs/fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/privkey.pem;
+
+    location ~ ^/static/(.+)$ {
+        root /;
+        try_files /var/lib/hobo/static/$1
+                    /var/lib/hobo/theme/static/$1
+                    /var/lib/hobo/collectstatic/$1
+                    =404;
+    }
+
+    location / {
+        proxy_pass         http://unix:/var/run/hobo/hobo.sock;
+        proxy_set_header   Host $http_host;
+        proxy_set_header   X-Real-IP       $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-SSL on;
+        proxy_set_header   X-Forwarded-Protocol ssl;
+        proxy_set_header   X-Forwarded-Proto https;
+    }
+    error_log /var/log/nginx/error-hobo-agents.traefik.me.log warn;
+    access_log /var/log/nginx/access-hobo-agents.traefik.me.log combined;
+}
+server {
+    listen   80;
+    server_name hobo-agents.traefik.me;
+    error_log /var/log/nginx/error-hobo-agents.traefik.me.log warn;
+    access_log /var/log/nginx/access-hobo-agents.traefik.me.log combined;
+    return 301 https://$host$request_uri;
+}
+server {
+    listen 443 ssl;
+    server_name hobo-usagers.traefik.me;
+
+    ssl_certificate /etc/nginx/certs/fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/privkey.pem;
+
+    location ~ ^/static/(.+)$ {
+        root /;
+        try_files /var/lib/hobo/static/$1
+                    /var/lib/hobo/theme/static/$1
+                    /var/lib/hobo/collectstatic/$1
+                    =404;
+    }
+
+    location / {
+        proxy_pass         http://unix:/var/run/hobo/hobo.sock;
+        proxy_set_header   Host $http_host;
+        proxy_set_header   X-Real-IP       $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-SSL on;
+        proxy_set_header   X-Forwarded-Protocol ssl;
+        proxy_set_header   X-Forwarded-Proto https;
+    }
+    error_log /var/log/nginx/error-hobo-usagers.traefik.me.log warn;
+    access_log /var/log/nginx/access-hobo-usagers.traefik.me.log combined;
+}
+server {
+    listen   80;
+    server_name hobo-usagers.traefik.me;
+    error_log /var/log/nginx/error-hobo-usagers.traefik.me.log warn;
+    access_log /var/log/nginx/access-hobo-usagers.traefik.me.log combined;
+    return 301 https://$host$request_uri;
 }

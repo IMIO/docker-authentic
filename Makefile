@@ -82,3 +82,4 @@ certs:
 	mkdir certs
 	wget traefik.me/cert.pem -O certs/cert.pem
 	wget traefik.me/privkey.pem -O certs/privkey.pem
+	wget traefik.me/fullchain.pem -O certs/fullchain.pem

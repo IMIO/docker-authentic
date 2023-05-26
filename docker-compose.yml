@@ -43,6 +43,7 @@ services:
       - ./config/hobo/settings.d:/etc/hobo/settings.d
       - ./config/hobo-agent/settings.d:/etc/hobo-agent/settings.d
       - ./config/nginx:/etc/nginx/sites-available
+      - ./certs:/etc/nginx/certs
       - ./sso/agents.json:/agents.json
       - ./sso/usagers.json:/usagers.json
       - ./sso/agents-index.json:/agents-index.json
