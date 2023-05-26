@@ -8,13 +8,13 @@
                     "client_id": "client-id-plone4-wcu",
                     "client_secret": "client-secret-plone4-wcu",
                     "redirect_uris": [
-                        "http://plone4.localhost/authentic-handler/authentic-agents",
-                        "http://plone4.localhost/authentic-handler/authentic-usagers"
+                        "https://plone4.traefik.me/authentic-handler/authentic-agents",
+                        "https://plone4.traefik.me/authentic-handler/authentic-usagers"
                     ],
                     "post_logout_redirect_uris": [
-                        "http://plone4.localhost"
+                        "https://plone4.traefik.me"
                     ],
-                    "frontchannel_logout_uri": "http://plone4.localhost/logout",
+                    "frontchannel_logout_uri": "https://plone4.traefik.me/logout",
                     "identifier_policy": 3,
                     "open_to_all": true,
                     "has_api_access": false,
@@ -55,13 +55,60 @@
                     "client_id": "client-id-plone5-wcu",
                     "client_secret": "client-secret-plone5-wcu",
                     "redirect_uris": [
-                        "http://plone5.localhost/authentic-handler/authentic-agents",
-                        "http://plone5.localhost/authentic-handler/authentic-usagers"
+                        "https://plone5.traefik.me/authentic-handler/authentic-agents",
+                        "https://plone5.traefik.me/authentic-handler/authentic-usagers"
                     ],
                     "post_logout_redirect_uris": [
-                        "http://plone5.localhost"
+                        "https://plone5.traefik.me"
                     ],
-                    "frontchannel_logout_uri": "http://plone5.localhost/logout",
+                    "frontchannel_logout_uri": "https://plone5.traefik.me/logout",
+                    "identifier_policy": 3,
+                    "open_to_all": true,
+                    "has_api_access": false,
+                    "claims": [
+                        {
+                            "name": "preferred_username",
+                            "value": "django_user_username",
+                            "scopes": [
+                                "profile"
+                            ]
+                        },
+                        {
+                            "name": "given_name",
+                            "value": "django_user_first_name",
+                            "scopes": [
+                                "profile"
+                            ]
+                        },
+                        {
+                            "name": "family_name",
+                            "value": "django_user_last_name",
+                            "scopes": [
+                                "profile"
+                            ]
+                        },
+                        {
+                            "name": "email",
+                            "value": "django_user_email",
+                            "scopes": [
+                                "email"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Plone 6",
+                    "slug": "plone6-iasmartweb",
+                    "client_id": "client-id-plone6-wcu",
+                    "client_secret": "client-secret-plone6-wcu",
+                    "redirect_uris": [
+                        "https://plone6.traefik.me/authentic-handler/authentic-agents",
+                        "https://plone6.traefik.me/authentic-handler/authentic-usagers"
+                    ],
+                    "post_logout_redirect_uris": [
+                        "https://plone6.traefik.me"
+                    ],
+                    "frontchannel_logout_uri": "https://plone6.traefik.me/logout",
                     "identifier_policy": 3,
                     "open_to_all": true,
                     "has_api_access": false,

@@ -14,20 +14,20 @@ server {
             alias /var/lib/combo/tenants/$host/media/$1;
         }
 
-        server_name combo-agents.wc.localhost;
+        server_name combo-agents.traefik.me;
 
         location / {
             proxy_pass         http://unix:/var/run/combo/combo.sock;
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            # proxy_set_header   X-Forwarded-SSL on;
-            # proxy_set_header   X-Forwarded-Protocol ssl;
-            # proxy_set_header   X-Forwarded-Proto https;
+            proxy_set_header   X-Forwarded-SSL on;
+            proxy_set_header   X-Forwarded-Protocol ssl;
+            proxy_set_header   X-Forwarded-Proto https;
         }
 
-        error_log /var/log/nginx/error-combo-agents.wc.localhost.log warn;
-        access_log /var/log/nginx/access-combo-agents.wc.localhost.log combined;
+        error_log /var/log/nginx/error-combo-agents.traefik.me.log warn;
+        access_log /var/log/nginx/access-combo-agents.traefik.me.log combined;
 }
 server {
         listen   80;
@@ -45,20 +45,20 @@ server {
             alias /var/lib/combo/tenants/$host/media/$1;
         }
 
-        server_name backoffice-agents.wc.localhost;
+        server_name backoffice-agents.traefik.me;
 
         location / {
             proxy_pass         http://unix:/var/run/combo/combo.sock;
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            # proxy_set_header   X-Forwarded-SSL on;
-            # proxy_set_header   X-Forwarded-Protocol ssl;
-            # proxy_set_header   X-Forwarded-Proto https;
+            proxy_set_header   X-Forwarded-SSL on;
+            proxy_set_header   X-Forwarded-Protocol ssl;
+            proxy_set_header   X-Forwarded-Proto https;
         }
 
-        error_log /var/log/nginx/error-backoffice-agents.wc.localhost.log warn;
-        access_log /var/log/nginx/access-backoffice-agents.wc.localhost.log combined;
+        error_log /var/log/nginx/error-backoffice-agents.traefik.me.log warn;
+        access_log /var/log/nginx/access-backoffice-agents.traefik.me.log combined;
 }
 server {
         listen   80;
@@ -76,20 +76,20 @@ server {
             alias /var/lib/combo/tenants/$host/media/$1;
         }
 
-        server_name combo-usagers.wc.localhost;
+        server_name combo-usagers.traefik.me;
 
         location / {
             proxy_pass         http://unix:/var/run/combo/combo.sock;
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            # proxy_set_header   X-Forwarded-SSL on;
-            # proxy_set_header   X-Forwarded-Protocol ssl;
-            # proxy_set_header   X-Forwarded-Proto https;
+            proxy_set_header   X-Forwarded-SSL on;
+            proxy_set_header   X-Forwarded-Protocol ssl;
+            proxy_set_header   X-Forwarded-Proto https;
         }
 
-        error_log /var/log/nginx/error-combo-usagers.wc.localhost.log warn;
-        access_log /var/log/nginx/access-combo-usagers.wc.localhost.log combined;
+        error_log /var/log/nginx/error-combo-usagers.traefik.me.log warn;
+        access_log /var/log/nginx/access-combo-usagers.traefik.me.log combined;
 }
 server {
         listen   80;
@@ -107,27 +107,27 @@ server {
             alias /var/lib/combo/tenants/$host/media/$1;
         }
 
-        server_name backoffice-usagers.wc.localhost;
+        server_name backoffice-usagers.traefik.me;
 
         location / {
             proxy_pass         http://unix:/var/run/combo/combo.sock;
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            # proxy_set_header   X-Forwarded-SSL on;
-            # proxy_set_header   X-Forwarded-Protocol ssl;
-            # proxy_set_header   X-Forwarded-Proto https;
+            proxy_set_header   X-Forwarded-SSL on;
+            proxy_set_header   X-Forwarded-Protocol ssl;
+            proxy_set_header   X-Forwarded-Proto https;
         }
 
-        error_log /var/log/nginx/error-backoffice-usagers.wc.localhost.log warn;
-        access_log /var/log/nginx/access-backoffice-usagers.wc.localhost.log combined;
+        error_log /var/log/nginx/error-backoffice-usagers.traefik.me.log warn;
+        access_log /var/log/nginx/access-backoffice-usagers.traefik.me.log combined;
 }
 
 
 server {
         listen   80;
 
-        server_name agents.wc.localhost;
+        server_name agents.traefik.me;
 
         location ~ ^/static/(.+)$ {
             root /;
@@ -142,17 +142,17 @@ server {
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            # proxy_set_header   X-Forwarded-SSL on;
-            # proxy_set_header   X-Forwarded-Protocol ssl;
-            # proxy_set_header   X-Forwarded-Proto https;
+            proxy_set_header   X-Forwarded-SSL on;
+            proxy_set_header   X-Forwarded-Protocol ssl;
+            proxy_set_header   X-Forwarded-Proto https;
         }
-        error_log /var/log/nginx/error-agents.wc.localhost.log warn;
-        access_log /var/log/nginx/access-agents.wc.localhost.log combined;
+        error_log /var/log/nginx/error-agents.traefik.me.log warn;
+        access_log /var/log/nginx/access-agents.traefik.me.log combined;
 }
 server {
         listen   80;
 
-        server_name usagers.wc.localhost;
+        server_name usagers.traefik.me;
 
         location ~ ^/static/(.+)$ {
             root /;
@@ -167,18 +167,18 @@ server {
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            # proxy_set_header   X-Forwarded-SSL on;
-            # proxy_set_header   X-Forwarded-Protocol ssl;
-            # proxy_set_header   X-Forwarded-Proto https;
+            proxy_set_header   X-Forwarded-SSL on;
+            proxy_set_header   X-Forwarded-Protocol ssl;
+            proxy_set_header   X-Forwarded-Proto https;
         }
-        error_log /var/log/nginx/error-usagers.wc.localhost.log warn;
-        access_log /var/log/nginx/access-usagers.wc.localhost.log combined;
+        error_log /var/log/nginx/error-usagers.traefik.me.log warn;
+        access_log /var/log/nginx/access-usagers.traefik.me.log combined;
 }
 
 server {
         listen   80;
 
-        server_name hobo-agents.wc.localhost;
+        server_name hobo-agents.traefik.me;
 
         location ~ ^/static/(.+)$ {
             root /;
@@ -193,17 +193,17 @@ server {
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            # proxy_set_header   X-Forwarded-SSL on;
-            # proxy_set_header   X-Forwarded-Protocol ssl;
-            # proxy_set_header   X-Forwarded-Proto https;
+            proxy_set_header   X-Forwarded-SSL on;
+            proxy_set_header   X-Forwarded-Protocol ssl;
+            proxy_set_header   X-Forwarded-Proto https;
         }
-        error_log /var/log/nginx/error-hobo-agents.wc.localhost.log warn;
-        access_log /var/log/nginx/access-hobo-agents.wc.localhost.log combined;
+        error_log /var/log/nginx/error-hobo-agents.traefik.me.log warn;
+        access_log /var/log/nginx/access-hobo-agents.traefik.me.log combined;
 }
 server {
         listen   80;
 
-        server_name hobo-usagers.wc.localhost;
+        server_name hobo-usagers.traefik.me;
 
         location ~ ^/static/(.+)$ {
             root /;
@@ -218,10 +218,10 @@ server {
             proxy_set_header   Host $http_host;
             proxy_set_header   X-Real-IP       $remote_addr;
             proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-            # proxy_set_header   X-Forwarded-SSL on;
-            # proxy_set_header   X-Forwarded-Protocol ssl;
-            # proxy_set_header   X-Forwarded-Proto https;
+            proxy_set_header   X-Forwarded-SSL on;
+            proxy_set_header   X-Forwarded-Protocol ssl;
+            proxy_set_header   X-Forwarded-Proto https;
         }
-        error_log /var/log/nginx/error-hobo-usagers.wc.localhost.log warn;
-        access_log /var/log/nginx/access-hobo-usagers.wc.localhost.log combined;
+        error_log /var/log/nginx/error-hobo-usagers.traefik.me.log warn;
+        access_log /var/log/nginx/access-hobo-usagers.traefik.me.log combined;
 }

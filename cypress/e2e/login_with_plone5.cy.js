@@ -39,12 +39,12 @@ describe("Login Plone 5 with WCA", () => {
 
   it("Visits Plone 5 site", () => {
     cy.viewport(1200, 850)
-    cy.visit("http://plone5.localhost");
+    cy.visit("http://plone5.traefik.me");
     cy.contains("Welcome!").click();
     cy.contains("Log in").click();
     cy.contains("Je suis un agent").click();
     // cy.origin("")
-    cy.origin('http://agents.wc.localhost', () => {
+    cy.origin('http://agents.traefik.me', () => {
       cy.get("input[name=username]").type("jdoe");
       cy.get("select").then(($element) => {
         $element.val("2");

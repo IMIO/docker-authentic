@@ -1,40 +1,40 @@
 {
   "variables": {
-    "hobo": "hobo-usagers.wc.localhost",
-    "authentic": "usagers.wc.localhost",
-    "combo": "combo-usagers.wc.localhost",
-    "combo_agent": "backoffice-usagers.wc.localhost",
+    "hobo": "hobo-usagers.traefik.me",
+    "authentic": "usagers.traefik.me",
+    "combo": "combo-usagers.traefik.me",
+    "combo_agent": "backoffice-usagers.traefik.me",
     "wallonie_connect": "usagers"
   },
   "steps": [
     {
       "create-hobo": {
-        "url": "http://${hobo}/"
+        "url": "https://${hobo}/"
       }
     },
     {
       "create-superuser": {
-        "email": "adminwc@imio.be",
+        "email": "adminwaco@imio.be",
         "password": "admin"
       }
     },
     {
       "create-authentic": {
-        "url": "http://${authentic}/",
+        "url": "https://${authentic}/",
         "title": "Local WCU - Authentic"
       }
     },
     { "set-idp": {} },
     {
       "create-combo": {
-        "url": "http://${combo}/",
+        "url": "https://${combo}/",
         "title": "Local WCU - Combo",
         "template_name": "portal-user"
       }
     },
     {
       "create-combo": {
-        "url": "http://${combo_agent}/",
+        "url": "https://${combo_agent}/",
         "slug": "portal-agent",
         "title": "Local WCU - Combo backend",
         "template_name": "portal-agent"

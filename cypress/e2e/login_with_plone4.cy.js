@@ -7,11 +7,11 @@ describe("Login Plone 4 with WCA", () => {
     // cy.clearCookies()
   })
   it("Visits Plone 4 site", () => {
-    cy.visit("http://plone4.localhost");
+    cy.visit("http://plone4.traefik.me");
     cy.contains("Welcome to Plone").click();
     cy.contains("Log in").click();
     cy.contains("Je suis un agent").click();
-    cy.origin('http://agents.wc.localhost', () => {
+    cy.origin('http://agents.traefik.me', () => {
       cy.get("input[name=username]").type("jdoe");
       // cy.debug
       cy.get("select").then(($element) => {

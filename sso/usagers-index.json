@@ -44,7 +44,7 @@
             "public": false,
             "restricted_to_unlogged": false,
             "last_update_timestamp": "2020-07-16T07:30:56.487Z",
-            "text": "<p>Bienvenue sur Wallonie-Connect.</p>\r\n\r\n<p>Acc&eacute;der &agrave; votre <a href=\"http://usagers.wc.localhost/accounts\">page de gestion de compte</a>.</p>\r\n\r\n<p>Acc&eacute;der &agrave; la <a href=\"http://usagers.wc.localhost/manage/users/\">gestion des utilisateurs</a></p>",
+            "text": "<p>Bienvenue sur Wallonie-Connect.</p>\r\n\r\n<p>Acc&eacute;der &agrave; votre <a href=\"http://usagers.traefik.me/accounts\">page de gestion de compte</a>.</p>\r\n\r\n<p>Acc&eacute;der &agrave; la <a href=\"http://usagers.traefik.me/manage/users/\">gestion des utilisateurs</a></p>",
             "groups": []
           }
         }

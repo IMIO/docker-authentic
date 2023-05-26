@@ -7,31 +7,31 @@ services:
       dockerfile: Dockerfile
     image: wc/sso:latest
     environment:
-      - AGENTS_HOSTNAME=agents.wc.localhost
-      - USAGERS_HOSTNAME=usagers.wc.localhost
+      - AGENTS_HOSTNAME=agents.traefik.me
+      - USAGERS_HOSTNAME=usagers.traefik.me
       - environment_label=dev
       - INSTANCE_NAME=authentic80
       - CSRF_FAILURE_VIEW='django.views.csrf.csrf_failure'
     mem_limit: 2048m
     expose:
       - 80
-    extra_hosts:
-      hobo-agents.wc.localhost:
-        127.0.0.1
-      agents.wc.localhost:
-        127.0.0.1
-      combo-agents.wc.localhost:
-        127.0.0.1
-      backoffice-agents.wc.localhost:
-        127.0.0.1
-      hobo-usagers.wc.localhost:
-        127.0.0.1
-      usagers.wc.localhost:
-        127.0.0.1
-      combo-usagers.wc.localhost:
-        127.0.0.1
-      backoffice-usagers.wc.localhost:
-        127.0.0.1
+    # extra_hosts:
+    #   hobo-agents.traefik.me:
+    #     127.0.0.1
+    #   agents.traefik.me:
+    #     127.0.0.1
+    #   combo-agents.traefik.me:
+    #     127.0.0.1
+    #   backoffice-agents.traefik.me:
+    #     127.0.0.1
+    #   hobo-usagers.traefik.me:
+    #     127.0.0.1
+    #   usagers.traefik.me:
+    #     127.0.0.1
+    #   combo-usagers.traefik.me:
+    #     127.0.0.1
+    #   backoffice-usagers.traefik.me:
+    #     127.0.0.1
     volumes:
       - ./data/hobo:/var/lib/hobo/tenants
       - ./data/combo:/var/lib/combo/tenants
@@ -49,8 +49,8 @@ services:
       - ./sso/usagers-index.json:/usagers-index.json
       - ./src/scripts:/opt/scripts
       - ./sso/build.sh:/build.sh
-      # - ./imio-publik-themes/templates:/usr/share/publik/themes/imio/templates
-      # - ./imio-publik-themes/static:/usr/share/publik/themes/imio/static
+      - ./imio-publik-themes/templates:/usr/share/publik/themes/imio/templates
+      - ./imio-publik-themes/static:/usr/share/publik/themes/imio/static
     command: tail -f /dev/null
   authentic:
     extends: base
@@ -64,11 +64,14 @@ services:
         condition: service_started
       reverse-proxy:
         condition: service_started
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://agents.wc.localhost"]
-      retries: 50
+    # networks:
+    #   - proxy
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "https://agents.traefik.me"]
+    #   retries: 50
     labels:
-      - "traefik.http.routers.authentic.rule=HostRegexp(`wc.localhost`, `{subdomain:[a-z-]+}.wc.localhost`)"
+      - "traefik.enable=true"
+      - "traefik.http.routers.authentic=true"
   rabbitmq:
     image: rabbitmq
     hostname: rabbitmq
@@ -94,19 +97,25 @@ services:
     image: memcached
     hostname: memcached
   reverse-proxy:
-    image: traefik:2.4
+    image: traefik:2.10
+    container_name: traefik
     ports:
       - "80:80"
-      - "8080:8080"
-    command:
-      # - "--log.level=DEBUG"
-      - '--api.insecure=true'
-      - '--providers.docker'
-      - '--entryPoints.web.address=:80'
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/config.yml:/etc/traefik/config.yml:ro
+      - ./certs:/etc/ssl/traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik=true"
   monitor:
     extends: base
     command: /prometheus.sh
 volumes:
   pgdata:
+
+# networks:
+#   proxy:
+#     external: true

@@ -10,12 +10,12 @@ BROKER_URL = "amqp://guest:guest@rabbitmq:5672/"
 # value. The hostnames can be prefixed by an exclamation mark to exclude them.
 #
 AGENT_HOST_PATTERNS = {
-    "authentic": ["agents.wc.localhost", "usagers.wc.localhost"],
+    "authentic": ["agents.traefik.me", "usagers.traefik.me"],
     "combo": [
-        "combo-agents.wc.localhost",
-        "backoffice-agents.wc.localhost",
-        "combo-usagers.wc.localhost",
-        "backoffice-usagers.wc.localhost",
+        "combo-agents.traefik.me",
+        "backoffice-agents.traefik.me",
+        "combo-usagers.traefik.me",
+        "backoffice-usagers.traefik.me",
     ],
 }
 

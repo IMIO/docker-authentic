@@ -1,0 +1,24 @@
+# http:
+#   routers:
+#     traefik:
+#       rule: "Host(`traefik.traefik.me`)"
+#       service: "api@internal"
+#       tls:
+#         domains:
+#           - main: "waco"
+#             sans:
+#               - "*.traefik.me"
+#     authentic:
+#       rule: "Host(`agents.traefik.me`, `combo-agents.traefik.me`, `hobo-agents.traefik.me`, `backoffice-agents.traefik.me`, `usagers.traefik.me`, `combo-usagers.traefik.me`, `hobo-usagers.traefik.me`, `backoffice-usagers.traefik.me`)"
+#       # service: "api@internal"
+#       tls: true
+
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/ssl/traefik/cert.pem
+        keyFile: /etc/ssl/traefik/privkey.pem
+  certificates:
+    - certFile: /etc/ssl/traefik/cert.pem
+      keyFile: /etc/ssl/traefik/privkey.pem

@@ -4,14 +4,14 @@
             "services": [
                 {
                     "redirect_uris": [
-                        "http://plone4.localhost/authentic-handler/authentic-agents",
-                        "http://plone4.localhost/authentic-handler/authentic-usagers"
+                        "https://plone4.traefik.me/authentic-handler/authentic-agents",
+                        "https://plone4.traefik.me/authentic-handler/authentic-usagers"
                     ],
                     "name": "Plone 4",
                     "identifier_policy": 1,
                     "has_api_access": true,
                     "post_logout_redirect_uris": [
-                        "http://plone4.localhost"
+                        "https://plone4.traefik.me"
                     ],
                     "open_to_all": false,
                     "client_id": "client-id-plone4-wca",
@@ -54,18 +54,18 @@
                     ],
                     "client_secret": "client-secret-plone4-wca",
                     "slug": "plone4-iasmartweb",
-                    "frontchannel_logout_uri": "http://plone4.localhost/logout"
+                    "frontchannel_logout_uri": "https://plone4.traefik.me/logout"
                 },
                 {
                     "redirect_uris": [
-                        "http://plone5.localhost/authentic-handler/authentic-agents",
-                        "http://plone5.localhost/authentic-handler/authentic-usagers"
+                        "https://plone5.traefik.me/authentic-handler/authentic-agents",
+                        "https://plone5.traefik.me/authentic-handler/authentic-usagers"
                     ],
                     "name": "Plone 5",
                     "identifier_policy": 1,
                     "has_api_access": true,
                     "post_logout_redirect_uris": [
-                        "http://plone5.localhost"
+                        "https://plone5.traefik.me"
                     ],
                     "open_to_all": false,
                     "client_id": "client-id-plone5-wca",
@@ -108,18 +108,72 @@
                     ],
                     "client_secret": "client-secret-plone5-wca",
                     "slug": "plone5-iasmartweb",
-                    "frontchannel_logout_uri": "http://plone5.localhost/logout"
+                    "frontchannel_logout_uri": "https://plone5.traefik.me/logout"
                 },
                 {
                     "redirect_uris": [
-                        "http://ts-auth.wca/accounts/oidc/callback/"
+                        "https://plone6.traefik.me/authentic-handler/authentic-agents",
+                        "https://plone6.traefik.me/authentic-handler/authentic-usagers"
+                    ],
+                    "name": "Plone 6",
+                    "identifier_policy": 1,
+                    "has_api_access": true,
+                    "post_logout_redirect_uris": [
+                        "https://plone6.traefik.me"
+                    ],
+                    "open_to_all": false,
+                    "client_id": "client-id-plone6-wca",
+                    "claims": [
+                        {
+                            "scopes": [
+                                "profile"
+                            ],
+                            "name": "preferred_username",
+                            "value": "django_user_username"
+                        },
+                        {
+                            "scopes": [
+                                "profile"
+                            ],
+                            "name": "given_name",
+                            "value": "django_user_first_name"
+                        },
+                        {
+                            "scopes": [
+                                "profile"
+                            ],
+                            "name": "family_name",
+                            "value": "django_user_last_name"
+                        },
+                        {
+                            "scopes": [
+                                "email"
+                            ],
+                            "name": "email",
+                            "value": "django_user_email"
+                        },
+                        {
+                            "scopes": [
+                                "roles"
+                            ],
+                            "name": "roles",
+                            "value": "a2_role_slugs"
+                        }
+                    ],
+                    "client_secret": "client-secret-plone6-wca",
+                    "slug": "plone6-iasmartweb",
+                    "frontchannel_logout_uri": "https://plone6.traefik.me/logout"
+                },
+                {
+                    "redirect_uris": [
+                        "https://ts-auth.traefik.me/accounts/oidc/callback/"
                     ],
                     "name": "My Imio",
                     "identifier_policy": 2,
                     "has_api_access": false,
                     "post_logout_redirect_uris": [
-                        "http://ts-auth.wca/accounts/oidc/logout/",
-                        "http://ts-auth.wca/logout/"
+                        "https://ts-auth.traefik.me/accounts/oidc/logout/",
+                        "https://ts-auth.traefik.me/logout/"
                     ],
                     "open_to_all": false,
                     "client_id": "client-id-ts",
@@ -160,9 +214,9 @@
                             "value": "a2_role_slugs"
                         }
                     ],
-                    "client_secret": "client-secret-ts-wca",
+                    "client_secret": "client-secret-ts-waco",
                     "slug": "ts-iateleservice",
-                    "frontchannel_logout_uri": "http://ts-auth.wca/logout"
+                    "frontchannel_logout_uri": "https://ts-auth.traefik.me/logout"
                 }
             ],
             "locality": {
@@ -179,7 +233,8 @@
                     "allowed_services": [
                         "ts-iateleservice",
                         "plone4-iasmartweb",
-                        "plone5-iasmartweb"
+                        "plone5-iasmartweb",
+                        "plone6-iasmartweb"
                     ],
                     "uuid": "9c624de97876463bb2b96682e1ecbb0f"
                 }

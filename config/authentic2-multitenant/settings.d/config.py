@@ -17,13 +17,13 @@ DEBUG = True
 # TEMPLATES[0]["OPTIONS"]["debug"] = True
 
 
-ADMINS = (("Admins IMIO", "adminwc@imio.be"),)
+ADMINS = (("Admins IMIO", "adminwaco@imio.be"),)
 
 # ALLOWED_HOSTS must be correct in production!
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [
-    "agents.wc.localhost",
-    "usagers.wc.localhost",
+    "agents.traefik.me",
+    "usagers.traefik.me",
 ]
 
 
@@ -60,8 +60,8 @@ TIME_ZONE = "Europe/Brussels"
 
 # Email configuration
 EMAIL_SUBJECT_PREFIX = "[authentic local_authentic2]"
-SERVER_EMAIL = "authentic2@wc.localhost"
-DEFAULT_FROM_EMAIL = "authentic2@wc.localhost"
+SERVER_EMAIL = "authentic2@localhost"
+DEFAULT_FROM_EMAIL = "authentic2@localhost"
 
 # SMTP configuration
 EMAIL_HOST = "localhost"

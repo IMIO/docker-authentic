@@ -1,9 +1,9 @@
 {
   "variables": {
-    "hobo": "hobo-agents.wc.localhost",
-    "authentic": "agents.wc.localhost",
-    "combo": "combo-agents.wc.localhost",
-    "combo_agent": "backoffice-agents.wc.localhost",
+    "hobo": "hobo-agents.traefik.me",
+    "authentic": "agents.traefik.me",
+    "combo": "combo-agents.traefik.me",
+    "combo_agent": "backoffice-agents.traefik.me",
     "wallonie_connect": "agents"
   },
   "steps": [
@@ -14,7 +14,7 @@
     },
     {
       "create-superuser": {
-        "email": "adminwc@imio.be",
+        "email": "admin@imio.be",
         "password": "admin"
       }
     },
