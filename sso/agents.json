@@ -4,14 +4,14 @@
             "services": [
                 {
                     "redirect_uris": [
-                        "https://plone4.traefik.me/authentic-handler/authentic-agents",
-                        "https://plone4.traefik.me/authentic-handler/authentic-usagers"
+                        "https://plone4.dev.publik.love/authentic-handler/authentic-agents",
+                        "https://plone4.dev.publik.love/authentic-handler/authentic-usagers"
                     ],
                     "name": "Plone 4",
                     "identifier_policy": 1,
                     "has_api_access": true,
                     "post_logout_redirect_uris": [
-                        "https://plone4.traefik.me"
+                        "https://plone4.dev.publik.love"
                     ],
                     "open_to_all": false,
                     "client_id": "client-id-plone4-wca",
@@ -54,18 +54,18 @@
                     ],
                     "client_secret": "client-secret-plone4-wca",
                     "slug": "plone4-iasmartweb",
-                    "frontchannel_logout_uri": "https://plone4.traefik.me/logout"
+                    "frontchannel_logout_uri": "https://plone4.dev.publik.love/logout"
                 },
                 {
                     "redirect_uris": [
-                        "https://plone5.traefik.me/authentic-handler/authentic-agents",
-                        "https://plone5.traefik.me/authentic-handler/authentic-usagers"
+                        "https://plone5.dev.publik.love/authentic-handler/authentic-agents",
+                        "https://plone5.dev.publik.love/authentic-handler/authentic-usagers"
                     ],
                     "name": "Plone 5",
                     "identifier_policy": 1,
                     "has_api_access": true,
                     "post_logout_redirect_uris": [
-                        "https://plone5.traefik.me"
+                        "https://plone5.dev.publik.love"
                     ],
                     "open_to_all": false,
                     "client_id": "client-id-plone5-wca",
@@ -108,18 +108,18 @@
                     ],
                     "client_secret": "client-secret-plone5-wca",
                     "slug": "plone5-iasmartweb",
-                    "frontchannel_logout_uri": "https://plone5.traefik.me/logout"
+                    "frontchannel_logout_uri": "https://plone5.dev.publik.love/logout"
                 },
                 {
                     "redirect_uris": [
-                        "https://plone6.traefik.me/authentic-handler/authentic-agents",
-                        "https://plone6.traefik.me/authentic-handler/authentic-usagers"
+                        "https://plone6.dev.publik.love/authentic-handler/authentic-agents",
+                        "https://plone6.dev.publik.love/authentic-handler/authentic-usagers"
                     ],
                     "name": "Plone 6",
                     "identifier_policy": 1,
                     "has_api_access": true,
                     "post_logout_redirect_uris": [
-                        "https://plone6.traefik.me"
+                        "https://plone6.dev.publik.love"
                     ],
                     "open_to_all": false,
                     "client_id": "client-id-plone6-wca",
@@ -162,18 +162,18 @@
                     ],
                     "client_secret": "client-secret-plone6-wca",
                     "slug": "plone6-iasmartweb",
-                    "frontchannel_logout_uri": "https://plone6.traefik.me/logout"
+                    "frontchannel_logout_uri": "https://plone6.dev.publik.love/logout"
                 },
                 {
                     "redirect_uris": [
-                        "https://ts-auth.traefik.me/accounts/oidc/callback/"
+                        "https://ts-auth.dev.publik.love/accounts/oidc/callback/"
                     ],
                     "name": "My Imio",
                     "identifier_policy": 2,
                     "has_api_access": false,
                     "post_logout_redirect_uris": [
-                        "https://ts-auth.traefik.me/accounts/oidc/logout/",
-                        "https://ts-auth.traefik.me/logout/"
+                        "https://ts-auth.dev.publik.love/accounts/oidc/logout/",
+                        "https://ts-auth.dev.publik.love/logout/"
                     ],
                     "open_to_all": false,
                     "client_id": "client-id-ts",
@@ -216,7 +216,7 @@
                     ],
                     "client_secret": "client-secret-ts-waco",
                     "slug": "ts-iateleservice",
-                    "frontchannel_logout_uri": "https://ts-auth.traefik.me/logout"
+                    "frontchannel_logout_uri": "https://ts-auth.dev.publik.love/logout"
                 }
             ],
             "locality": {

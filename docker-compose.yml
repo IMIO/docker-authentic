@@ -7,31 +7,12 @@ services:
       dockerfile: Dockerfile
     image: wc/sso:latest
     environment:
-      - AGENTS_HOSTNAME=agents.traefik.me
-      - USAGERS_HOSTNAME=usagers.traefik.me
+      - AGENTS_HOSTNAME=agents.dev.publik.love
+      - USAGERS_HOSTNAME=usagers.dev.publik.love
       - environment_label=dev
       - INSTANCE_NAME=authentic80
       - CSRF_FAILURE_VIEW='django.views.csrf.csrf_failure'
     mem_limit: 2048m
-    expose:
-      - 80
-    # extra_hosts:
-    #   hobo-agents.traefik.me:
-    #     127.0.0.1
-    #   agents.traefik.me:
-    #     127.0.0.1
-    #   combo-agents.traefik.me:
-    #     127.0.0.1
-    #   backoffice-agents.traefik.me:
-    #     127.0.0.1
-    #   hobo-usagers.traefik.me:
-    #     127.0.0.1
-    #   usagers.traefik.me:
-    #     127.0.0.1
-    #   combo-usagers.traefik.me:
-    #     127.0.0.1
-    #   backoffice-usagers.traefik.me:
-    #     127.0.0.1
     volumes:
       - ./data/hobo:/var/lib/hobo/tenants
       - ./data/combo:/var/lib/combo/tenants
@@ -56,6 +37,9 @@ services:
   authentic:
     extends: base
     command: /run.sh
+    ports:
+      - "80:80"
+      - "443:443"
     depends_on:
       database:
         condition: service_healthy
@@ -63,16 +47,6 @@ services:
         condition: service_healthy
       memcached:
         condition: service_started
-      reverse-proxy:
-        condition: service_started
-    # networks:
-    #   - proxy
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "https://agents.traefik.me"]
-    #   retries: 50
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.authentic=true"
   rabbitmq:
     image: rabbitmq
     hostname: rabbitmq
@@ -97,26 +71,12 @@ services:
   memcached:
     image: memcached
     hostname: memcached
-  reverse-proxy:
-    image: traefik:2.10
-    container_name: traefik
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
-      - ./traefik/config.yml:/etc/traefik/config.yml:ro
-      - ./certs:/etc/ssl/traefik
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik=true"
   monitor:
     extends: base
     command: /prometheus.sh
 volumes:
   pgdata:
 
-# networks:
-#   proxy:
-#     external: true
+networks:
+  external:
+    external: true

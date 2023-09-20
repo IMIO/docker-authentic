@@ -1,9 +1,9 @@
 {
   "variables": {
-    "hobo": "hobo-usagers.traefik.me",
-    "authentic": "usagers.traefik.me",
-    "combo": "combo-usagers.traefik.me",
-    "combo_agent": "backoffice-usagers.traefik.me",
+    "hobo": "hobo-usagers.dev.publik.love",
+    "authentic": "usagers.dev.publik.love",
+    "combo": "combo-usagers.dev.publik.love",
+    "combo_agent": "backoffice-usagers.dev.publik.love",
     "wallonie_connect": "usagers"
   },
   "steps": [

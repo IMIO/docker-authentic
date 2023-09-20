@@ -8,13 +8,13 @@
                     "client_id": "client-id-plone4-wcu",
                     "client_secret": "client-secret-plone4-wcu",
                     "redirect_uris": [
-                        "https://plone4.traefik.me/authentic-handler/authentic-agents",
-                        "https://plone4.traefik.me/authentic-handler/authentic-usagers"
+                        "https://plone4.dev.publik.love/authentic-handler/authentic-agents",
+                        "https://plone4.dev.publik.love/authentic-handler/authentic-usagers"
                     ],
                     "post_logout_redirect_uris": [
-                        "https://plone4.traefik.me"
+                        "https://plone4.dev.publik.love"
                     ],
-                    "frontchannel_logout_uri": "https://plone4.traefik.me/logout",
+                    "frontchannel_logout_uri": "https://plone4.dev.publik.love/logout",
                     "identifier_policy": 3,
                     "open_to_all": true,
                     "has_api_access": false,
@@ -55,13 +55,13 @@
                     "client_id": "client-id-plone5-wcu",
                     "client_secret": "client-secret-plone5-wcu",
                     "redirect_uris": [
-                        "https://plone5.traefik.me/authentic-handler/authentic-agents",
-                        "https://plone5.traefik.me/authentic-handler/authentic-usagers"
+                        "https://plone5.dev.publik.love/authentic-handler/authentic-agents",
+                        "https://plone5.dev.publik.love/authentic-handler/authentic-usagers"
                     ],
                     "post_logout_redirect_uris": [
-                        "https://plone5.traefik.me"
+                        "https://plone5.dev.publik.love"
                     ],
-                    "frontchannel_logout_uri": "https://plone5.traefik.me/logout",
+                    "frontchannel_logout_uri": "https://plone5.dev.publik.love/logout",
                     "identifier_policy": 3,
                     "open_to_all": true,
                     "has_api_access": false,
@@ -102,13 +102,13 @@
                     "client_id": "client-id-plone6-wcu",
                     "client_secret": "client-secret-plone6-wcu",
                     "redirect_uris": [
-                        "https://plone6.traefik.me/authentic-handler/authentic-agents",
-                        "https://plone6.traefik.me/authentic-handler/authentic-usagers"
+                        "https://plone6.dev.publik.love/authentic-handler/authentic-agents",
+                        "https://plone6.dev.publik.love/authentic-handler/authentic-usagers"
                     ],
                     "post_logout_redirect_uris": [
-                        "https://plone6.traefik.me"
+                        "https://plone6.dev.publik.love"
                     ],
-                    "frontchannel_logout_uri": "https://plone6.traefik.me/logout",
+                    "frontchannel_logout_uri": "https://plone6.dev.publik.love/logout",
                     "identifier_policy": 3,
                     "open_to_all": true,
                     "has_api_access": false,

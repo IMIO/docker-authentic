@@ -22,8 +22,8 @@ ADMINS = (("Admins IMIO", "adminwaco@imio.be"),)
 # ALLOWED_HOSTS must be correct in production!
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [
-    "agents.traefik.me",
-    "usagers.traefik.me",
+    "agents.dev.publik.love",
+    "usagers.dev.publik.love",
 ]
 
 
@@ -49,6 +49,14 @@ if "authentic2_wallonie_connect" not in INSTALLED_APPS:
     INSTALLED_APPS += ("authentic2_wallonie_connect",)
 if "authentic2_wallonie_connect" not in TENANT_APPS:
     TENANT_APPS += ("authentic2_wallonie_connect",)
+
+if 'authentic2_auth_fedict' not in INSTALLED_APPS:
+    INSTALLED_APPS += ('authentic2_auth_fedict',)
+if 'authentic2_auth_fedict' not in TENANT_APPS:
+    TENANT_APPS += ('authentic2_auth_fedict',)
+if 'authentic2_auth_fedict.backends.FedictBackend' not in AUTHENTICATION_BACKENDS:
+    AUTHENTICATION_BACKENDS += ('authentic2_auth_fedict.backends.FedictBackend',)
+
 
 LANGUAGE_CODE = "fr-be"
 TIME_ZONE = "Europe/Brussels"

@@ -1,15 +1,15 @@
 {
   "variables": {
-    "hobo": "hobo-agents.traefik.me",
-    "authentic": "agents.traefik.me",
-    "combo": "combo-agents.traefik.me",
-    "combo_agent": "backoffice-agents.traefik.me",
+    "hobo": "hobo-agents.dev.publik.love",
+    "authentic": "agents.dev.publik.love",
+    "combo": "combo-agents.dev.publik.love",
+    "combo_agent": "backoffice-agents.dev.publik.love",
     "wallonie_connect": "agents"
   },
   "steps": [
     {
       "create-hobo": {
-        "url": "http://${hobo}/"
+        "url": "https://${hobo}/"
       }
     },
     {
@@ -20,21 +20,21 @@
     },
     {
       "create-authentic": {
-        "url": "http://${authentic}/",
+        "url": "https://${authentic}/",
         "title": "Local WCA - Authentic"
       }
     },
     { "set-idp": {} },
     {
       "create-combo": {
-        "url": "http://${combo}/",
+        "url": "https://${combo}/",
         "title": "Local WCA - Combo",
         "template_name": "portal-user"
       }
     },
     {
       "create-combo": {
-        "url": "http://${combo_agent}/",
+        "url": "https://${combo_agent}/",
         "slug": "portal-agent",
         "title": "Local WCA - Combo backend",
         "template_name": "portal-agent"

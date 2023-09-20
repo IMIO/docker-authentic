@@ -21,8 +21,8 @@ ADMINS = (("Admin IMIO", "adminwaco@imio.be"),)
 # ALLOWED_HOSTS must be correct in production!
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [
-    "hobo-agents.traefik.me",
-    "hobo-usagers.traefik.me",
+    "hobo-agents.dev.publik.love",
+    "hobo-usagers.dev.publik.love",
 ]
 
 # Databases

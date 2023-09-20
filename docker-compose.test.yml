@@ -7,12 +7,10 @@ services:
       dockerfile: Dockerfile
     image: plone4
     links:
-      - authentic:agents.wc.traefik.me
-      - authentic:usagers.wc.traefik.me
+      - authentic:agents.dev.publik.love
+      - authentic:usagers.dev.publik.love
     expose:
       - 8080
-    # networks:
-    #   - proxy
     environment:
       zope_i18n_compile_mo_files: "true"
       TZ: "Europe/Brussels"
@@ -22,66 +20,34 @@ services:
       consumer_key_agents: "client-id-plone4-wca"
       consumer_secret_usagers: "client-secret-plone4-wcu"
       consumer_secret_agents: "client-secret-plone4-wca"
-      authentic_usagers_hostname: "usagers.traefik.me"
-      authentic_agents_hostname: "agents.traefik.me"
+      authentic_usagers_hostname: "usagers.dev.publik.love"
+      authentic_agents_hostname: "agents.dev.publik.love"
       service_ou: "0841470248"
       service_slug: "plone4-iasmartweb"
     volumes:
       - plone4-data:/data
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.plone4.rule=Host(`plone4.traefik.me`)"
-      - "traefik.http.routers.plone4.tls=true"
-      - "traefik.http.routers.plone4.middlewares=add-plone4"
-      - "traefik.http.middlewares.add-plone4.addprefix.prefix=/VirtualHostBase/https/plone4.traefik.me/Plone/VirtualHostRoot"
-  plone5:
-    build:
-      context: plone5
-      dockerfile: Dockerfile
-    image: plone5
-    links:
-      - authentic:agents.traefik.me
-      - authentic:usagers.traefik.me
-    expose:
-      - 8080
-    # networks:
-    #   - proxy
-    environment:
-      zope_i18n_compile_mo_files: "true"
-      TZ: "Europe/Brussels"
-      ENV: "dev"
-      PLONE_CSRF_DISABLED: "true"
-      consumer_key_usagers: "client-id-plone5-wcu"
-      consumer_key_agents: "client-id-plone5-wca"
-      consumer_secret_usagers: "client-secret-plone5-wcu"
-      consumer_secret_agents: "client-secret-plone5-wca"
-      authentic_usagers_hostname: "usagers.traefik.me"
-      authentic_agents_hostname: "agents.traefik.me"
-      service_ou: "0841470248"
-      service_slug: "plone5-iasmartweb"
-    volumes:
-      - plone5-data:/data
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.plone5.rule=Host(`plone5.traefik.me`)"
-      - "traefik.http.routers.plone5.tls=true"
-      - "traefik.http.routers.plone5.middlewares=add-plone5"
-      - "traefik.http.middlewares.add-plone5.addprefix.prefix=/VirtualHostBase/https/plone5.traefik.me/Plone/VirtualHostRoot"
-      # - "traefik.http.middlewares.add-plone5.headers.customresponseheaders.Access-Control-Allow-Origin: '*'"
+    command: bin/instance fg
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.plone4.rule=Host(`plone4.dev.publik.love`)"
+    #   - "traefik.http.routers.plone4.tls=true"
+    #   - "traefik.http.routers.plone4.middlewares=add-plone4"
+    #   - "traefik.http.middlewares.add-plone4.addprefix.prefix=/VirtualHostBase/https/plone4.dev.publik.love/Plone/VirtualHostRoot"
   plone6:
     image: plone/plone-backend:6
     links:
-      - authentic:agents.traefik.me
-      - authentic:usagers.traefik.me
+      - authentic:agents.dev.publik.love
+      - authentic:usagers.dev.publik.love
     expose:
       - 8080
-    # networks:
-    #   - proxy
     environment:
       TYPE: "classic"
       SITE: "Plone"
       PROFILES: "pas.plugins.imio:default"
       ADDONS: "pas.plugins.imio"
+      DELETE_EXISTING: false
+      LANGUAGE: "fr"
+      TIMEZONE: "Europe/Brussels"
       zope_i18n_compile_mo_files: "true"
       TZ: "Europe/Brussels"
       ENV: "dev"
@@ -90,20 +56,20 @@ services:
       consumer_key_agents: "client-id-plone6-wca"
       consumer_secret_usagers: "client-secret-plone6-wcu"
       consumer_secret_agents: "client-secret-plone6-wca"
-      authentic_usagers_hostname: "usagers.traefik.me"
-      authentic_agents_hostname: "agents.traefik.me"
+      authentic_usagers_hostname: "usagers.dev.publik.love"
+      authentic_agents_hostname: "agents.dev.publik.love"
       service_ou: "0841470248"
       service_slug: "plone6-iasmartweb"
     volumes:
       - plone6-data:/data
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.plone6.rule=Host(`plone6.traefik.me`)"
-      - "traefik.http.routers.plone6.tls=true"
-      - "traefik.http.routers.plone6.middlewares=add-plone6"
-      - "traefik.http.middlewares.add-plone6.addprefix.prefix=/VirtualHostBase/https/plone6.traefik.me/Plone/VirtualHostRoot"
-      - "traefik.http.routers.plone6-tls.tls.domains[0].main=plone6.traefik.me"
-      - "traefik.http.routers.plone6-tls.tls.domains[0].sans=plone6-*.traefik.me"
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.plone6.rule=Host(`plone6.dev.publik.love`)"
+    #   - "traefik.http.routers.plone6.tls=true"
+    #   - "traefik.http.routers.plone6.middlewares=add-plone6"
+    #   - "traefik.http.middlewares.add-plone6.addprefix.prefix=/VirtualHostBase/https/plone6.dev.publik.love/Plone/VirtualHostRoot"
+    #   - "traefik.http.routers.plone6-tls.tls.domains[0].main=plone6.dev.publik.love"
+    #   - "traefik.http.routers.plone6-tls.tls.domains[0].sans=plone6-*.dev.publik.love"
   cypress:
     image: cypress/included:12.10.0
     volumes:
@@ -115,16 +81,18 @@ services:
         condition: service_healthy
       plone4:
         condition: service_healthy
-      plone5:
+      plone6:
         condition: service_healthy
     links:
-      - reverse-proxy:plone4.traefik.me
-      - reverse-proxy:plone5.traefik.me
-      - reverse-proxy:agents.traefik.me
-      - reverse-proxy:combo-agents.traefik.me
+      - reverse-proxy:plone4.dev.publik.love
+      - reverse-proxy:agents.dev.publik.love
+      - reverse-proxy:combo-agents.dev.publik.love
     # command: --browser firefox
+
 volumes:
   plone4-data:
-  plone5-data:
   plone6-data:
 
+networks:
+  external:
+    external: true

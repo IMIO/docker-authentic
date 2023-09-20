@@ -44,7 +44,7 @@
             "public": false,
             "restricted_to_unlogged": false,
             "last_update_timestamp": "2020-07-16T07:30:56.487Z",
-            "text": "<p>Bienvenue sur Wallonie Connect.</p>\r\n\r\n<p>Acc&eacute;der &agrave; votre <a href=\"https://agents.traefik.me/accounts\">page de gestion de compte</a>.</p>\r\n\r\n<p>Acc&eacute;der &agrave; la <a href=\"https://agents.traefik.me/manage/users/\">gestion des utilisateurs</a></p><p>Acc&eacute;der &agrave; l&#39;<a href=\"https://agents.traefik.me/admin/\">admin de Django</a></p>",
+            "text": "<p>Bienvenue sur Wallonie Connect.</p>\r\n\r\n<p>Acc&eacute;der &agrave; votre <a href=\"https://agents.dev.publik.love/accounts\">page de gestion de compte</a>.</p>\r\n\r\n<p>Acc&eacute;der &agrave; la <a href=\"https://agents.dev.publik.love/manage/users/\">gestion des utilisateurs</a></p><p>Acc&eacute;der &agrave; l&#39;<a href=\"https://agents.dev.publik.love/admin/\">admin de Django</a></p>",
             "groups": []
           }
         }

@@ -1,17 +1,17 @@
 server {
     listen 443 ssl;
-    server_name combo-agents.traefik.me;
+    server_name combo-agents.dev.publik.love;
 
-    ssl_certificate /etc/nginx/certs/fullchain.pem;
-    ssl_certificate_key /etc/nginx/certs/privkey.pem;
-
+    ssl_certificate /etc/nginx/certs/dev.publik.love-fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/dev.publik.love-privkey.pem;
     location ~ ^/static/(.+)$ {
         root /;
         try_files /var/lib/combo/tenants/$host/static/$1
                     /var/lib/combo/tenants/$host/theme/static/$1
                     /var/lib/combo/collectstatic/$1
                     =404;
-        add_header         'Access-Control-Allow-Origin' '*';
+        add_header      'Access-Control-Allow-Origin' '*';
+        add_header      'Service-Worker-Allowed' '/';
     }
 
     location ~ ^/media/(.+)$ {
@@ -20,6 +20,7 @@ server {
 
     location / {
         proxy_pass         http://unix:/var/run/combo/combo.sock;
+        # proxy_pass         http://127.0.0.1:8004;
         proxy_set_header   Host $http_host;
         proxy_set_header   X-Real-IP       $remote_addr;
         proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -28,24 +29,24 @@ server {
         proxy_set_header   X-Forwarded-Proto https;
     }
 
-    error_log /var/log/nginx/error-combo-agents.traefik.me.log warn;
-    access_log /var/log/nginx/access-combo-agents.traefik.me.log combined;
+    error_log /var/log/nginx/error-combo-agents.dev.publik.love.log warn;
+    access_log /var/log/nginx/access-combo-agents.dev.publik.love.log combined;
 }
-# catchall http → https
 server {
     listen   80;
-    server_name combo-agents.traefik.me;
-    error_log /var/log/nginx/error-combo-agents.traefik.me.log warn;
-    access_log /var/log/nginx/access-combo-agents.traefik.me.log combined;
+    server_name  combo-agents.dev.publik.love;
+    access_log  combo-agents.dev.publik.love-access.log combined;
+    error_log  combo-agents.dev.publik.love-error.log;
     return 301 https://$host$request_uri;
 }
 
+
 server {
     listen 443 ssl;
-    server_name backoffice-agents.traefik.me;
+    server_name backoffice-agents.dev.publik.love;
 
-    ssl_certificate /etc/nginx/certs/fullchain.pem;
-    ssl_certificate_key /etc/nginx/certs/privkey.pem;
+    ssl_certificate /etc/nginx/certs/dev.publik.love-fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/dev.publik.love-privkey.pem;
 
     location ~ ^/static/(.+)$ {
         root /;
@@ -53,49 +54,8 @@ server {
                     /var/lib/combo/tenants/$host/theme/static/$1
                     /var/lib/combo/collectstatic/$1
                     =404;
-        add_header         'Access-Control-Allow-Origin' '*';
-    }
-
-    location ~ ^/media/(.+)$ {
-        alias /var/lib/combo/tenants/$host/media/$1;
-    }
-
-
-    location / {
-        proxy_pass         http://unix:/var/run/combo/combo.sock;
-        proxy_set_header   Host $http_host;
-        proxy_set_header   X-Real-IP       $remote_addr;
-        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header   X-Forwarded-SSL on;
-        proxy_set_header   X-Forwarded-Protocol ssl;
-        proxy_set_header   X-Forwarded-Proto https;
-    }
-
-    error_log /var/log/nginx/error-backoffice-agents.traefik.me.log warn;
-    access_log /var/log/nginx/access-backoffice-agents.traefik.me.log combined;
-}
-server {
-    listen   80;
-    server_name backoffice-agents.traefik.me;
-    error_log /var/log/nginx/error-backoffice-agents.traefik.me.log warn;
-    access_log /var/log/nginx/access-backoffice-agents.traefik.me.log combined;
-    return 301 https://$host$request_uri;
-}
-
-server {
-    listen 443 ssl;
-    server_name combo-usagers.traefik.me;
-
-    ssl_certificate /etc/nginx/certs/fullchain.pem;
-    ssl_certificate_key /etc/nginx/certs/privkey.pem;
-
-    location ~ ^/static/(.+)$ {
-        root /;
-        try_files /var/lib/combo/tenants/$host/static/$1
-                    /var/lib/combo/tenants/$host/theme/static/$1
-                    /var/lib/combo/collectstatic/$1
-                    =404;
-        add_header         'Access-Control-Allow-Origin' '*';
+        add_header      'Access-Control-Allow-Origin' '*';
+        add_header      'Service-Worker-Allowed' '/';
     }
 
     location ~ ^/media/(.+)$ {
@@ -104,6 +64,7 @@ server {
 
     location / {
         proxy_pass         http://unix:/var/run/combo/combo.sock;
+        # proxy_pass         http://127.0.0.1:8004;
         proxy_set_header   Host $http_host;
         proxy_set_header   X-Real-IP       $remote_addr;
         proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -111,23 +72,25 @@ server {
         proxy_set_header   X-Forwarded-Protocol ssl;
         proxy_set_header   X-Forwarded-Proto https;
     }
-    error_log /var/log/nginx/error-combo-usagers.traefik.me.log warn;
-    access_log /var/log/nginx/access-combo-usagers.traefik.me.log combined;
+
+    error_log /var/log/nginx/error-backoffice-agents.dev.publik.love.log warn;
+    access_log /var/log/nginx/access-backoffice-agents.dev.publik.love.log combined;
 }
 server {
     listen   80;
-    server_name combo-usagers.traefik.me;
-    error_log /var/log/nginx/error-combo-usagers.traefik.me.log warn;
-    access_log /var/log/nginx/access-combo-usagers.traefik.me.log combined;
+    server_name  backoffice-agents.dev.publik.love;
+    access_log  backoffice-agents.dev.publik.love-access.log combined;
+    error_log  backoffice-agents.dev.publik.love-error.log;
     return 301 https://$host$request_uri;
 }
 
+
 server {
     listen 443 ssl;
-    server_name backoffice-usagers.traefik.me;
+    server_name combo-usagers.dev.publik.love;
 
-    ssl_certificate /etc/nginx/certs/fullchain.pem;
-    ssl_certificate_key /etc/nginx/certs/privkey.pem;
+    ssl_certificate /etc/nginx/certs/dev.publik.love-fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/dev.publik.love-privkey.pem;
 
     location ~ ^/static/(.+)$ {
         root /;
@@ -135,7 +98,8 @@ server {
                     /var/lib/combo/tenants/$host/theme/static/$1
                     /var/lib/combo/collectstatic/$1
                     =404;
-        add_header         'Access-Control-Allow-Origin' '*';
+        add_header      'Access-Control-Allow-Origin' '*';
+        add_header      'Service-Worker-Allowed' '/';
     }
 
     location ~ ^/media/(.+)$ {
@@ -144,6 +108,50 @@ server {
 
     location / {
         proxy_pass         http://unix:/var/run/combo/combo.sock;
+        # proxy_pass         http://127.0.0.1:8004;
+        proxy_set_header   Host $http_host;
+        proxy_set_header   X-Real-IP       $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-SSL on;
+        proxy_set_header   X-Forwarded-Protocol ssl;
+        proxy_set_header   X-Forwarded-Proto https;
+    }
+    error_log /var/log/nginx/error-combo-usagers.dev.publik.love.log warn;
+    access_log /var/log/nginx/access-combo-usagers.dev.publik.love.log combined;
+}
+server {
+    listen   80;
+    server_name  combo-usagers.dev.publik.love;
+    access_log  combo-usagers.dev.publik.love-access.log combined;
+    error_log  combo-usagers.dev.publik.love-error.log;
+    return 301 https://$host$request_uri;
+}
+
+
+server {
+    listen 443 ssl;
+    server_name backoffice-usagers.dev.publik.love;
+
+    ssl_certificate /etc/nginx/certs/dev.publik.love-fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/dev.publik.love-privkey.pem;
+
+    location ~ ^/static/(.+)$ {
+        root /;
+        try_files /var/lib/combo/tenants/$host/static/$1
+                    /var/lib/combo/tenants/$host/theme/static/$1
+                    /var/lib/combo/collectstatic/$1
+                    =404;
+        add_header      'Access-Control-Allow-Origin' '*';
+        add_header      'Service-Worker-Allowed' '/';
+    }
+
+    location ~ ^/media/(.+)$ {
+        alias /var/lib/combo/tenants/$host/media/$1;
+    }
+
+    location / {
+        proxy_pass         http://unix:/var/run/combo/combo.sock;
+        # proxy_pass         http://127.0.0.1:8004;
         proxy_set_header   Host $http_host;
         proxy_set_header   X-Real-IP       $remote_addr;
         proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -152,35 +160,38 @@ server {
         proxy_set_header   X-Forwarded-Proto https;
     }
 
-    error_log /var/log/nginx/error-backoffice-usagers.traefik.me.log warn;
-    access_log /var/log/nginx/access-backoffice-usagers.traefik.me.log combined;
+    error_log /var/log/nginx/error-backoffice-usagers.dev.publik.love.log warn;
+    access_log /var/log/nginx/access-backoffice-usagers.dev.publik.love.log combined;
 }
 server {
     listen   80;
-    server_name backoffice-usagers.traefik.me;
-    error_log /var/log/nginx/error-backoffice-usagers.traefik.me.log warn;
-    access_log /var/log/nginx/access-backoffice-usagers.traefik.me.log combined;
+    server_name  backoffice-usagers.dev.publik.love;
+    access_log  backoffice-usagers.dev.publik.love-access.log combined;
+    error_log  backoffice-usagers.dev.publik.love-error.log;
     return 301 https://$host$request_uri;
 }
 
 
 server {
     listen 443 ssl;
-    server_name agents.traefik.me;
+    server_name agents.dev.publik.love;
 
-    ssl_certificate /etc/nginx/certs/fullchain.pem;
-    ssl_certificate_key /etc/nginx/certs/privkey.pem;
+    ssl_certificate /etc/nginx/certs/dev.publik.love-fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/dev.publik.love-privkey.pem;
 
     location ~ ^/static/(.+)$ {
         root /;
         try_files /var/lib/authentic2-multitenant/static/$1
                     /var/lib/authentic2-multitenant/collectstatic/$1
                     =404;
+        add_header      'Access-Control-Allow-Origin' '*';
+        add_header      'Service-Worker-Allowed' '/';
     }
 
     location / {
         rewrite            ^/accounts/saml/login/ /accounts/fedict/login/ last;
         proxy_pass         http://unix:/run/authentic2-multitenant/authentic2-multitenant.sock;
+        # proxy_pass         http://127.0.0.1:8000;
         proxy_set_header   Host $http_host;
         proxy_set_header   X-Real-IP       $remote_addr;
         proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -188,34 +199,38 @@ server {
         proxy_set_header   X-Forwarded-Protocol ssl;
         proxy_set_header   X-Forwarded-Proto https;
     }
-    error_log /var/log/nginx/error-agents.traefik.me.log warn;
-    access_log /var/log/nginx/access-agents.traefik.me.log combined;
+    error_log /var/log/nginx/error-agents.dev.publik.love.log warn;
+    access_log /var/log/nginx/access-agents.dev.publik.love.log combined;
 }
 server {
     listen   80;
-    server_name agents.traefik.me;
-   error_log /var/log/nginx/error-agents.traefik.me.log warn;
-    access_log /var/log/nginx/access-agents.traefik.me.log combined;
+    server_name  agents.dev.publik.love;
+    access_log  agents.dev.publik.love-access.log combined;
+    error_log  agents.dev.publik.love-error.log;
     return 301 https://$host$request_uri;
 }
 
+
 server {
     listen 443 ssl;
-    server_name usagers.traefik.me;
+    server_name usagers.dev.publik.love;
 
-    ssl_certificate /etc/nginx/certs/fullchain.pem;
-    ssl_certificate_key /etc/nginx/certs/privkey.pem;
+    ssl_certificate /etc/nginx/certs/dev.publik.love-fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/dev.publik.love-privkey.pem;
 
     location ~ ^/static/(.+)$ {
         root /;
         try_files /var/lib/authentic2-multitenant/static/$1
                     /var/lib/authentic2-multitenant/collectstatic/$1
                     =404;
+        add_header      'Access-Control-Allow-Origin' '*';
+        add_header      'Service-Worker-Allowed' '/';
     }
 
     location / {
         rewrite            ^/accounts/saml/login/ /accounts/fedict/login/ last;
         proxy_pass         http://unix:/run/authentic2-multitenant/authentic2-multitenant.sock;
+        # proxy_pass         http://127.0.0.1:8000;
         proxy_set_header   Host $http_host;
         proxy_set_header   X-Real-IP       $remote_addr;
         proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -223,23 +238,24 @@ server {
         proxy_set_header   X-Forwarded-Protocol ssl;
         proxy_set_header   X-Forwarded-Proto https;
     }
-    error_log /var/log/nginx/error-usagers.traefik.me.log warn;
-    access_log /var/log/nginx/access-usagers.traefik.me.log combined;
+    error_log /var/log/nginx/error-usagers.dev.publik.love.log warn;
+    access_log /var/log/nginx/access-usagers.dev.publik.love.log combined;
 }
 server {
     listen   80;
-    server_name usagers.traefik.me;
-    error_log /var/log/nginx/error-usagers.traefik.me.log warn;
-    access_log /var/log/nginx/access-usagers.traefik.me.log combined;
+    server_name  usagers.dev.publik.love;
+    access_log  usagers.dev.publik.love-access.log combined;
+    error_log  usagers.dev.publik.love-error.log;
     return 301 https://$host$request_uri;
 }
 
+
 server {
     listen 443 ssl;
-    server_name hobo-agents.traefik.me;
+    server_name hobo-agents.dev.publik.love;
 
-    ssl_certificate /etc/nginx/certs/fullchain.pem;
-    ssl_certificate_key /etc/nginx/certs/privkey.pem;
+    ssl_certificate /etc/nginx/certs/dev.publik.love-fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/dev.publik.love-privkey.pem;
 
     location ~ ^/static/(.+)$ {
         root /;
@@ -247,10 +263,13 @@ server {
                     /var/lib/hobo/theme/static/$1
                     /var/lib/hobo/collectstatic/$1
                     =404;
+        add_header      'Access-Control-Allow-Origin' '*';
+        add_header      'Service-Worker-Allowed' '/';
     }
 
     location / {
         proxy_pass         http://unix:/var/run/hobo/hobo.sock;
+        # proxy_pass         http://127.0.0.1:8016;
         proxy_set_header   Host $http_host;
         proxy_set_header   X-Real-IP       $remote_addr;
         proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -258,22 +277,24 @@ server {
         proxy_set_header   X-Forwarded-Protocol ssl;
         proxy_set_header   X-Forwarded-Proto https;
     }
-    error_log /var/log/nginx/error-hobo-agents.traefik.me.log warn;
-    access_log /var/log/nginx/access-hobo-agents.traefik.me.log combined;
+    error_log /var/log/nginx/error-hobo-agents.dev.publik.love.log warn;
+    access_log /var/log/nginx/access-hobo-agents.dev.publik.love.log combined;
 }
 server {
     listen   80;
-    server_name hobo-agents.traefik.me;
-    error_log /var/log/nginx/error-hobo-agents.traefik.me.log warn;
-    access_log /var/log/nginx/access-hobo-agents.traefik.me.log combined;
+    server_name  hobo-agents.dev.publik.love;
+    access_log  hobo-agents.dev.publik.love-access.log combined;
+    error_log  hobo-agents.dev.publik.love-error.log;
     return 301 https://$host$request_uri;
 }
+
+
 server {
     listen 443 ssl;
-    server_name hobo-usagers.traefik.me;
+    server_name hobo-usagers.dev.publik.love;
 
-    ssl_certificate /etc/nginx/certs/fullchain.pem;
-    ssl_certificate_key /etc/nginx/certs/privkey.pem;
+    ssl_certificate /etc/nginx/certs/dev.publik.love-fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/dev.publik.love-privkey.pem;
 
     location ~ ^/static/(.+)$ {
         root /;
@@ -281,10 +302,13 @@ server {
                     /var/lib/hobo/theme/static/$1
                     /var/lib/hobo/collectstatic/$1
                     =404;
+        add_header      'Access-Control-Allow-Origin' '*';
+        add_header      'Service-Worker-Allowed' '/';
     }
 
     location / {
         proxy_pass         http://unix:/var/run/hobo/hobo.sock;
+        # proxy_pass         http://127.0.0.1:8016;
         proxy_set_header   Host $http_host;
         proxy_set_header   X-Real-IP       $remote_addr;
         proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -292,13 +316,79 @@ server {
         proxy_set_header   X-Forwarded-Protocol ssl;
         proxy_set_header   X-Forwarded-Proto https;
     }
-    error_log /var/log/nginx/error-hobo-usagers.traefik.me.log warn;
-    access_log /var/log/nginx/access-hobo-usagers.traefik.me.log combined;
+    error_log /var/log/nginx/error-hobo-usagers.dev.publik.love.log warn;
+    access_log /var/log/nginx/access-hobo-usagers.dev.publik.love.log combined;
 }
 server {
     listen   80;
-    server_name hobo-usagers.traefik.me;
-    error_log /var/log/nginx/error-hobo-usagers.traefik.me.log warn;
-    access_log /var/log/nginx/access-hobo-usagers.traefik.me.log combined;
+    server_name  hobo-usagers.dev.publik.love;
+    access_log  hobo-usagers.dev.publik.love-access.log combined;
+    error_log  hobo-usagers.dev.publik.love-error.log;
     return 301 https://$host$request_uri;
 }
+
+upstream plone6 {
+    server plone6:8080;
+}
+server {
+    listen 443 ssl;
+    server_name plone6.dev.publik.love;
+
+    ssl_certificate /etc/nginx/certs/dev.publik.love-fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/dev.publik.love-privkey.pem;
+
+    location / {
+        rewrite ^/(.*)$     /VirtualHostBase/$scheme/plone6.dev.publik.love:443/Plone/VirtualHostRoot/$1 break;
+        proxy_pass         http://plone6;
+        #proxy_pass         http://plone6/VirtualHostBase/https/plone6.dev.publik.love:443/Plone/VirtualHostRoot/;
+        proxy_set_header   Host $http_host;
+        proxy_set_header   X-Real-IP       $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-SSL on;
+        proxy_set_header   X-Forwarded-Protocol ssl;
+        proxy_set_header   X-Forwarded-Proto https;
+    }
+
+    error_log /var/log/nginx/error-plone6.dev.publik.love.log warn;
+    access_log /var/log/nginx/access-plone6.dev.publik.love.log combined;
+}
+server {
+    listen   80;
+    server_name  plone6.dev.publik.love;
+    access_log  plone6.dev.publik.love-access.log combined;
+    error_log  plone6.dev.publik.love-error.log;
+    return 301 https://$host$request_uri;
+}
+
+# XXX plone4 image do not work at this moment
+# upstream plone4 {
+#     server plone4:8080;
+# }
+
+# server {
+#     listen 443 ssl;
+#     server_name plone4.dev.publik.love;
+
+#     ssl_certificate /etc/nginx/certs/dev.publik.love-fullchain.pem;
+#     ssl_certificate_key /etc/nginx/certs/dev.publik.love-privkey.pem;
+
+#     location / {
+#         rewrite ^/(.*)$     /VirtualHostBase/$scheme/plone4.dev.publik.love:443/Plone/VirtualHostRoot/$1 break;
+#         proxy_pass         http://plone4;
+#         proxy_set_header   Host $http_host;
+#         proxy_set_header   X-Real-IP       $remote_addr;
+#         proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+#         proxy_set_header   X-Forwarded-SSL on;
+#         proxy_set_header   X-Forwarded-Protocol ssl;
+#         proxy_set_header   X-Forwarded-Proto https;
+#     }
+#     error_log /var/log/nginx/error-plone4.dev.publik.love.log warn;
+#     access_log /var/log/nginx/access-plone4.dev.publik.love.log combined;
+# }
+# server {
+#     listen   80;
+#     server_name  plone4.dev.publik.love;
+#     access_log  plone4.dev.publik.love-access.log combined;
+#     error_log  plone4.dev.publik.love-error.log;
+#     return 301 https://$host$request_uri;
+# }
