@@ -15,6 +15,7 @@ build-no-cache:
 cleanall:
 	docker compose -f docker-compose.yml -f docker-compose.test.yml down --volumes --remove-orphans
 	docker network rm external
+	rm -rf certs
 	sudo rm -rf data/hobo data/authentic2-multitenant data/combo
 
 # plone4-site:
@@ -29,7 +30,7 @@ authentic-data:
 authentic:
 	docker compose run --rm  authentic ./build.sh
 
-init-data: plone6-site authentic
+init-data: certs plone6-site authentic
 
 testing-env:
 	docker network inspect external >/dev/null 2>&1 || docker network create external
@@ -78,7 +79,6 @@ compile-sass:
 
 .PHONY: certs
 certs:
-	rm -rf certs
 	mkdir certs
 	wget https://doc-publik.entrouvert.com/media/certificates/dev.publik.love/fullchain.pem -O certs/dev.publik.love-fullchain.pem
 	wget https://doc-publik.entrouvert.com/media/certificates/dev.publik.love/privkey.pem -O certs/dev.publik.love-privkey.pem
