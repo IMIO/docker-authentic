@@ -70,7 +70,7 @@ services:
       plone6:
         condition: service_healthy
     links:
-      - plone6:plone6.dev.publik.love
+      - authentic:plone6.dev.publik.love
       - authentic:agents.dev.publik.love
       - authentic:combo-agents.dev.publik.love
     # command: --browser firefox
