@@ -14,13 +14,14 @@ build-no-cache:
 
 cleanall:
 	docker compose -f docker-compose.yml -f docker-compose.test.yml down --volumes --remove-orphans
+	docker network rm external
 	sudo rm -rf data/hobo data/authentic2-multitenant data/combo
 
-plone4-site:
-	docker compose -f docker-compose.yml -f docker-compose.test.yml run --rm --no-deps plone4 buildout install plonesite
+# plone4-site:
+# 	docker compose -f docker-compose.yml -f docker-compose.test.yml run --rm --no-deps plone4 buildout install plonesite
 
 plone6-site:
-	docker compose -f docker-compose.yml -f docker-compose.test.yml run --rm --no-deps plone6
+	docker compose -f docker-compose.yml -f docker-compose.test.yml build plone6
 
 authentic-data:
 	docker compose up database
@@ -31,8 +32,8 @@ authentic:
 init-data: plone6-site authentic
 
 testing-env:
-	# docker compose up --no-start reverse-proxy # create network
-	$(MAKE) init-data -j3
+	docker network inspect external >/dev/null 2>&1 || docker network create external
+	$(MAKE) init-data
 	$(MAKE) configure-wc
 
 open-cypress:
@@ -62,16 +63,11 @@ set-hobo-variable:
 
 configure-wc: set-agents-admin-to-default-ou add-usagers-user add-oidc add-index-pages set-hobo-variable
 
-configure-wca: set-agents-admin-to-default-ou
-	docker compose run authentic bash -c 'authentic2-multitenant-manage tenant_command wc-base-import -d agents.dev.publik.love agents.json --no-dry-run NO_DRY_RUN'
-	docker compose run -u combo authentic bash -c 'combo-manage tenant_command import_site -d combo-agents.dev.publik.love /agents-index.json'
-	docker compose run -u hobo authentic bash -c 'hobo-manage tenant_command runscript  /opt/scripts/set-hobo-variable.py -d hobo-agents.dev.publik.love'
-
 dev-cypress:
-	# docker compose up --no-start reverse-proxy
+	docker network inspect external >/dev/null 2>&1 || docker network create external
 	$(MAKE) init-data
 	$(MAKE) configure-wc
-	docker compose -f docker-compose.yml -f docker-compose.test.yml up plone4 plone6 authentic
+	docker compose -f docker-compose.yml -f docker-compose.test.yml up plone6 authentic
 
 install-sassc:
 	docker compose exec authentic apt update && apt install -y sassc
@@ -84,8 +80,5 @@ compile-sass:
 certs:
 	rm -rf certs
 	mkdir certs
-	# wget traefik.me/cert.pem -O certs/cert.pem
-	# wget traefik.me/privkey.pem -O certs/privkey.pem
-	# wget traefik.me/fullchain.pem -O certs/fullchain.pem
 	wget https://doc-publik.entrouvert.com/media/certificates/dev.publik.love/fullchain.pem -O certs/dev.publik.love-fullchain.pem
 	wget https://doc-publik.entrouvert.com/media/certificates/dev.publik.love/privkey.pem -O certs/dev.publik.love-privkey.pem

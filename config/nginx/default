@@ -327,38 +327,6 @@ server {
     return 301 https://$host$request_uri;
 }
 
-upstream plone6 {
-    server plone6:8080;
-}
-server {
-    listen 443 ssl;
-    server_name plone6.dev.publik.love;
-
-    ssl_certificate /etc/nginx/certs/dev.publik.love-fullchain.pem;
-    ssl_certificate_key /etc/nginx/certs/dev.publik.love-privkey.pem;
-
-    location / {
-        rewrite ^/(.*)$     /VirtualHostBase/$scheme/plone6.dev.publik.love:443/Plone/VirtualHostRoot/$1 break;
-        proxy_pass         http://plone6;
-        #proxy_pass         http://plone6/VirtualHostBase/https/plone6.dev.publik.love:443/Plone/VirtualHostRoot/;
-        proxy_set_header   Host $http_host;
-        proxy_set_header   X-Real-IP       $remote_addr;
-        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header   X-Forwarded-SSL on;
-        proxy_set_header   X-Forwarded-Protocol ssl;
-        proxy_set_header   X-Forwarded-Proto https;
-    }
-
-    error_log /var/log/nginx/error-plone6.dev.publik.love.log warn;
-    access_log /var/log/nginx/access-plone6.dev.publik.love.log combined;
-}
-server {
-    listen   80;
-    server_name  plone6.dev.publik.love;
-    access_log  plone6.dev.publik.love-access.log combined;
-    error_log  plone6.dev.publik.love-error.log;
-    return 301 https://$host$request_uri;
-}
 
 # XXX plone4 image do not work at this moment
 # upstream plone4 {

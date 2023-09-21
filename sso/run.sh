@@ -22,12 +22,16 @@ then
 	# service authentic2-multitenant update
 	service authentic2-multitenant start
 fi
-
+if host plone6; then
+    ln -fs /etc/nginx/sites-available/plone6.conf /etc/nginx/sites-enabled/plone6.conf
+else
+    echo "plone6 not started."
+fi
 service nginx start
 if [ "$environment_label" == "dev" ]
 then
-	sudo -u hobo hobo-manage cook /etc/hobo/settings.d/recipe-wca.json --timeout=60
-	sudo -u hobo hobo-manage cook /etc/hobo/settings.d/recipe-wcu.json --timeout=60
+	sudo -u hobo hobo-manage cook /etc/hobo/settings.d/recipe-wca.json --timeout=600
+	sudo -u hobo hobo-manage cook /etc/hobo/settings.d/recipe-wcu.json --timeout=600
 	test -e /etc/hobo/recipe*extra.json && sudo -u hobo hobo-manage cook /etc/hobo/recipe*extra.json
 fi
 if [[ -n "${AGENTS_HOSTNAME}" ]]; then

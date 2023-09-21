@@ -1,56 +1,50 @@
 version: '2.4'
 
 services:
-  plone4:
-    build:
-      context: plone4
-      dockerfile: Dockerfile
-    image: plone4
-    links:
-      - authentic:agents.dev.publik.love
-      - authentic:usagers.dev.publik.love
-    expose:
-      - 8080
-    environment:
-      zope_i18n_compile_mo_files: "true"
-      TZ: "Europe/Brussels"
-      ENV: "dev"
-      PLONE_CSRF_DISABLED: "true"
-      consumer_key_usagers: "client-id-plone4-wcu"
-      consumer_key_agents: "client-id-plone4-wca"
-      consumer_secret_usagers: "client-secret-plone4-wcu"
-      consumer_secret_agents: "client-secret-plone4-wca"
-      authentic_usagers_hostname: "usagers.dev.publik.love"
-      authentic_agents_hostname: "agents.dev.publik.love"
-      service_ou: "0841470248"
-      service_slug: "plone4-iasmartweb"
-    volumes:
-      - plone4-data:/data
-    command: bin/instance fg
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.http.routers.plone4.rule=Host(`plone4.dev.publik.love`)"
-    #   - "traefik.http.routers.plone4.tls=true"
-    #   - "traefik.http.routers.plone4.middlewares=add-plone4"
-    #   - "traefik.http.middlewares.add-plone4.addprefix.prefix=/VirtualHostBase/https/plone4.dev.publik.love/Plone/VirtualHostRoot"
+  # plone4:
+  #   build:
+  #     context: plone4
+  #     dockerfile: Dockerfile
+  #   image: plone4
+  #   links:
+  #     - authentic:agents.dev.publik.love
+  #     - authentic:usagers.dev.publik.love
+  #   expose:
+  #     - 8080
+  #   environment:
+  #     zope_i18n_compile_mo_files: "true"
+  #     TZ: "Europe/Brussels"
+  #     ENV: "dev"
+  #     PLONE_CSRF_DISABLED: "true"
+  #     consumer_key_usagers: "client-id-plone4-wcu"
+  #     consumer_key_agents: "client-id-plone4-wca"
+  #     consumer_secret_usagers: "client-secret-plone4-wcu"
+  #     consumer_secret_agents: "client-secret-plone4-wca"
+  #     authentic_usagers_hostname: "usagers.dev.publik.love"
+  #     authentic_agents_hostname: "agents.dev.publik.love"
+  #     service_ou: "0841470248"
+  #     service_slug: "plone4-iasmartweb"
+  #   volumes:
+  #     - plone4-data:/data
+  #   command: bin/instance fg
   plone6:
-    image: plone/plone-backend:6
+    build:
+       context: plone6
+       dockerfile: Dockerfile
+    image: plone6
     links:
       - authentic:agents.dev.publik.love
       - authentic:usagers.dev.publik.love
-    expose:
-      - 8080
+    ports:
+      - "8080:8080"
     environment:
       TYPE: "classic"
       SITE: "Plone"
       PROFILES: "pas.plugins.imio:default"
-      ADDONS: "pas.plugins.imio"
       DELETE_EXISTING: false
       LANGUAGE: "fr"
       TIMEZONE: "Europe/Brussels"
-      zope_i18n_compile_mo_files: "true"
       TZ: "Europe/Brussels"
-      ENV: "dev"
       PLONE_CSRF_DISABLED: "true"
       consumer_key_usagers: "client-id-plone6-wcu"
       consumer_key_agents: "client-id-plone6-wca"
@@ -62,14 +56,6 @@ services:
       service_slug: "plone6-iasmartweb"
     volumes:
       - plone6-data:/data
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.http.routers.plone6.rule=Host(`plone6.dev.publik.love`)"
-    #   - "traefik.http.routers.plone6.tls=true"
-    #   - "traefik.http.routers.plone6.middlewares=add-plone6"
-    #   - "traefik.http.middlewares.add-plone6.addprefix.prefix=/VirtualHostBase/https/plone6.dev.publik.love/Plone/VirtualHostRoot"
-    #   - "traefik.http.routers.plone6-tls.tls.domains[0].main=plone6.dev.publik.love"
-    #   - "traefik.http.routers.plone6-tls.tls.domains[0].sans=plone6-*.dev.publik.love"
   cypress:
     image: cypress/included:12.10.0
     volumes:
@@ -79,18 +65,18 @@ services:
     depends_on:
       authentic:
         condition: service_healthy
-      plone4:
-        condition: service_healthy
+      # plone4:
+      #   condition: service_healthy
       plone6:
         condition: service_healthy
     links:
-      - reverse-proxy:plone4.dev.publik.love
-      - reverse-proxy:agents.dev.publik.love
-      - reverse-proxy:combo-agents.dev.publik.love
+      - plone6:plone6.dev.publik.love
+      - authentic:agents.dev.publik.love
+      - authentic:combo-agents.dev.publik.love
     # command: --browser firefox
 
 volumes:
-  plone4-data:
+  # plone4-data:
   plone6-data:
 
 networks:

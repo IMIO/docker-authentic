@@ -47,6 +47,9 @@ services:
         condition: service_healthy
       memcached:
         condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://agents.dev.publik.love"]
+      retries: 50
   rabbitmq:
     image: rabbitmq
     hostname: rabbitmq

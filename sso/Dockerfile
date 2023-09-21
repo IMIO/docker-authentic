@@ -18,6 +18,7 @@ RUN apt update && apt install -y \
   cron \
   curl \
   debian-archive-keyring \
+  dnsutils \
   netcat \
   gettext \
   gnupg \
