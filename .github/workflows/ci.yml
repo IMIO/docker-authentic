@@ -25,6 +25,8 @@ jobs:
 
       - name: Create testing env
         run: |
+          sudo apt update
+          sudo apt install -y make
           make build-no-cache
           make testing-env
           docker compose ps
