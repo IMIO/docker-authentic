@@ -22,29 +22,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-      - name: Create testing env
-        run: |
-          sudo apt update
-          sudo apt install -y make
-          make build-no-cache
-          make testing-env
-          docker compose ps
-          ls -lah
-          ls -lah cypress
-
-      - name: Start Cypress tests
-        run: |
-          ls -lah cypress
-      #     make run-cypress
-
-      # # Upload Cypress videos
-      # - uses: actions/upload-artifact@v1
-      #   if: always()
-      #   with:
-      #     name: cypress-videos
-      #     path: cypress/videos
-
       - name: Login to Harbor
         uses: docker/login-action@v3
         with:
