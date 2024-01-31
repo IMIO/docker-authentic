@@ -1,5 +1,5 @@
 # Dockerfile
-FROM debian:bullseye
+FROM debian:bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=Europe/Brussels
@@ -10,7 +10,6 @@ RUN echo "Europe/Brussels" > /etc/timezone
 RUN echo "APT::Install-Suggests \"false\";\nAPT::Install-Recommends \"false\";" >> /etc/apt/apt.conf
 # Don't allow services to start when building the image
 RUN echo "#!/bin/sh\nexit 101" > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
-RUN sed -i "s%httpredir.debian.org%debian.mirrors.ovh.net%g" /etc/apt/sources.list
 RUN apt update && apt install -y \
   apt-transport-https \
   bash-completion \
@@ -19,7 +18,7 @@ RUN apt update && apt install -y \
   curl \
   debian-archive-keyring \
   dnsutils \
-  netcat \
+  netcat-openbsd \
   gettext \
   gnupg \
   locales \
@@ -29,8 +28,8 @@ RUN apt update && apt install -y \
   vim-nox \
   wget
 
-RUN echo "deb http://deb.entrouvert.org/ bullseye main" > /etc/apt/sources.list.d/entrouvert-local.list
-RUN echo "deb http://debian.mirrors.ovh.net/debian bullseye-backports main" > /etc/apt/sources.list.d/backports.list
+RUN echo "deb http://deb.entrouvert.org/ bookworm main" > /etc/apt/sources.list.d/entrouvert-local.list
+RUN echo "deb http://debian.mirrors.ovh.net/debian bookworm-backports main" > /etc/apt/sources.list.d/backports.list
 RUN curl https://deb.entrouvert.org/entrouvert.gpg | apt-key add -
 
 RUN apt update && apt install -y \
@@ -39,7 +38,7 @@ RUN apt update && apt install -y \
   entrouvert-repository-eobuilder \
   && apt update
 # RUN apt -o Acquire::Check-Valid-Until=false update && apt install -y entrouvert-repository entrouvert-repository-hotfix entrouvert-repository-eobuilder && apt -o Acquire::Check-Valid-Until=false update
-RUN echo "Package: *\nPin: release a=bullseye-eobuilder\nPin-Priority: 400" > /etc/apt/preferences.d/entrouvert-eobuilder && rm /etc/apt/sources.list.d/entrouvert-local.list
+RUN echo "Package: *\nPin: release a=bookworm-eobuilder\nPin-Priority: 400" > /etc/apt/preferences.d/entrouvert-eobuilder && rm /etc/apt/sources.list.d/entrouvert-local.list
 
 RUN apt install -y \
   combo \
@@ -49,7 +48,7 @@ RUN apt install -y \
   imio-publik-themes \
   authentic2-multitenant \
   prometheus-entrouvert-exporter
-RUN apt install -y -t bullseye-eobuilder \
+RUN apt install -y -t bookworm-eobuilder \
   python3-authentic2-auth-fedict \
   python3-authentic2-wallonie-connect \
   python3-pycryptodome
