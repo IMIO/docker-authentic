@@ -5,7 +5,7 @@ services:
     build:
       context: sso
       dockerfile: Dockerfile
-    image: wc/sso:latest
+    image: waco/sso:latest
     environment:
       - AGENTS_HOSTNAME=agents.dev.publik.love
       - USAGERS_HOSTNAME=usagers.dev.publik.love
