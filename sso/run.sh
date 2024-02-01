@@ -9,7 +9,9 @@ rm /var/run/{authentic2-multitenant/authentic2-multitenant,hobo/hobo,combo/combo
 service hobo start
 service supervisor start
 
-service rsyslog start
+# service rsyslog start
+# new way to start rsyslog since bookworm
+/usr/sbin/rsyslogd
 service cron start
 
 if [ ! -d /opt/publik/combo ]
