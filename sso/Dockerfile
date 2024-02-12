@@ -18,10 +18,10 @@ RUN apt update && apt install -y \
   curl \
   debian-archive-keyring \
   dnsutils \
-  netcat-openbsd \
   gettext \
   gnupg \
   locales \
+  netcat-openbsd \
   nginx \
   procps \
   rsyslog \
