@@ -47,7 +47,8 @@ RUN apt install -y \
   publik-base-theme \
   imio-publik-themes \
   authentic2-multitenant \
-  prometheus-entrouvert-exporter
+  prometheus-entrouvert-exporter \
+  python3-tinycss2
 RUN apt install -y -t bookworm-eobuilder \
   python3-authentic2-auth-fedict \
   python3-authentic2-wallonie-connect \
