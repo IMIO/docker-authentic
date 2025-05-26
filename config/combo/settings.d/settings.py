@@ -41,7 +41,7 @@ DATABASES["default"]["PORT"] = "5432"
 CACHES = {
     "default": {
         "BACKEND": "hobo.multitenant.cache.TenantCache",
-        "REAL_BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "REAL_BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
         "LOCATION": "memcached:11211",
     }
 }
